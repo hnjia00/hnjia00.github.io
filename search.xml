@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[记一次聚会]]></title>
+    <url>%2F2019%2F02%2F19%2F%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%81%9A%E4%BC%9A%2F</url>
+    <content type="text"><![CDATA[今天正月十五，也不能说是闲来无事，毕竟还有那么多前路未卜的事情在等着自己，但是总归还是想写一些清闲的东西。 离开学还有五天，还在家能待三天。 今天去马骁家里聚会了，难得小聚一次，吃够了羊肉也喝够了粗，打够了麻将也赢够了钱。 大家都在为自己的前途开始迷茫了，没有明确的路子可走的人大概就是我们这一批大三的学生吧。 学生生涯还剩一年半，留给自己预备的选择也是众说纷纭。 考研怎么考能考得上哪，保研怎么找老师怎么不亏，出国又该怎么闹。 没有人知道该怎么办，就像有人说zgs的cpp课好一样，每个人都只有自己的路，你没有义务去让所有人都跟着自己的路走。 我也没有能力去辨别谁才是自己的模版。 毕竟这世界上，只有一个独一无二的贾浩男。 大家都好久没踢球了，曾经的前锋马骁也吃撑了一百九的中后卫，曾经的后卫现在也早就离开了操场。 被繁杂的课程，学业和人生压的不知所措。 但是有趣的是，我们每个人仿佛还走在自己自认为正确的道路上，自我感觉良好。 我总是难以定夺自己到底应该，或是值得去做什么。 我喜欢观望，观望才能给我很好的选择正确的机会。 但是观望，观望谁呢，谁有值得观望呢？ 无从所知。 我喜欢在街头看着各种各样的人的走走停停，去看他们的生活。 就像我最喜欢的实用文摘的板块，是社会百态。 在一个社会里，每个人都有着自己独一无二的生活。 品味这些生活，也真是一个有趣的过程。]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[Hexo——评论篇]]></title>
     <url>%2F2019%2F02%2F16%2FHexo%E2%80%94%E2%80%94%E8%AF%84%E8%AE%BA%E7%AF%87%2F</url>
     <content type="text"><![CDATA[昨天给琳琳看了下内测博客的初版，大体上还比较不错。 为了满足琳琳的需求，方便交流，我决定今天给博客添加评论功能。 网上的博客有很多，还是比较乱七八糟的，所以配好之后自己再总结一下，方便后人乘凉。 来必力在跟帖的插件中我选择了来必力：https://www.livere.com 有这几个原因： 界面UI美观 评论管理方便 支持多个社交账号 不过也有一点不方便，来必力隶属于韩国，在注册使用的时候需要科学上网，在网页加载的时候速度较慢。 下面来讲一下具体布置 注册登陆注册需要科学上网，不然是打不开注册登陆界面的，或者打开很慢？这里不做赘述。 安装选择city版安装就能满足我们的需求，直接安装即可。 安装完之后会以代码形式给出，或者也可以手动进入个人管理界面的 代码管理 查看。 对于NexT主题而言，这里我们主要关注 data-uid 的值。 配置得到用于安装插件的data-uid之后，下一步进入NexT的配置文件 _config.yml 设置data-uid的值。 在_config.yml中找到 livere_uid 的属性字样。 将livere_uid设置为刚刚得到的data-uid的值即可。 部署在上述过程完成之后，部署到博客即可。12$ hexo g$ hexo d 演示完成后的效果如下，支持点赞和折叠评论，支持QQ、微信、微博等多种社交账号： 分析上面的配置过程还是比较容易的，但是如果细看一下我还是有一个疑问的，为什么没有用到来必力提供的安装代码呢，为什么只靠一个data-uid就完成了评论功能？ 在查看了NexT下的相关文件后，我得出了结论。 在 themes/next/layout/_partials 文件夹下，有一个 comments.swig 文件。 在里面可以看到支持多个评论插件的安装脚本，比如Facebook，多说等。 NexT用来加载来必力的安装脚本可以在第45～48行看到，加载脚本为：1234&#123;% elseif theme.livere_uid %&#125; &lt;div class="comments" id="comments"&gt; &lt;div id="lv-container" data-id="city" data-uid="&#123;&#123; theme.livere_uid &#125;&#125;"&gt;&lt;/div&gt; &lt;/div&gt; 这段脚本可以用来必力提供的安装代码替换,作用相同：123456789101112131415161718&lt;!-- 来必力City版安装代码 --&gt;&lt;div id="lv-container" data-id="city" data-uid="******"&gt;&lt;script type="text/javascript"&gt; (function(d, s) &#123; var j, e = d.getElementsByTagName(s)[0]; if (typeof LivereTower === 'function') &#123; return; &#125; j = d.createElement(s); j.src = 'https://cdn-city.livere.com/js/embed.dist.js'; j.async = true; e.parentNode.insertBefore(j, e); &#125;)(document, 'script');&lt;/script&gt;&lt;noscript&gt;为正常使用来必力评论功能请激活JavaScript&lt;/noscript&gt;&lt;/div&gt;&lt;!-- City版安装代码已完成 --&gt; 在来必力端可以看到具体的评论情况，包括数据分析和评论管理，功能还是非常强大的。 好了，今天的评论的配置就写这么多。]]></content>
