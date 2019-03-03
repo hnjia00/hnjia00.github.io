@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="Haonan_Jia blogs">
 <meta property="og:description" content="实验目的 熟悉 VLAN 的技术背景和原理 熟悉 VLAN 的基本配置方法和配置命令 在交换机上实现 VLAN 的划分   实验拓扑其中PC_A接port1口，PC_C 接port 2口，PC_B接port 1口，PC_D接port 2口， 两台交换机之间接port24口。 实验环境 系统：Windows7软件工具：Cisco Packet Tracer实现途径：软件模拟实现  实验过程本次实验分">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/拓扑结构.png">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/交换机.png">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/PC机.png">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/网络拓扑.png">
@@ -113,11 +113,11 @@
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/接不同端口1.png">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/接不同端口2.png">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/接不同端口3.png">
-<meta property="og:updated_time" content="2019-03-03T08:22:17.989Z">
+<meta property="og:updated_time" content="2019-03-03T08:27:47.770Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机网络——交换机VLAN实验">
 <meta name="twitter:description" content="实验目的 熟悉 VLAN 的技术背景和原理 熟悉 VLAN 的基本配置方法和配置命令 在交换机上实现 VLAN 的划分   实验拓扑其中PC_A接port1口，PC_C 接port 2口，PC_B接port 1口，PC_D接port 2口， 两台交换机之间接port24口。 实验环境 系统：Windows7软件工具：Cisco Packet Tracer实现途径：软件模拟实现  实验过程本次实验分">
-<meta name="twitter:image" content="http://yoursite.com/images/计算机网络/实验五/.png">
+<meta name="twitter:image" content="http://yoursite.com/images/计算机网络/实验五/拓扑结构.png">
 
 
 
@@ -433,7 +433,7 @@
 <li>熟悉 VLAN 的基本配置方法和配置命令</li>
 <li>在交换机上实现 VLAN 的划分 </li>
 </ol>
-<h1 id="实验拓扑"><a href="#实验拓扑" class="headerlink" title="实验拓扑"></a>实验拓扑</h1><p><img src="/images/计算机网络/实验五/.png" alt="Alt text" title="拓扑结构"><br>其中PC_A接port1口，PC_C 接port 2口，PC_B接port 1口，PC_D接port 2口， 两台交换机之间接port24口。</p>
+<h1 id="实验拓扑"><a href="#实验拓扑" class="headerlink" title="实验拓扑"></a>实验拓扑</h1><p><img src="/images/计算机网络/实验五/拓扑结构.png" alt="Alt text" title="拓扑结构"><br>其中PC_A接port1口，PC_C 接port 2口，PC_B接port 1口，PC_D接port 2口， 两台交换机之间接port24口。</p>
 <h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><blockquote>
 <p>系统：Windows7<br>软件工具：Cisco Packet Tracer<br>实现途径：软件模拟实现</p>
 </blockquote>
@@ -448,11 +448,16 @@
 <h3 id="配置PC"><a href="#配置PC" class="headerlink" title="配置PC"></a>配置PC</h3><p>在配置完交换机后，下一步需要完成对四个PC机的配置，这里的配置实质上是完成对PC机的IP参数的配置，包括IP地址、子网掩码和默认网关等。在PC机的desktop的IP configure界面可以完成上述配置，如图所示：<br><img src="/images/计算机网络/实验五/PC配置.png" alt="Alt text" title="PC的IP配置"></p>
 <h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><p>完成PC和交换机的配置后，我们可以在PC机的命令行界面执行Ping命令，用以检查是否完成实验要求。按照网络拓扑结构，在我们的测试网络中，PC-A可以Ping通PC-B，但是不能Ping通PC-C和PC-D。<br><img src="/images/计算机网络/实验五/图示.png" alt="Alt text" title="图示"><br><img src="/images/计算机网络/实验五/ping执行结果.png" alt="Alt text" title="ping执行结果"></p>
 <h2 id="实验室实地操作"><a href="#实验室实地操作" class="headerlink" title="实验室实地操作"></a>实验室实地操作</h2><p>通过在软件上模拟之后，我对本次实验的具体原理、操作和内容又了进一步的理解。而后在周四的实验上机中，我通过具体的连线和上手操作完成了本次实验的全部要求。</p>
-<h3 id="配置交换机"><a href="#配置交换机" class="headerlink" title="配置交换机"></a>配置交换机</h3><p>实验室的交换机不需要我们再通过超级终端去配置，所以我们只需要对待使用的两台交换机分别划分好vlan和端口即可。<br><img src="/images/计算机网络/实验五/交换机端口.png" alt="Alt text" title="交换机端口"><br>通过<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 172.31.44.240 10007</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置交换机"><a href="#配置交换机" class="headerlink" title="配置交换机"></a>配置交换机</h3><p>实验室的交换机不需要我们再通过超级终端去配置，所以我们只需要对待使用的两台交换机分别划分好vlan和端口即可。<br><img src="/images/计算机网络/实验五/交换机端口.png" alt="Alt text" title="交换机端口"></p>
+<p>通过两条telnet命令分别连接10007和10008端口进行配置。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 172.31.44.240 10007</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 172.31.44.240 10008</span><br></pre></td></tr></table></figure>
-<p>分别连接10007和10008端口进行配置。<br>依照实验指导，我们将命令依次输入，实现port24相连，vlan10和vlan20对port1和port2的划分，配置结果如下：<br><img src="/images/计算机网络/实验五/交换机配置结果.png" alt="Alt text" title="交换机配置结果"></p>
+<p>依照实验指导，我们将命令依次输入，实现port24相连，vlan10和vlan20对port1和port2的划分，配置结果如下：<br><img src="/images/计算机网络/实验五/交换机配置结果.png" alt="Alt text" title="交换机配置结果"></p>
 <h3 id="PC测试"><a href="#PC测试" class="headerlink" title="PC测试"></a>PC测试</h3><p>在配置完交换机之后，下一步便该进行PC之间的测试了。依照实验指导的要求，我们需要4台PC分别连接两台交换机的port1和port2。</p>
-<p>为了简化实验操作，在实验中我选择了两台PC（分别为192.168.1.2和192.168.1.3）分别连接 &lt;switch1:port1, switch2:port1&gt;，&lt; switch1:port1, switch2:port2&gt;，&lt; switch1:port2, switch2:port1&gt;，&lt; switch1:port2, switch2:port2&gt;以实现实验要求。</p>
+<p>为了简化实验操作，在实验中我选择了两台PC（分别为192.168.1.2和192.168.1.3）分别连接 </p>
+<blockquote>
+<p>&lt; switch1:port1, switch2:port1&gt;<br>&lt; switch1:port1, switch2:port2&gt;<br>&lt; switch1:port2, switch2:port1&gt;<br>&lt; switch1:port2, switch2:port2&gt;</p>
+</blockquote>
+<p>以满足实验要求。</p>
 <p>测试结果如下：</p>
 <h4 id="接相同端口的情况下可以相互ping通"><a href="#接相同端口的情况下可以相互ping通" class="headerlink" title="接相同端口的情况下可以相互ping通"></a>接相同端口的情况下可以相互ping通</h4><p><img src="/images/计算机网络/实验五/相同端口1.png" alt="Alt text"><br><img src="/images/计算机网络/实验五/相同端口2.png" alt="Alt text" title="接相同端口"></p>
 <h4 id="接不同端口的情况下不可以相互ping通"><a href="#接不同端口的情况下不可以相互ping通" class="headerlink" title="接不同端口的情况下不可以相互ping通"></a>接不同端口的情况下不可以相互ping通</h4><p><img src="/images/计算机网络/实验五/接不同端口1.png" alt="Alt text"><br><img src="/images/计算机网络/实验五/接不同端口2.png" alt="Alt text"><br><img src="/images/计算机网络/实验五/接不同端口3.png" alt="Alt text" title="接不同端口"></p>
