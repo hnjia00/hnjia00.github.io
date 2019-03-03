@@ -88,13 +88,36 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Haonan_Jia blogs">
-<meta property="og:url" content="http://yoursite.com/archives/2019/03/index.html">
+<meta name="description" content="实验目的 熟悉 VLAN 的技术背景和原理 熟悉 VLAN 的基本配置方法和配置命令 在交换机上实现 VLAN 的划分   实验拓扑其中PC_A接port1口，PC_C 接port 2口，PC_B接port 1口，PC_D接port 2口， 两台交换机之间接port24口。 实验环境 系统：Windows7软件工具：Cisco Packet Tracer实现途径：软件模拟实现  实验过程本次实验分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络——交换机VLAN实验">
+<meta property="og:url" content="http://yoursite.com/2019/03/03/计算机网络——交换机VLAN实验/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="实验目的 熟悉 VLAN 的技术背景和原理 熟悉 VLAN 的基本配置方法和配置命令 在交换机上实现 VLAN 的划分   实验拓扑其中PC_A接port1口，PC_C 接port 2口，PC_B接port 1口，PC_D接port 2口， 两台交换机之间接port24口。 实验环境 系统：Windows7软件工具：Cisco Packet Tracer实现途径：软件模拟实现  实验过程本次实验分">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/交换机.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/PC机.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/网络拓扑.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/端口情况.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/Switch3和Switch4的配置.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/查看划分情况1.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/查看划分情况2.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/PC配置.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/图示.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/ping执行结果.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/交换机端口.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/交换机配置结果.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/相同端口1.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/相同端口2.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/接不同端口1.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/接不同端口2.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验五/接不同端口3.png">
+<meta property="og:updated_time" content="2019-03-03T08:22:17.989Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Haonan_Jia blogs">
+<meta name="twitter:title" content="计算机网络——交换机VLAN实验">
+<meta name="twitter:description" content="实验目的 熟悉 VLAN 的技术背景和原理 熟悉 VLAN 的基本配置方法和配置命令 在交换机上实现 VLAN 的划分   实验拓扑其中PC_A接port1口，PC_C 接port 2口，PC_B接port 1口，PC_D接port 2口， 两台交换机之间接port24口。 实验环境 系统：Windows7软件工具：Cisco Packet Tracer实现途径：软件模拟实现  实验过程本次实验分">
+<meta name="twitter:image" content="http://yoursite.com/images/计算机网络/实验五/.png">
 
 
 
@@ -124,13 +147,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2019/03/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/03/计算机网络——交换机VLAN实验/">
 
 
 
 
 
-  <title>Archive | Haonan_Jia blogs</title>
+  <title>计算机网络——交换机VLAN实验 | Haonan_Jia blogs</title>
   
 
 
@@ -150,7 +173,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -266,212 +289,255 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/03/计算机网络——交换机VLAN实验/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">计算机网络——交换机VLAN实验</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-03T16:03:17+08:00">
+                2019-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        Um..! 12 posts in total. Keep on posting.
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/03/计算机网络——交换机VLAN实验/" itemprop="url">
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
               
-                <span itemprop="name">计算机网络——交换机VLAN实验</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1k 字
+                </span>
               
-            </a>
-        
-      </h2>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-03T16:03:17+08:00" content="2019-03-03">
-          03-03
-        </time>
-      </div>
+              
+                <span class="post-meta-divider">|</span>
+              
 
-    </header>
-  </article>
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  3 min
+                </span>
+              
+            </div>
+          
 
+          
 
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/03/计算机网络——实现路由算法/" itemprop="url">
-              
-                <span itemprop="name">计算机网络——实现路由算法</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-03T15:41:37+08:00" content="2019-03-03">
-          03-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/03/计算机网络——实现Go-Back-N/" itemprop="url">
-              
-                <span itemprop="name">计算机网络——实现Go-Back-N</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-03T11:18:37+08:00" content="2019-03-03">
-          03-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h1 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h1><ol>
+<li>熟悉 VLAN 的技术背景和原理</li>
+<li>熟悉 VLAN 的基本配置方法和配置命令</li>
+<li>在交换机上实现 VLAN 的划分 </li>
+</ol>
+<h1 id="实验拓扑"><a href="#实验拓扑" class="headerlink" title="实验拓扑"></a>实验拓扑</h1><p><img src="/images/计算机网络/实验五/.png" alt="Alt text" title="拓扑结构"><br>其中PC_A接port1口，PC_C 接port 2口，PC_B接port 1口，PC_D接port 2口， 两台交换机之间接port24口。</p>
+<h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><blockquote>
+<p>系统：Windows7<br>软件工具：Cisco Packet Tracer<br>实现途径：软件模拟实现</p>
+</blockquote>
+<h1 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h1><p>本次实验分别从 <strong>Packet Tracer</strong> 软件模拟以及 <strong>实验室实地操作</strong> 共同实现：</p>
+<h2 id="Packet-Tracer模拟"><a href="#Packet-Tracer模拟" class="headerlink" title="Packet Tracer模拟"></a>Packet Tracer模拟</h2><h3 id="选择实验仪器"><a href="#选择实验仪器" class="headerlink" title="选择实验仪器"></a>选择实验仪器</h3><p>利用Packet Tracer选取实验仪器是一件比较容易的事情，仅依靠拖拽功能即可实现布局。</p>
+<h4 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h4><p>在左下方的控件选择中，我们选中Switches，然后根据实验指导的要求，选中2950T型号的交换机两台，如图所示：<br><img src="/images/计算机网络/实验五/交换机.png" alt="Alt text" title="交换机的选择"></p>
+<h4 id="PC机"><a href="#PC机" class="headerlink" title="PC机"></a>PC机</h4><p>根据实验指导书的要求，本次实验需要4台PC机以备测试。继续在控件中找到End Devices，从中找到Generic即为满足实验要求的PC机，如图所示：<br><img src="/images/计算机网络/实验五/PC机.png" alt="Alt text" title="PC机的选择"></p>
+<h3 id="构建网络拓扑"><a href="#构建网络拓扑" class="headerlink" title="构建网络拓扑"></a>构建网络拓扑</h3><p>根据实验指导的要求，PC-A和PC-B分别接两台交换机的port1口，PC-C和PC-D分别接两台交换机的port2口，两条交换机之间接port24相连。利用Packet Tracer建立网络拓扑也是一件比较容易的事情，完成布局如下：<br><img src="/images/计算机网络/实验五/网络拓扑.png" alt="Alt text" title="网络拓扑"></p>
+<p>更具体的，我们可以看到交换机的port1、port2和port24被连接挂起：<br><img src="/images/计算机网络/实验五/端口情况.png" alt="Alt text" title="端口连接情况"></p>
+<h3 id="划分VLAN"><a href="#划分VLAN" class="headerlink" title="划分VLAN"></a>划分VLAN</h3><p>在连接构建好网络拓扑结构后，我们需要对交换机进行一些配置。在上一个过程中，我们分别连接占用了1、2和24口，所以在这一步我们需要分别对两个交换机的这三个口进行VLAN的划分。<br>分别进入Switch3和Switch4的CLI界面，根据实验指导输入命令用以实现划分，操作如下：<br><img src="/images/计算机网络/实验五/Switch3和Switch4的配置.png" alt="Alt text" title="Switch3和Switch4的配置"></p>
+<p>根据实验指导，配置完成之后可以调用命令show vlan和show running-config查看划分情况和配置。<br><img src="/images/计算机网络/实验五/查看划分情况1.png" alt="Alt text"><br><img src="/images/计算机网络/实验五/查看划分情况2.png" alt="Alt text" title="查看划分和配置情况"></p>
+<h3 id="配置PC"><a href="#配置PC" class="headerlink" title="配置PC"></a>配置PC</h3><p>在配置完交换机后，下一步需要完成对四个PC机的配置，这里的配置实质上是完成对PC机的IP参数的配置，包括IP地址、子网掩码和默认网关等。在PC机的desktop的IP configure界面可以完成上述配置，如图所示：<br><img src="/images/计算机网络/实验五/PC配置.png" alt="Alt text" title="PC的IP配置"></p>
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><p>完成PC和交换机的配置后，我们可以在PC机的命令行界面执行Ping命令，用以检查是否完成实验要求。按照网络拓扑结构，在我们的测试网络中，PC-A可以Ping通PC-B，但是不能Ping通PC-C和PC-D。<br><img src="/images/计算机网络/实验五/图示.png" alt="Alt text" title="图示"><br><img src="/images/计算机网络/实验五/ping执行结果.png" alt="Alt text" title="ping执行结果"></p>
+<h2 id="实验室实地操作"><a href="#实验室实地操作" class="headerlink" title="实验室实地操作"></a>实验室实地操作</h2><p>通过在软件上模拟之后，我对本次实验的具体原理、操作和内容又了进一步的理解。而后在周四的实验上机中，我通过具体的连线和上手操作完成了本次实验的全部要求。</p>
+<h3 id="配置交换机"><a href="#配置交换机" class="headerlink" title="配置交换机"></a>配置交换机</h3><p>实验室的交换机不需要我们再通过超级终端去配置，所以我们只需要对待使用的两台交换机分别划分好vlan和端口即可。<br><img src="/images/计算机网络/实验五/交换机端口.png" alt="Alt text" title="交换机端口"><br>通过<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 172.31.44.240 10007</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 172.31.44.240 10008</span><br></pre></td></tr></table></figure>
+<p>分别连接10007和10008端口进行配置。<br>依照实验指导，我们将命令依次输入，实现port24相连，vlan10和vlan20对port1和port2的划分，配置结果如下：<br><img src="/images/计算机网络/实验五/交换机配置结果.png" alt="Alt text" title="交换机配置结果"></p>
+<h3 id="PC测试"><a href="#PC测试" class="headerlink" title="PC测试"></a>PC测试</h3><p>在配置完交换机之后，下一步便该进行PC之间的测试了。依照实验指导的要求，我们需要4台PC分别连接两台交换机的port1和port2。</p>
+<p>为了简化实验操作，在实验中我选择了两台PC（分别为192.168.1.2和192.168.1.3）分别连接 &lt;switch1:port1, switch2:port1&gt;，&lt; switch1:port1, switch2:port2&gt;，&lt; switch1:port2, switch2:port1&gt;，&lt; switch1:port2, switch2:port2&gt;以实现实验要求。</p>
+<p>测试结果如下：</p>
+<h4 id="接相同端口的情况下可以相互ping通"><a href="#接相同端口的情况下可以相互ping通" class="headerlink" title="接相同端口的情况下可以相互ping通"></a>接相同端口的情况下可以相互ping通</h4><p><img src="/images/计算机网络/实验五/相同端口1.png" alt="Alt text"><br><img src="/images/计算机网络/实验五/相同端口2.png" alt="Alt text" title="接相同端口"></p>
+<h4 id="接不同端口的情况下不可以相互ping通"><a href="#接不同端口的情况下不可以相互ping通" class="headerlink" title="接不同端口的情况下不可以相互ping通"></a>接不同端口的情况下不可以相互ping通</h4><p><img src="/images/计算机网络/实验五/接不同端口1.png" alt="Alt text"><br><img src="/images/计算机网络/实验五/接不同端口2.png" alt="Alt text"><br><img src="/images/计算机网络/实验五/接不同端口3.png" alt="Alt text" title="接不同端口"></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/03/计算机网络——用smtp实现Email客户端/" itemprop="url">
-              
-                <span itemprop="name">计算机网络——用smtp实现Email客户端</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-03T10:54:45+08:00" content="2019-03-03">
-          03-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/03/计算机网络——JAVA实现web服务器/" itemprop="url">
-              
-                <span itemprop="name">计算机网络——JAVA实现web服务器</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-03T10:29:54+08:00" content="2019-03-03">
-          03-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/03/计算机网络——实现路由算法/" rel="next" title="计算机网络——实现路由算法">
+                <i class="fa fa-chevron-left"></i> 计算机网络——实现路由算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -479,6 +545,16 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -499,8 +575,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -553,6 +638,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验目的"><span class="nav-text">实验目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验拓扑"><span class="nav-text">实验拓扑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验环境"><span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验过程"><span class="nav-text">实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Packet-Tracer模拟"><span class="nav-text">Packet Tracer模拟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选择实验仪器"><span class="nav-text">选择实验仪器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#交换机"><span class="nav-text">交换机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PC机"><span class="nav-text">PC机</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建网络拓扑"><span class="nav-text">构建网络拓扑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#划分VLAN"><span class="nav-text">划分VLAN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置PC"><span class="nav-text">配置PC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果"><span class="nav-text">实验结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验室实地操作"><span class="nav-text">实验室实地操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置交换机"><span class="nav-text">配置交换机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PC测试"><span class="nav-text">PC测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#接相同端口的情况下可以相互ping通"><span class="nav-text">接相同端口的情况下可以相互ping通</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接不同端口的情况下不可以相互ping通"><span class="nav-text">接不同端口的情况下不可以相互ping通</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -714,6 +815,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -742,6 +847,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
