@@ -97,12 +97,12 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验三/server端流程.png">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验三/client端流程.png">
-<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验三/查看IP.png">
+<meta property="og:image" content="http://yoursite.com/images/计算机网络/实验三/查看ip.png">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验三/丢包率0结果.png">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验三/丢包率为0模拟.png">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验三/丢包情况gbn1.png">
 <meta property="og:image" content="http://yoursite.com/images/计算机网络/实验三/丢包情况gbn2.png">
-<meta property="og:updated_time" content="2019-03-03T03:38:53.022Z">
+<meta property="og:updated_time" content="2019-03-03T03:43:01.569Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机网络——实现Go-Back-N">
 <meta name="twitter:description" content="实验目的运用各种编程语言实现基于 Go-Back-N 的可靠数据传输软件。 实验环境 系统：Mac OS X 10.13.1语言：Java开发平台：eclipse内部库：java.net，java.util  实验过程代码设计为了完成本次试验的要求，我编写了两个Java代码文件，分别实现server端功能和client端功能：  server端代码流程主要算法流程如下所示，server端实现在一定">
@@ -426,7 +426,7 @@
 <li>server端代码流程<br>主要算法流程如下所示，server端实现在一定丢包率范围内接收数据包并且回传ACK：<br><img src="/images/计算机网络/实验三/server端流程.png" alt="Alt text" title="server端流程"></li>
 <li>client端代码流程<br>主要的算法流程如下，client端主要实现数据包的传送以及延迟处理：<br><img src="/images/计算机网络/实验三/client端流程.png" alt="Alt text" title="client端流程"></li>
 </ol>
-<h3 id="主机ip获取"><a href="#主机ip获取" class="headerlink" title="主机ip获取"></a>主机ip获取</h3><p>在启用Go-Back-N之前，我们首先需要获得个人电脑的IP。在Mac OS X系统，使用终端命令ifconfig即可直接查看主机IP，具体如下：<br><img src="/images/计算机网络/实验三/查看IP.png" alt="Alt text" title="终端命令查看IP"></p>
+<h3 id="主机ip获取"><a href="#主机ip获取" class="headerlink" title="主机ip获取"></a>主机ip获取</h3><p>在启用Go-Back-N之前，我们首先需要获得个人电脑的IP。在Mac OS X系统，使用终端命令ifconfig即可直接查看主机IP，具体如下：<br><img src="/images/计算机网络/实验三/查看ip.png" alt="Alt text" title="终端命令查看IP"></p>
 <h3 id="丢包率为0下的测试"><a href="#丢包率为0下的测试" class="headerlink" title="丢包率为0下的测试"></a>丢包率为0下的测试</h3><p>为了验证代码的正确性，我首先先把丢包率设置为0查看了具体的传输流程，代码执行结果如下：</p>
 <blockquote>
 <p>窗口长度 windowSize = 4；<br>数据包总数 num = 10；<br>超时限制 Timer = 1000ms  </p>
