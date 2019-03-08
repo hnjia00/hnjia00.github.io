@@ -99,11 +99,11 @@
 <meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/数据记录.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引前表结构.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引前执行结果.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引后表结构.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/添加索引后执行时间.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/添加索引后的表结构.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引后执行时间.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/未limit.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/limit效果.png">
-<meta property="og:updated_time" content="2019-03-08T14:48:09.422Z">
+<meta property="og:updated_time" content="2019-03-08T14:51:58.776Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库——SQL调优">
 <meta name="twitter:description" content="SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。 本次实验环境如下：   操作系统：Mac OS X 10.13   DBMS：MySQL 8.0   图形化管理界面：MySQL Workbench  表结构本次实验选用了一个待测试表，名为‘pv_train_part1’，其结">
@@ -493,8 +493,8 @@
 <p>在没建立索引前，表的设计层面如下：<br><img src="/images/数据库/SQL调优/建立索引前表结构.png" alt="Alt text" title="建立索引前表结构"><br>执行查询语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.key=<span class="number">59081</span>;</span><br></pre></td></tr></table></figure></p>
 <p>结果如下：<br><img src="/images/数据库/SQL调优/建立索引前执行结果.png" alt="Alt text" title="建立索引前执行结果"></p>
 <p>可以看到该查询的执行时间为： <strong>0.056 second</strong> 。</p>
-<p>然后我们给key属性添加主键索引，添加完之后设计层面如下：<br><img src="/images/数据库/SQL调优/建立索引后表结构.png" alt="Alt text" title="建立索引后表结构"></p>
-<p>添加完成之后重新执行相同的查询语句，执行时间如下：<br><img src="/images/数据库/SQL调优/添加索引后执行时间.png" alt="Alt text" title="建立索引后执行时间"></p>
+<p>然后我们给key属性添加主键索引，添加完之后设计层面如下：<br><img src="/images/数据库/SQL调优/添加索引后的表结构.png" alt="Alt text" title="建立索引后表结构"></p>
+<p>添加完成之后重新执行相同的查询语句，执行时间如下：<br><img src="/images/数据库/SQL调优/建立索引后执行时间.png" alt="Alt text" title="建立索引后执行时间"></p>
 <p>可以看到，在添加完主键索引之后，查询时间变成了 <strong>0.00034 second</strong>，较未添加索引之间查询效率提高了 <strong>163</strong> 倍。</p>
 <h3 id="优化规则二-查询限制"><a href="#优化规则二-查询限制" class="headerlink" title="优化规则二:查询限制"></a>优化规则二:查询限制</h3><p>在MySQL中，假如只需要一条查询条件的结果，或者在事先已经知道查询语句仅仅会返回一条结果的情况下，我们可以在查询语句的结尾后添加 <strong>“limit 1”</strong> 字段以便在查询到结果后中断对剩余表单的检索，对比如下：</p>
 <p>首先我们对表执行查询语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.label=<span class="number">3</span> ;</span><br></pre></td></tr></table></figure></p>
