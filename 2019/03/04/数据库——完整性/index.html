@@ -95,20 +95,20 @@
 <meta property="og:site_name" content="Haonan_Jia blogs">
 <meta property="og:description" content="数据库的完整性是一块很重要的知识，涉及到表、视图等的各种约束，是保证数据库或项目正常运行的根本保证，也是继SQL语句后的第二块重要的知识点。 完整性主要包括：实体完整性，参照完整性和用户自定义完整性。当然，在dbms下，用户接触最直接的就是用户自定义完整性和外键的参照完整性，所以下面的实验主要以后两者为主。 用户自定义完整性check语句使用check子句定义如下约束条件:•    读者证件只能是">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://hnjia00.github.io/image/数据库/完整性/1.png">
-<meta property="og:image" content="http://hnjia00.github.io/image/数据库/完整性/2.png">
-<meta property="og:image" content="http://hnjia00.github.io/image/数据库/完整性/3.png">
-<meta property="og:image" content="http://hnjia00.github.io/image/数据库/完整性/4.png">
-<meta property="og:image" content="http://hnjia00.github.io/image/数据库/完整性/5.png">
-<meta property="og:image" content="http://hnjia00.github.io/image/数据库/完整性/6.png">
-<meta property="og:image" content="http://hnjia00.github.io/image/数据库/完整性/7.png">
-<meta property="og:image" content="http://hnjia00.github.io/image/数据库/完整性/8.png">
-<meta property="og:image" content="http://hnjia00.github.io/image/数据库/完整性/9.png">
-<meta property="og:updated_time" content="2019-03-04T08:38:52.215Z">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/完整性/1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/完整性/2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/完整性/3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/完整性/4.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/完整性/5.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/完整性/6.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/完整性/7.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/完整性/8.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/完整性/9.png">
+<meta property="og:updated_time" content="2019-03-04T08:43:20.493Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库——完整性">
 <meta name="twitter:description" content="数据库的完整性是一块很重要的知识，涉及到表、视图等的各种约束，是保证数据库或项目正常运行的根本保证，也是继SQL语句后的第二块重要的知识点。 完整性主要包括：实体完整性，参照完整性和用户自定义完整性。当然，在dbms下，用户接触最直接的就是用户自定义完整性和外键的参照完整性，所以下面的实验主要以后两者为主。 用户自定义完整性check语句使用check子句定义如下约束条件:•    读者证件只能是">
-<meta name="twitter:image" content="http://hnjia00.github.io/image/数据库/完整性/1.png">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/数据库/完整性/1.png">
 
 
 
@@ -427,19 +427,19 @@
 </blockquote>
 <p>Q. 读者证件只能是“身份证”或“护照”<br>A.<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DEFINER=<span class="string">`root`</span>@<span class="string">`localhost`</span> <span class="keyword">TRIGGER</span> <span class="string">`readers_BEFORE_INSERT`</span> </span><br><span class="line"><span class="keyword">BEFORE</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> <span class="string">`readers`</span> <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="keyword">BEGIN</span></span><br><span class="line">        <span class="keyword">if</span> NEW.Card_name <span class="keyword">not</span> <span class="keyword">in</span> (<span class="string">'身份证'</span> ,<span class="string">'护照'</span>) <span class="keyword">then</span> </span><br><span class="line">            <span class="keyword">delete</span> <span class="keyword">from</span> readers <span class="keyword">where</span> Card_name = new.Card_name;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">if</span>;</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure></p>
 <p>执行错误插入（Card_name=’其他’）如下：</p>
-<p><img src="/image/数据库/完整性/1.png" alt="Alt text"></p>
+<p><img src="/images/数据库/完整性/1.png" alt="Alt text"></p>
 <p>触发器功能启动，报错如下：</p>
-<p><img src="/image/数据库/完整性/2.png" alt="Alt text"></p>
+<p><img src="/images/数据库/完整性/2.png" alt="Alt text"></p>
 <p>执行正确插入（Card_name=’护照’）如下：</p>
-<p><img src="/image/数据库/完整性/3.png" alt="Alt text"></p>
+<p><img src="/images/数据库/完整性/3.png" alt="Alt text"></p>
 <p>语句成功执行：</p>
-<p><img src="/image/数据库/完整性/4.png" alt="Alt text"></p>
+<p><img src="/images/数据库/完整性/4.png" alt="Alt text"></p>
 <p>其实用check语句实现很容易，只需要在表的定义语句中加上<br><code>check Card_name in (&#39;身份证&#39; ,&#39;护照&#39;)</code><br>即可实现。</p>
 <p>Q. 读者手机号是以“1”打头的11位字符,后10位只能是数字<br>A. 由于mobile为varcher型，直接设置 <strong>正则</strong> 比较即可<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DEFINER=<span class="string">`root`</span>@<span class="string">`localhost`</span> <span class="keyword">TRIGGER</span> <span class="string">`readers_BEFORE_INSERT`</span> <span class="keyword">BEFORE</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> <span class="string">`readers`</span> <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="keyword">BEGIN</span></span><br><span class="line">        <span class="keyword">if</span> NEW.mobile <span class="keyword">not</span>  REGEXP <span class="string">'^[1][0-9]&#123;10&#125;$'</span>  <span class="keyword">then</span> </span><br><span class="line">            <span class="keyword">delete</span> <span class="keyword">from</span> readers <span class="keyword">where</span> mobile = new.mobile;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">if</span>;<span class="keyword">END</span></span><br></pre></td></tr></table></figure></p>
 <p>执行错误插入（mobile=2…）如下：</p>
-<p><img src="/image/数据库/完整性/5.png" alt="Alt text"></p>
+<p><img src="/images/数据库/完整性/5.png" alt="Alt text"></p>
 <p>触发器功能启动，报错如下：</p>
-<p><img src="/image/数据库/完整性/6.png" alt="Alt text"></p>
+<p><img src="/images/数据库/完整性/6.png" alt="Alt text"></p>
 <h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><p>编写触发器，实现以下约束<br>•   已挂失的借书证不能再借书；<br>•   向借阅表增加一个借书记录后，在图书表里该图书的出借数自动加1。  </p>
 <h2 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h2><p>Q. 已挂失的借书证不能再借书<br>A. 由题意可知，存在于loss_reporting表中的用户不能再向borrow表中插入数据，所以代码实现如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DEFINER=<span class="string">`root`</span>@<span class="string">`localhost`</span> <span class="keyword">TRIGGER</span> <span class="string">`borrows_BEFORE_INSERT`</span> <span class="keyword">BEFORE</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> <span class="string">`borrows`</span> <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">exists</span>(<span class="keyword">select</span> loss_reporting.reader_id</span><br><span class="line">                                <span class="keyword">from</span> loss_reporting</span><br><span class="line">                                <span class="keyword">where</span>(loss_reporting.reader_id = new.reader_id))</span><br><span class="line">        <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">delete</span> <span class="keyword">from</span> borrows <span class="keyword">where</span> reader_id = new.reader_id;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">if</span>;</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure></p>
 <p>Q. 向借阅表增加一个借书记录后，在图书表里该图书的出借数自动加1<br>A.<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DEFINER=<span class="string">`root`</span>@<span class="string">`localhost`</span> <span class="keyword">TRIGGER</span> <span class="string">`borrows_AFTER_INSERT`</span> <span class="keyword">AFTER</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> <span class="string">`borrows`</span> <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">if</span> new.book_id <span class="keyword">in</span> (<span class="keyword">select</span> book_id <span class="keyword">from</span> books)</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">update</span> books</span><br><span class="line">        <span class="keyword">set</span> Quantity_out=Quantity_out+<span class="number">1</span></span><br><span class="line">        <span class="keyword">where</span> books.book_id=new.book_id;</span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">if</span>;</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure></p>
@@ -448,10 +448,10 @@
 <h2 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h2><p>在删除或更新外键时，子表置空  </p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">`bookmis`</span>.<span class="string">`readers`</span> </span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> <span class="string">`level`</span></span><br><span class="line">  <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (<span class="string">`level`</span>)</span><br><span class="line">  <span class="keyword">REFERENCES</span> <span class="string">`bookmis`</span>.<span class="string">`member_level`</span> (<span class="string">`level`</span>)</span><br><span class="line">  <span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">SET</span> <span class="literal">NULL</span></span><br><span class="line">  <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">SET</span> <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
 <p>在添加外键约束之后，我们将member_level表中的‘普通’删去，然后观察readers表中的数据变化如下：</p>
-<p>readers表原始数据：<br><img src="/image/数据库/完整性/7.png" alt="Alt text"></p>
-<p>readers表执行删除后的结果如下：<br><img src="/image/数据库/完整性/8.png" alt="Alt text"></p>
+<p>readers表原始数据：<br><img src="/images/数据库/完整性/7.png" alt="Alt text"></p>
+<p>readers表执行删除后的结果如下：<br><img src="/images/数据库/完整性/8.png" alt="Alt text"></p>
 <p>可以观察到‘普通’全被置换为了null;</p>
-<p>接下来我们将‘银卡’更新为‘白卡’<br>可以看到readers表中的‘银卡’也被修改为了null（这里可能用cascade效果更好）<br><img src="/image/数据库/完整性/9.png" alt="Alt text"></p>
+<p>接下来我们将‘银卡’更新为‘白卡’<br>可以看到readers表中的‘银卡’也被修改为了null（这里可能用cascade效果更好）<br><img src="/images/数据库/完整性/9.png" alt="Alt text"></p>
 
       
     </div>
@@ -514,6 +514,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/08/数据库——SQL调优/" rel="prev" title="数据库——SQL调优">
+                数据库——SQL调优 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -598,7 +602,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
