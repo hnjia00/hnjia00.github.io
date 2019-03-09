@@ -88,17 +88,25 @@
 
 
 
-<meta name="description" content="最近一时兴起，想搭一个自己的blog玩一玩。 在子泰学长的引领下，我也选择了hexo这一开发框架，至于hexo在Mac上的配置的这些过程在此先省略不谈，我们来谈谈hexo上支持的文件 markdown 格式的语法总结。  一、标题Markdown的标题语法需要与 # 配合使用，在标题文字之前添加一到六个#即可生成一级标题到六级标题。  使用：123456#一级标题   ##二级标题   ###三级">
+<meta name="description" content="本次作业基于Mac OS X系统下的mysql workbench软件完成  存储过程在数据库编程中也是一个重要的角色，其主要的能力在于能被编译好放到服务器中，在使用时直接call即可调用执行，既能简化操作又能节省时间，能在优化层面起到一个很好的作用。 实验内容1、编写存储过程实现下列操作： （1）查询某读者、某段时间的借阅信息。已知读者姓名，查询起始和终止时间，列出其所有借阅信息。 （2）实现">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Markdown——语法篇">
-<meta property="og:url" content="http://hnjia00.github.io/2019/02/11/Markdown——语法篇/index.html">
+<meta property="og:title" content="数据库——存储过程和函数">
+<meta property="og:url" content="http://hnjia00.github.io/2019/03/09/数据库——存储过程和函数/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
-<meta property="og:description" content="最近一时兴起，想搭一个自己的blog玩一玩。 在子泰学长的引领下，我也选择了hexo这一开发框架，至于hexo在Mac上的配置的这些过程在此先省略不谈，我们来谈谈hexo上支持的文件 markdown 格式的语法总结。  一、标题Markdown的标题语法需要与 # 配合使用，在标题文字之前添加一到六个#即可生成一级标题到六级标题。  使用：123456#一级标题   ##二级标题   ###三级">
+<meta property="og:description" content="本次作业基于Mac OS X系统下的mysql workbench软件完成  存储过程在数据库编程中也是一个重要的角色，其主要的能力在于能被编译好放到服务器中，在使用时直接call即可调用执行，既能简化操作又能节省时间，能在优化层面起到一个很好的作用。 实验内容1、编写存储过程实现下列操作： （1）查询某读者、某段时间的借阅信息。已知读者姓名，查询起始和终止时间，列出其所有借阅信息。 （2）实现">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-12T03:05:25.824Z">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/存储过程/1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/存储过程/2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/存储过程/3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/存储过程/4.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/存储过程/5.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/存储过程/6.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/数据库/存储过程/7.png">
+<meta property="og:updated_time" content="2019-03-09T03:34:19.997Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Markdown——语法篇">
-<meta name="twitter:description" content="最近一时兴起，想搭一个自己的blog玩一玩。 在子泰学长的引领下，我也选择了hexo这一开发框架，至于hexo在Mac上的配置的这些过程在此先省略不谈，我们来谈谈hexo上支持的文件 markdown 格式的语法总结。  一、标题Markdown的标题语法需要与 # 配合使用，在标题文字之前添加一到六个#即可生成一级标题到六级标题。  使用：123456#一级标题   ##二级标题   ###三级">
+<meta name="twitter:title" content="数据库——存储过程和函数">
+<meta name="twitter:description" content="本次作业基于Mac OS X系统下的mysql workbench软件完成  存储过程在数据库编程中也是一个重要的角色，其主要的能力在于能被编译好放到服务器中，在使用时直接call即可调用执行，既能简化操作又能节省时间，能在优化层面起到一个很好的作用。 实验内容1、编写存储过程实现下列操作： （1）查询某读者、某段时间的借阅信息。已知读者姓名，查询起始和终止时间，列出其所有借阅信息。 （2）实现">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/数据库/存储过程/1.png">
 
 
 
@@ -128,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://hnjia00.github.io/2019/02/11/Markdown——语法篇/">
+  <link rel="canonical" href="http://hnjia00.github.io/2019/03/09/数据库——存储过程和函数/">
 
 
 
 
 
-  <title>Markdown——语法篇 | Haonan_Jia blogs</title>
+  <title>数据库——存储过程和函数 | Haonan_Jia blogs</title>
   
 
 
@@ -284,7 +292,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/02/11/Markdown——语法篇/">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/03/09/数据库——存储过程和函数/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Haonan Jia">
@@ -301,7 +309,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Markdown——语法篇</h1>
+          <h1 class="post-title" itemprop="name headline">数据库——存储过程和函数</h1>
         
 
         <div class="post-meta">
@@ -313,8 +321,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-11T17:26:18+08:00">
-                2019-02-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-09T11:17:02+08:00">
+                2019-03-09
               </time>
             
 
@@ -323,28 +331,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Markdown/" itemprop="url" rel="index">
-                    <span itemprop="name">Markdown</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -372,7 +358,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1.1k 字
+                  830 字
                 </span>
               
 
@@ -409,101 +395,26 @@
       
 
       
-        <p>最近一时兴起，想搭一个自己的blog玩一玩。</p>
-<p>在子泰学长的引领下，我也选择了hexo这一开发框架，至于hexo在Mac上的配置<br>的这些过程在此先省略不谈，我们来谈谈hexo上支持的文件 <strong><em>markdown</em></strong> 格式的语法总结。</p>
-<hr>
-<h2 id="一、标题"><a href="#一、标题" class="headerlink" title="一、标题"></a>一、标题</h2><p>Markdown的标题语法需要与 <strong>#</strong> 配合使用，在标题文字之前添加一到六个#即可生成<br>一级标题到六级标题。 </p>
-<h4 id="使用："><a href="#使用：" class="headerlink" title="使用："></a>使用：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#一级标题   </span><br><span class="line">##二级标题   </span><br><span class="line">###三级标题  </span><br><span class="line">####四级标题  </span><br><span class="line">#####五级标题  </span><br><span class="line">######六级标题</span><br></pre></td></tr></table></figure>
-<h4 id="演示："><a href="#演示：" class="headerlink" title="演示："></a>演示：</h4><h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h2 id="二、字体"><a href="#二、字体" class="headerlink" title="二、字体"></a>二、字体</h2><p>Markdown的可以对字体设置：粗体，斜体，斜体加粗和删除线四种。  </p>
-<h4 id="使用：-1"><a href="#使用：-1" class="headerlink" title="使用："></a>使用：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">**粗体** (使用中 * 与 _ 的效果相同)   </span><br><span class="line">*斜体*      </span><br><span class="line">***斜体加粗***  </span><br><span class="line">~~删除线~~（注意这里的波浪线为半角符号）</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-1"><a href="#演示：-1" class="headerlink" title="演示："></a>演示：</h4><p><strong>粗体</strong><br><em>斜体</em><br><strong><em>斜体加粗</em></strong><br><del>删除线</del>  </p>
-<h2 id="三、引用"><a href="#三、引用" class="headerlink" title="三、引用"></a>三、引用</h2><p>Markdown在使用引用时需要与 <strong>&gt;</strong> 配合操作，在需要应用的文字之前添加 <strong>&gt;</strong> 即可。  </p>
-<h4 id="使用：-2"><a href="#使用：-2" class="headerlink" title="使用："></a>使用：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;一级引用   </span><br><span class="line">&gt;&gt;二级引用   </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;多级引用</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-2"><a href="#演示：-2" class="headerlink" title="演示："></a>演示：</h4><blockquote>
-<p>一级引用   </p>
-<blockquote>
-<p>二级引用   </p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>多级引用</p>
+        <blockquote>
+<p>本次作业基于Mac OS X系统下的mysql workbench软件完成</p>
 </blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<h2 id="四、分割线"><a href="#四、分割线" class="headerlink" title="四、分割线"></a>四、分割线</h2><p>Markdown中分割线可以用连续三个或三个以上的 - 或 * 来实现，一级标题和二级标题会自<br>带下划线。我在sublime text3中用livepreviewer实时预览时发现，使用超过三个时预览<br>端会出现乱码，但是在用html预览时一切正常。</p>
-<h4 id="使用：-3"><a href="#使用：-3" class="headerlink" title="使用："></a>使用：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">***    </span><br><span class="line">-------</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-3"><a href="#演示：-3" class="headerlink" title="演示："></a>演示：</h4><hr>
-<hr>
-<hr>
-<h2 id="五、图片"><a href="#五、图片" class="headerlink" title="五、图片"></a>五、图片</h2><p>图片是一个比较麻烦的东西，但是sublime text3中的MarkdownEditing提供了生成图片格式的快捷键，通过使用快捷键或代码段可以直接生成。</p>
-<h4 id="使用：-4"><a href="#使用：-4" class="headerlink" title="使用："></a>使用：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">快捷键：command+shift+k  </span><br><span class="line">代码段：mdi+tab键</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-4"><a href="#演示：-4" class="headerlink" title="演示："></a>演示：</h4><p><code>![]()</code><br><code>![Alt text](/path/to/img.jpg &quot;Optional title&quot;)</code></p>
-<h4 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">![图片alt](图片地址 &apos;&apos;图片title&apos;&apos;)   </span><br><span class="line">图片alt就是显示在图片下面的文字，相当于对图片内容的解释。  </span><br><span class="line">图片title是图片的标题，当鼠标移到图片上时显示的内容,title可加可不加。</span><br><span class="line"></span><br><span class="line">如果要修改图片位置，可以用如下写法：</span><br><span class="line">&lt;div align=center/left/right&gt;![Alt text](/path/to/img.jpg &quot;Optional title&quot;)</span><br><span class="line"></span><br><span class="line">同样的，还可以用img标签来调整图片的大小，写法如下：</span><br><span class="line">&lt;img src=&quot;http:...&quot; width = &quot;100&quot; height = &quot;100&quot; div align=right /&gt;</span><br><span class="line"></span><br><span class="line">这些写法与html的写法一致。</span><br></pre></td></tr></table></figure>
-<h2 id="六、超链接"><a href="#六、超链接" class="headerlink" title="六、超链接"></a>六、超链接</h2><p>MarkdownEditing也提供了生成超链接的快捷代码段，同样简化了实际操作。</p>
-<h4 id="使用：-5"><a href="#使用：-5" class="headerlink" title="使用："></a>使用：</h4><p><code>mdl+tab键</code></p>
-<h4 id="演示：-5"><a href="#演示：-5" class="headerlink" title="演示："></a>演示：</h4><p><code>[](link)</code></p>
-<h4 id="语法：-1"><a href="#语法：-1" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[超链接名](超链接地址 &quot;超链接title&quot;)  </span><br><span class="line">其中的title同样可加可不加</span><br></pre></td></tr></table></figure>
-<h4 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[百度](https://baidu.com)  </span><br><span class="line">[微博](https://weibo.com)</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-6"><a href="#演示：-6" class="headerlink" title="演示："></a>演示：</h4><p><a href="https://baidu.com" target="_blank" rel="noopener">百度</a><br><a href="https://weibo.com" target="_blank" rel="noopener">微博</a></p>
-<h2 id="七、列表"><a href="#七、列表" class="headerlink" title="七、列表"></a>七、列表</h2><p>Markdown中的列表分为无序列表和有序列表两种，MarkdownEditing中提供回车自动补全，列表之间可以相互嵌套。</p>
-<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><h4 id="语法：-2"><a href="#语法：-2" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+、-或* + 空格 + 内容  </span><br><span class="line">+ 无序列表  </span><br><span class="line">- 无序列表  </span><br><span class="line">* 无序列表</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-7"><a href="#演示：-7" class="headerlink" title="演示："></a>演示：</h4><ul>
-<li>无序列表</li>
-</ul>
-<ul>
-<li>无序列表</li>
-</ul>
-<ul>
-<li>无序列表</li>
-</ul>
-<h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><h4 id="语法：-3"><a href="#语法：-3" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">数字 + . + 空格 + 内容  </span><br><span class="line">1. 有序列表  </span><br><span class="line">2. 有序列表  </span><br><span class="line">3. 有序列表</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-8"><a href="#演示：-8" class="headerlink" title="演示："></a>演示：</h4><ol>
-<li>有序列表</li>
-<li>有序列表</li>
-<li>有序列表</li>
-</ol>
-<h3 id="列表嵌套"><a href="#列表嵌套" class="headerlink" title="列表嵌套"></a>列表嵌套</h3><h4 id="语法：-4"><a href="#语法：-4" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&apos;+&apos; + 一级标题</span><br><span class="line">tab + &apos;+&apos; + 二级标题</span><br><span class="line">tab +  tab + &apos;+&apos; + 三级标题</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-9"><a href="#演示：-9" class="headerlink" title="演示："></a>演示：</h4><ul>
-<li>一级列表<ul>
-<li>二级列表<ul>
-<li>三级列表</li>
-</ul>
-</li>
-<li>二级列表</li>
-</ul>
-</li>
-</ul>
-<h2 id="八、表格"><a href="#八、表格" class="headerlink" title="八、表格"></a>八、表格</h2><p>表格的语法稍微复杂一点，不过可以把他理解为一个格式匹配的过程，也有一点在画图的意思。</p>
-<h4 id="语法：-5"><a href="#语法：-5" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">表头1 | 表头2 | 表头3  </span><br><span class="line">  -  |  :-:  |  -: </span><br><span class="line"> 靠左 |  居中 | 靠右  </span><br><span class="line"></span><br><span class="line">第二行用来格式匹配，默认为左对齐，:-:可以实现居中效果，-:实现右对齐</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-10"><a href="#演示：-10" class="headerlink" title="演示："></a>演示：</h4><table>
-<thead>
-<tr>
-<th>表头1</th>
-<th style="text-align:center">表头2</th>
-<th style="text-align:right">表头3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>靠左</td>
-<td style="text-align:center">居中</td>
-<td style="text-align:right">靠右</td>
-</tr>
-</tbody>
-</table>
-<h2 id="九、代码"><a href="#九、代码" class="headerlink" title="九、代码"></a>九、代码</h2><p>Markdown中的代码可以放置在一对反引号 <strong>``</strong> 中，注意反引号是键盘上数字 <em>1</em> 左边的键，并不是引号。</p>
-<h4 id="语法：-6"><a href="#语法：-6" class="headerlink" title="语法："></a>语法：</h4><p>`单行代码` </p>
-<p>```<br>    多行代码<br>    多行代码</p>
-<p>```</p>
-<blockquote>
-<p>参考自：<a href="https://www.jianshu.com/p/191d1e21f7ed" target="_blank" rel="noopener">https://www.jianshu.com/p/191d1e21f7ed</a>  </p>
-</blockquote>
+<p>存储过程在数据库编程中也是一个重要的角色，其主要的能力在于能被编译好放到服务器中，在使用时直接call即可调用执行，既能简化操作又能节省时间，能在优化层面起到一个很好的作用。</p>
+<h1 id="实验内容"><a href="#实验内容" class="headerlink" title="实验内容"></a>实验内容</h1><p>1、编写存储过程实现下列操作：<br> （1）查询某读者、某段时间的借阅信息。已知读者姓名，查询起始和终止时间，列出其所有借阅信息。<br> （2）实现简单的图书入库操作（包含主键的少量信息即可）<br>2、编写函数实现下列操作：<br>  输入会员级别，返回该级别会员所借的图书总数量  </p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="编写存储过程"><a href="#编写存储过程" class="headerlink" title="编写存储过程"></a>编写存储过程</h2><p>（1）查询某读者、某段时间的借阅信息（已知读者姓名，查询起始和终止时间，列出其所有借阅信息</p>
+<p>实现代码如下,其中 <strong>delimiter</strong> 是MySQL中的命令，这个命令与存储过程没什么关系，其作用就是告诉mysql解释器，该段命令是否已经结束了，mysql是否可以执行了。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> <span class="string">`bookmis`</span>;</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">procedure</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`borrow_book`</span>;</span><br><span class="line"></span><br><span class="line">DELIMITER $$</span><br><span class="line"><span class="keyword">USE</span> <span class="string">`bookmis`</span>$$</span><br><span class="line"><span class="keyword">CREATE</span> DEFINER=<span class="string">`root`</span>@<span class="string">`localhost`</span> <span class="keyword">PROCEDURE</span> <span class="string">`borrow_book`</span>(<span class="keyword">in</span> reader_id <span class="built_in">varchar</span>(<span class="number">5</span>),<span class="keyword">in</span> starttime <span class="built_in">date</span>,<span class="keyword">in</span> endtime <span class="built_in">date</span>)</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">select</span> * <span class="keyword">from</span> borrows <span class="keyword">where</span> borrows.reader_id=reader_id <span class="keyword">and</span> borrows.Date_borrow&gt;=starttime <span class="keyword">and</span> borrows.Date_return&lt;=endtime;</span><br><span class="line"><span class="keyword">END</span>$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure></p>
+<p>我们用代码<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">call</span> borrow_book(<span class="string">'r001'</span>,<span class="string">'2016-01-01'</span>,<span class="string">'2017-01-01'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>来进行测试，成功输出了r001在指定时间的借阅信息：<br><img src="/images/数据库/存储过程/1.png" alt="Alt text"></p>
+<p>（2）实现简单的图书入库操作（包含主键的少量信息即可）</p>
+<p>代码如下，插入的参数为 <strong>book_id</strong> , <strong>book_name</strong> 和 <strong>Quantity_in</strong> 三个<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"><span class="keyword">USE</span> <span class="string">`bookmis`</span>$$</span><br><span class="line"><span class="keyword">CREATE</span> DEFINER=<span class="string">`root`</span>@<span class="string">`localhost`</span> <span class="keyword">PROCEDURE</span> <span class="string">`entry`</span>(<span class="keyword">in</span> <span class="keyword">id</span> <span class="built_in">varchar</span>(<span class="number">5</span>),<span class="keyword">in</span> book_name <span class="built_in">varchar</span>(<span class="number">15</span>),<span class="keyword">in</span> amount <span class="built_in">int</span>)</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">id</span> <span class="keyword">in</span> (<span class="keyword">select</span> book_id <span class="keyword">from</span> books) <span class="keyword">then</span> </span><br><span class="line">        <span class="keyword">update</span> books</span><br><span class="line">        <span class="keyword">set</span> Quantity_in=Quantity_in+amount</span><br><span class="line">        <span class="keyword">where</span> books.book_id=<span class="keyword">id</span>;</span><br><span class="line">    else</span><br><span class="line">        <span class="keyword">insert</span> <span class="keyword">into</span> books(book_id,book_name,Quantity_in)</span><br><span class="line">        <span class="keyword">values</span> (<span class="keyword">id</span>,book_name,amount);</span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">if</span>;</span><br><span class="line"><span class="keyword">END</span>$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure></p>
+<p>由于存储过中写到了if条件判断，所以我们分别测试一下插入新书和插入旧书的结果。<br>首先是插入新书，执行代码<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">call</span> entry(<span class="string">'b009'</span>,<span class="string">'test_book'</span>,<span class="number">12</span>)</span><br></pre></td></tr></table></figure></p>
+<p>结果如下：<br><img src="/images/数据库/存储过程/2.png" alt="Alt text"><br><img src="/images/数据库/存储过程/3.png" alt="Alt text"><br>其次是插入旧书，执行代码<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">call</span> entry(<span class="string">'b001'</span>,<span class="string">'并行计算'</span>,<span class="number">20</span>)</span><br></pre></td></tr></table></figure></p>
+<p>结果如下：<br><img src="/images/数据库/存储过程/4.png" alt="Alt text"></p>
+<h2 id="编写函数"><a href="#编写函数" class="headerlink" title="编写函数"></a>编写函数</h2><p>（1）输入会员级别，返回该级别会员所借的图书总数量。</p>
+<p>代码如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line"><span class="keyword">USE</span> <span class="string">`bookmis`</span>$$</span><br><span class="line"><span class="keyword">CREATE</span> DEFINER=<span class="string">`root`</span>@<span class="string">`localhost`</span> <span class="keyword">FUNCTION</span><span class="string">`show_vipbooks`</span>(vip_level <span class="built_in">varchar</span>(<span class="number">6</span>)) <span class="keyword">RETURNS</span> <span class="built_in">int</span>(<span class="number">11</span>)</span><br><span class="line"><span class="keyword">DETERMINISTIC</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">declare</span> <span class="keyword">sum</span> <span class="built_in">int</span>;</span><br><span class="line">    <span class="keyword">set</span> <span class="keyword">sum</span> = (<span class="keyword">select</span> <span class="keyword">count</span>(book_id) <span class="keyword">from</span> readers,borrows</span><br><span class="line">        <span class="keyword">where</span> readers.level=vip_level <span class="keyword">and</span> readers.reader_id=borrows.reader_id</span><br><span class="line">        <span class="keyword">group</span> <span class="keyword">by</span> readers.level);</span><br><span class="line">RETURN sum;</span><br><span class="line"><span class="keyword">END</span>$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure></p>
+<p>我们拿金卡用户做测试，可以观察到金卡用户 <strong>r001</strong>,<strong>r004</strong>:<br><img src="/images/数据库/存储过程/5.png" alt="Alt text"><br>r001,r004总共借阅了图书5本，分别是b001,b002,b001,b002,b006:<br><img src="/images/数据库/存储过程/6.png" alt="Alt text"></p>
+<p>执行代码：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> show_vipbooks(<span class="string">'金卡'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>函数执行结果如下：<br><img src="/images/数据库/存储过程/7.png" alt="Alt text"></p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>存储过程和函数在课程设计和项目中都是一个比较重要的成分，其中很大一部分原因在于其代码的集成性。运用存储过程可以起到一个很好的简化代码的作用，只需一个入口参数即可实现重复的数据查询或数据定义的功能，比起繁琐的select语句，一个call起到的作用会更大，更何况其执行速度也得到了很好的优化。</p>
 
       
     </div>
@@ -557,8 +468,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/09/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2019/03/08/数据库——SQL调优/" rel="next" title="数据库——SQL调优">
+                <i class="fa fa-chevron-left"></i> 数据库——SQL调优
               </a>
             
           </div>
@@ -566,10 +477,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/13/Markdown——配置篇/" rel="prev" title="Markdown——配置篇">
-                Markdown——配置篇 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -700,7 +607,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、标题"><span class="nav-text">一、标题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用："><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示："><span class="nav-text">演示：</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#一级标题"><span class="nav-text">一级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二级标题"><span class="nav-text">二级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三级标题"><span class="nav-text">三级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#四级标题"><span class="nav-text">四级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#五级标题"><span class="nav-text">五级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#六级标题"><span class="nav-text">六级标题</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、字体"><span class="nav-text">二、字体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用：-1"><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-1"><span class="nav-text">演示：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、引用"><span class="nav-text">三、引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用：-2"><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-2"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、分割线"><span class="nav-text">四、分割线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用：-3"><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-3"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、图片"><span class="nav-text">五、图片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用：-4"><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-4"><span class="nav-text">演示：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语法："><span class="nav-text">语法：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、超链接"><span class="nav-text">六、超链接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用：-5"><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-5"><span class="nav-text">演示：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-1"><span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例："><span class="nav-text">示例：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-6"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、列表"><span class="nav-text">七、列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无序列表"><span class="nav-text">无序列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-2"><span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-7"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有序列表"><span class="nav-text">有序列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-3"><span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-8"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表嵌套"><span class="nav-text">列表嵌套</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-4"><span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-9"><span class="nav-text">演示：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、表格"><span class="nav-text">八、表格</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-5"><span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-10"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#九、代码"><span class="nav-text">九、代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-6"><span class="nav-text">语法：</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验内容"><span class="nav-text">实验内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决方案"><span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编写存储过程"><span class="nav-text">编写存储过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写函数"><span class="nav-text">编写函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-text">小结</span></a></li></ol></div>
             
 
           </div>
