@@ -88,26 +88,39 @@
 
 
 
-<meta name="description" content="SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。 本次实验环境如下：   操作系统：Mac OS X 10.13   DBMS：MySQL 8.0   图形化管理界面：MySQL Workbench  表结构本次实验选用了一个待测试表，名为‘pv_train_part1’，其结">
+<meta name="description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub：https://github.com/hnjia00/OS2019/tree/master/Code_Of_project1  系统调用实验Q1.阅读分别运行用API接口函数getpid()直接调用和汇编中断调用两种方式调用Linux操作系统的同一个系统调用getpid的程序:    请问getpid的系统调用号是多少？ Lin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库——SQL调优">
-<meta property="og:url" content="http://hnjia00.github.io/2019/03/08/数据库——SQL调优/index.html">
+<meta property="og:title" content="操作系统——初步">
+<meta property="og:url" content="http://hnjia00.github.io/2019/03/16/操作系统——初步/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
-<meta property="og:description" content="SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。 本次实验环境如下：   操作系统：Mac OS X 10.13   DBMS：MySQL 8.0   图形化管理界面：MySQL Workbench  表结构本次实验选用了一个待测试表，名为‘pv_train_part1’，其结">
+<meta property="og:description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub：https://github.com/hnjia00/OS2019/tree/master/Code_Of_project1  系统调用实验Q1.阅读分别运行用API接口函数getpid()直接调用和汇编中断调用两种方式调用Linux操作系统的同一个系统调用getpid的程序:    请问getpid的系统调用号是多少？ Lin">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/导入csv.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/数据记录.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引前表结构.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引前执行结果.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/添加索引后的表结构.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引后执行时间.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/未limit.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/limit效果.png">
-<meta property="og:updated_time" content="2019-03-08T14:51:58.776Z">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/4.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/5.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/6.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/7.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/8.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/19.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/16.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/17.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/20.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/18.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/9.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/10.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/11.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/12.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/13.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/21.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/14.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project1/15.png">
+<meta property="og:updated_time" content="2019-03-16T09:33:52.083Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库——SQL调优">
-<meta name="twitter:description" content="SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。 本次实验环境如下：   操作系统：Mac OS X 10.13   DBMS：MySQL 8.0   图形化管理界面：MySQL Workbench  表结构本次实验选用了一个待测试表，名为‘pv_train_part1’，其结">
-<meta name="twitter:image" content="http://hnjia00.github.io/images/数据库/SQL调优/导入csv.png">
+<meta name="twitter:title" content="操作系统——初步">
+<meta name="twitter:description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub：https://github.com/hnjia00/OS2019/tree/master/Code_Of_project1  系统调用实验Q1.阅读分别运行用API接口函数getpid()直接调用和汇编中断调用两种方式调用Linux操作系统的同一个系统调用getpid的程序:    请问getpid的系统调用号是多少？ Lin">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/操作系统/project1/1.png">
 
 
 
@@ -137,13 +150,13 @@
 
 
 
-  <link rel="canonical" href="http://hnjia00.github.io/2019/03/08/数据库——SQL调优/">
+  <link rel="canonical" href="http://hnjia00.github.io/2019/03/16/操作系统——初步/">
 
 
 
 
 
-  <title>数据库——SQL调优 | Haonan_Jia blogs</title>
+  <title>操作系统——初步 | Haonan_Jia blogs</title>
   
 
 
@@ -293,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/03/08/数据库——SQL调优/">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/03/16/操作系统——初步/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Haonan Jia">
@@ -310,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据库——SQL调优</h1>
+          <h1 class="post-title" itemprop="name headline">操作系统——初步</h1>
         
 
         <div class="post-meta">
@@ -322,8 +335,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-08T22:40:24+08:00">
-                2019-03-08
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-16T15:53:36+08:00">
+                2019-03-16
               </time>
             
 
@@ -345,8 +358,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据库/" itemprop="url" rel="index">
-                    <span itemprop="name">数据库</span>
+                  <a href="/categories/操作系统/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
                   </a>
                 </span>
 
@@ -381,7 +394,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  805 字
+                  2.3k 字
                 </span>
               
 
@@ -397,7 +410,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  3 min
+                  8 min
                 </span>
               
             </div>
@@ -418,91 +431,77 @@
       
 
       
-        <p>SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。</p>
-<p>本次实验环境如下：</p>
-<blockquote>
-<p> 操作系统：Mac OS X 10.13<br>   DBMS：MySQL 8.0<br>   图形化管理界面：MySQL Workbench</p>
+        <blockquote>
+<p>本次实验全部基于Ubuntu 16.04完成<br>代码托管于GitHub：<a href="https://github.com/hnjia00/OS2019/tree/master/Code_Of_project1" target="_blank" rel="noopener">https://github.com/hnjia00/OS2019/tree/master/Code_Of_project1</a></p>
 </blockquote>
-<h2 id="表结构"><a href="#表结构" class="headerlink" title="表结构"></a>表结构</h2><p>本次实验选用了一个待测试表，名为‘pv_train_part1’，其结构如下：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:center">类型</th>
-<th style="text-align:center">实例</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Key</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">5</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature1</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.294408418</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature2</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.331507473</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature3</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.279030084</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature4</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">0.545543622</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature5</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">64125</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature6</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.738819447</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature7</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">0.88708635</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature8</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">28622.91442</td>
-</tr>
-<tr>
-<td style="text-align:center">label</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">0</td>
-</tr>
-</tbody>
-</table>
-<h2 id="数据仿真方法"><a href="#数据仿真方法" class="headerlink" title="数据仿真方法"></a>数据仿真方法</h2><p>此数据集来源于我跟随老师做的项目，从数据实例和分布来看其明显是一个机器学习模型的训练数据样本，大体是一个八参数的分类问题（实则是一个多参数的特征选取和异常数据监测项目）。</p>
-<p>本数据取自github上的开源数据集，其链接为：<br><a href="https://github.com/niklasstoehr/neuralNetwork" target="_blank" rel="noopener">数据集</a></p>
-<h2 id="数据记录数"><a href="#数据记录数" class="headerlink" title="数据记录数"></a>数据记录数</h2><p>通过MySQL Workbench的‘Table Data Import Wizard’功能，可以实现将外部csv文件导入的功能：<br><img src="/images/数据库/SQL调优/导入csv.png" alt="Alt text" title="导入csv"></p>
-<p>通过执行结果可以观测到数据记录数如下：<br><img src="/images/数据库/SQL调优/数据记录.png" alt="Alt text" title="数据记录"></p>
-<h2 id="优化规则及执行时间"><a href="#优化规则及执行时间" class="headerlink" title="优化规则及执行时间"></a>优化规则及执行时间</h2><h3 id="优化规则一-建立索引"><a href="#优化规则一-建立索引" class="headerlink" title="优化规则一:建立索引"></a>优化规则一:建立索引</h3><p>首先我使用的第一条优化规则便是建立索引，这在几乎所有的DBMS上是通用的优化策略。为了便于展示，这里的优化执行结果以执行查询操作来作为反馈。</p>
-<p>在没建立索引前，表的设计层面如下：<br><img src="/images/数据库/SQL调优/建立索引前表结构.png" alt="Alt text" title="建立索引前表结构"><br>执行查询语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.key=<span class="number">59081</span>;</span><br></pre></td></tr></table></figure></p>
-<p>结果如下：<br><img src="/images/数据库/SQL调优/建立索引前执行结果.png" alt="Alt text" title="建立索引前执行结果"></p>
-<p>可以看到该查询的执行时间为： <strong>0.056 second</strong> 。</p>
-<p>然后我们给key属性添加主键索引，添加完之后设计层面如下：<br><img src="/images/数据库/SQL调优/添加索引后的表结构.png" alt="Alt text" title="建立索引后表结构"></p>
-<p>添加完成之后重新执行相同的查询语句，执行时间如下：<br><img src="/images/数据库/SQL调优/建立索引后执行时间.png" alt="Alt text" title="建立索引后执行时间"></p>
-<p>可以看到，在添加完主键索引之后，查询时间变成了 <strong>0.00034 second</strong>，较未添加索引之间查询效率提高了 <strong>163</strong> 倍。</p>
-<h3 id="优化规则二-查询限制"><a href="#优化规则二-查询限制" class="headerlink" title="优化规则二:查询限制"></a>优化规则二:查询限制</h3><p>在MySQL中，假如只需要一条查询条件的结果，或者在事先已经知道查询语句仅仅会返回一条结果的情况下，我们可以在查询语句的结尾后添加 <strong>“limit 1”</strong> 字段以便在查询到结果后中断对剩余表单的检索，对比如下：</p>
-<p>首先我们对表执行查询语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.label=<span class="number">3</span> ;</span><br></pre></td></tr></table></figure></p>
-<p>查询时间如下：<br><img src="/images/数据库/SQL调优/未limit.png" alt="Alt text" title="未limit"></p>
-<p>可以看到，通过普通查询语句查询，其执行时间在 <strong>0.039 second</strong>。</p>
-<p>然后对上述sql语句后添加 <strong>“limit 1”</strong> ，修改为：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.label=<span class="number">3</span> <span class="keyword">limit</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
-<p>查询时间如下：<br><img src="/images/数据库/SQL调优/limit效果.png" alt="Alt text" title="limit效果"><br>可以看到，在添加limit 1后，其执行时间缩短为了 <strong>0.00049 second</strong>，相较于优化前的查询，效率提高了 <strong>203</strong> 倍。</p>
-<p>通过这几个案例可以看出，SQL调优可以为数据库的查询操作提高近百倍的效率，是我们在开发大型工程中的必备知识。</p>
+<h1 id="系统调用实验"><a href="#系统调用实验" class="headerlink" title="系统调用实验"></a>系统调用实验</h1><h2 id="Q1"><a href="#Q1" class="headerlink" title="Q1."></a>Q1.</h2><p>阅读分别运行用API接口函数getpid()直接调用和汇编中断调用两种方式调用Linux操作系统的同一个系统调用getpid的程序:  </p>
+<ul>
+<li>请问getpid的系统调用号是多少？</li>
+<li>Linux系统调用的中断向量号是多少？</li>
+</ul>
+<h2 id="A1"><a href="#A1" class="headerlink" title="A1."></a>A1.</h2><h3 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h3><p>将两个文件分别命名为getpid_c.c和getpid_assembly.c，首先用gcc编译API接口调用程序，执行结果如下：<br><img src="/images/操作系统/project1/1.png" alt="Alt text" title="API接口调用"><br>可以看到程序分别输出了41580、41602、41612，其代表每次执行程序的进程识别码，且进程相互不同。<br>其次用gcc编译汇编中断调用程序，其执行结果如下：<br><img src="/images/操作系统/project1/2.png" alt="Alt text" title="汇编中断调用"><br>程序的执行结果与API调用实现相同，可以实现输出进程的识别码。</p>
+<h3 id="系统调用号"><a href="#系统调用号" class="headerlink" title="系统调用号"></a>系统调用号</h3><p>查阅有关博客，getpid的系统调用号分两个：在 <strong>32</strong>位系统下为 <strong>20</strong>，在 <strong>64</strong>位系统下为 <strong>39</strong>.<br>本题的代码基于32位系统，所以程序中传入的系统调用号为 <strong>0x14</strong>，即 <strong>20</strong>.</p>
+<h3 id="中断向量号"><a href="#中断向量号" class="headerlink" title="中断向量号"></a>中断向量号</h3><p>根据第二段汇编内嵌代码所提供的信息，其通过代码：<code>INT 0x80</code> 进入中断，所以Linux系统调用的中断向量号是 <strong>80H</strong>。</p>
+<h2 id="Q2"><a href="#Q2" class="headerlink" title="Q2."></a>Q2.</h2><p>上机完成习题1.13</p>
+<h2 id="A2"><a href="#A2" class="headerlink" title="A2."></a>A2.</h2><h3 id="linux系统调用的C函数形式"><a href="#linux系统调用的C函数形式" class="headerlink" title="linux系统调用的C函数形式"></a>linux系统调用的C函数形式</h3><p>为了实现打印输出“hello world”，这里选用系统调用函数write来实现，通过下面代码即可实现：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        write(<span class="number">1</span>,<span class="string">"hello world!\n"</span>,<span class="number">14</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中write的三个参数分别制定：输出方式、输出内容和输出长度。<br>执行结果如下：<br><img src="/images/操作系统/project1/3.png" alt="Alt text" title="系统调用C函数形式"></p>
+<h3 id="汇编代码"><a href="#汇编代码" class="headerlink" title="汇编代码"></a>汇编代码</h3><p>通过C语言内嵌汇编的形式来打印“hello word”的方法如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span>* msg = <span class="string">"Hello World!\n\r"</span>;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="number">14</span>;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">asm</span> <span class="title">volatile</span><span class="params">(<span class="string">"mov %2, %%edx;\n\r"</span> <span class="comment">/*传入参数：要显示的字符串长度*/</span></span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="string">"mov %1, %%ecx;\n\r"</span> <span class="comment">/*传入参赛：文件描述符（stdout）*/</span></span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="string">"mov $1, %%ebx;\n\r"</span> <span class="comment">/*传入参数：要显示的字符串*/</span></span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="string">"mov $4, %%eax;\n\r"</span> <span class="comment">/*系统调用号：4 sys_write*/</span></span></span></span><br><span class="line"><span class="function"><span class="params">             <span class="string">"int  $0x80"</span> <span class="comment">/*触发系统调用中断*/</span></span></span></span><br><span class="line"><span class="function"><span class="params">             :<span class="string">"=m"</span>(result) </span></span></span><br><span class="line"><span class="function"><span class="params">             :<span class="string">"m"</span>(msg),<span class="string">"r"</span>(len)  <span class="comment">/*输入部分：绑定字符串和字符串长度变量*/</span></span></span></span><br><span class="line"><span class="function"><span class="params">             :<span class="string">"%eax"</span>)</span></span>; </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>程序的执行结果如下：<br><img src="/images/操作系统/project1/4.png" alt="Alt text" title="系统调用C函数形式"></p>
+<h2 id="Q3"><a href="#Q3" class="headerlink" title="Q3."></a>Q3.</h2><p>阅读pintos操作系统源代码，画出系统调用实现的流程图.</p>
+<h2 id="A3"><a href="#A3" class="headerlink" title="A3."></a>A3.</h2><p>由于并未实际操作过pintos系统，所以如何定位系统调用的区域或是执行流程是一个很大的问题。为此，我参考了Linux的系统调用流程，将Linux的系统调用思想转移到pintos系统上，下面是我的学习所得。</p>
+<p>先拿Linux的系统调用read函数来举个例子，其实现流程如下：<br><img src="/images/操作系统/project1/5.png" alt="Alt text" title="Linux系统调用"></p>
+<p>在理解了Linux系统调用后，我尝试对pintos的项目源码进行了研读。<br>Pintos系统调用的相关代码存储在：<strong>pintos\src\lib\user</strong>下的syscall.c、syscall.h和syscall-nr.h中。其中：syscall-nr.h用于存储系统调用号的声明，syscall.c和syscall.h则编写了系统调用函数的具体实现。<br>还是继续拿read()函数来说明pintos的系统调用流程：</p>
+<ul>
+<li>首先用户在用户程序中调用read函数。</li>
+<li>接下来进入read函数的封装例程阶段，其对应syscall.c中的代码段：</li>
+</ul>
+<p><img src="/images/操作系统/project1/6.png" alt="Alt text" title="read函数"></p>
+<ul>
+<li>在C库的read函数中，其返回了一个syscall3 (SYS_READ, fd, buffer, size);的指向，即系统调用处理程序。其中第一个参数SYS_READ即为read函数的系统调用号，该声明位于文件syscall-nr.h中：</li>
+</ul>
+<p><img src="/images/操作系统/project1/7.png" alt="Alt text" title="系统调用号"></p>
+<ul>
+<li>Syscall3函数的实现也位于syscall.c文件中，其代码如下：</li>
+</ul>
+<p><img src="/images/操作系统/project1/8.png" alt="Alt text" title="syscall3"></p>
+<p>从代码中可以看到，syscall3函数通过  <code>INT $0x30</code> 语句触发了系统的软中断。</p>
+<ul>
+<li>承接syscall3的初始化函数位于src/userprog/syscall.c中，通过函数syscall_init调用执行intr_register_int来完成中断的初始化</li>
+</ul>
+<p><img src="/images/操作系统/project1/19.png" alt="Alt text" title="syscall_init"></p>
+<ul>
+<li>接下来进入中断服务程序处理过程</li>
+</ul>
+<p>中断服务处理程序位于src/threads/interrupt.c和src/threads/interrupt.h文件中，其中：<br>interrupt.h定义了中断堆栈帧的各个寄存器以及中断程序的声明,通过syscall3的参数传入即可识别需要执行的功能：<br><img src="/images/操作系统/project1/16.png" alt="Alt text"><br><img src="/images/操作系统/project1/17.png" alt="Alt text" title="interrupt.h文件"></p>
+<p>interrupt.c存储了中断服务程序的具体实现，中断的处理主要先依靠函数<br><code>void intr_register_int (uint8_t vec_no, int dpl, enum intr_level level,intr_handler_func *handler, const char *name)</code><br>实现相关参数的初始化<br><img src="/images/操作系统/project1/20.png" alt="Alt text" title="初始化"></p>
+<p>进而通过调用函数：<code>void intr_handler (struct intr_frame *frame)</code>来实现：<br><img src="/images/操作系统/project1/18.png" alt="Alt text" title="intr_handler"><br>其函数的描述为：</p>
+<blockquote>
+<p>处理所有中断，故障和异常。这个函数由汇编语言中断存根调用使用intr-stubs.S。 FRAME描述了中断和中断线程的寄存器。</p>
+</blockquote>
+<p>通过中断程序的执行，从而得以调用系统调用服务例程。</p>
+<p>所以，pintos的系统调用流程 应该为：<br><img src="/images/操作系统/project1/9.png" alt="Alt text" title="系统调用流程"></p>
+<h1 id="并发实验"><a href="#并发实验" class="headerlink" title="并发实验"></a>并发实验</h1><h2 id="Q1-1"><a href="#Q1-1" class="headerlink" title="Q1."></a>Q1.</h2><p>编译运行该程序（cpu.c），观察输出结果，说明程序功能。(编译命令： gcc -o cpu cpu.c –Wall)（执行命令：./cpu）</p>
+<h2 id="A1-1"><a href="#A1-1" class="headerlink" title="A1."></a>A1.</h2><p>通过观察，可以得出程序的功能为：每隔一秒打印输入的参数或提示程序的正确输入格式。</p>
+<h2 id="Q2-1"><a href="#Q2-1" class="headerlink" title="Q2."></a>Q2.</h2><p>再次按下面的运行并观察结果：执行命令：./cpu A &amp; ./cpu B &amp; ./cpu C &amp; ./cpu D &amp;程序cpu运行了几次？他们运行的顺序有何特点和规律？请结合操作系统的特征进行解释。</p>
+<h2 id="A2-1"><a href="#A2-1" class="headerlink" title="A2."></a>A2.</h2><p>观察程序可知，CPU的运行次数取决于while循环的执行次数，如果不强制终止程序，CPU将会一直运行下去。</p>
+<p>程序的部分执行结果如下：<br><img src="/images/操作系统/project1/10.png" alt="Alt text"><br><img src="/images/操作系统/project1/11.png" alt="Alt text" title="同时执行多个cpu.c的结果"><br>从上图的执行结果中可以观察到：4个程序在每一轮都会轮流执行，而且执行的打印次序没有固定的顺序。<br>这是因为：对于4个完全相同的程序而言，CPU的优先级是相同的，所以每一轮的执行顺序是随机的，没有特定的规律。</p>
+<h1 id="内存分配实验"><a href="#内存分配实验" class="headerlink" title="内存分配实验"></a>内存分配实验</h1><h2 id="Q1-2"><a href="#Q1-2" class="headerlink" title="Q1."></a>Q1.</h2><p>阅读并编译运行该程序(mem.c)，观察输出结果，说明程序功能。(命令： gcc -o mem mem.c –Wall)</p>
+<h2 id="A1-2"><a href="#A1-2" class="headerlink" title="A1."></a>A1.</h2><p>程序的执行结果如图：<br><img src="/images/操作系统/project1/12.png" alt="Alt text" title="mem.c执行结果"><br>程序首先打印指针p所指向的内存地址：0x19d2010及其对应的进程：41862<br>其次程序每隔一秒打印指针p+1后的相对地址1、2、3… 及其对应的进程：41862  </p>
+<h2 id="Q2-2"><a href="#Q2-2" class="headerlink" title="Q2."></a>Q2.</h2><p>再次按下面的命令运行并观察结果。两个分别运行的程序分配的内存地址是否相同？是否共享同一块物理内存区域？为什么？命令：./mem &amp;; ./mem &amp;</p>
+<h2 id="A2-2"><a href="#A2-2" class="headerlink" title="A2."></a>A2.</h2><p>调用两个进程同时执行程序mem.c，其结果如下：<br><img src="/images/操作系统/project1/13.png" alt="Alt text" title="./mem &amp; ./mem"><br>从上图可以看到，两个分别运行的程序分配的内存地址不同，两个指针分别指向内存：0x8a2010和0x2337010，因为指针指向的内存单元的地址不同，所以不共享同一块物理内存区域。 </p>
+<p>在尝试关闭ALSR地址空间随机化后再次运行程序，发现程序有变化：<br><img src="/images/操作系统/project1/21.png" alt="Alt text" title="去随机化结果"></p>
+<p>所以两个分别运行的程序分配的内存地址本可以相同，但正是因为ALSR地址空间随机化后从而导致用户观测到的地址互不相同。</p>
+<p>原因：</p>
+<blockquote>
+<p>Linux操作系统采用虚拟内存管理技术，使得每个进程都有各自互不干涉的进程地址空间。该空间是块大小为4G的线性虚拟空间，用户所看到和接触到的都是该虚拟地址，无法看到实际的物理内存地址。利用这种虚拟地址不但能起到保护操作系统的效果（用户不能直接访问物理内存），而且更重要的是，用户程序可使用比实际物理内存更大的地址空间。</p>
+</blockquote>
+<h1 id="共享的问题"><a href="#共享的问题" class="headerlink" title="共享的问题"></a>共享的问题</h1><h2 id="Q1-3"><a href="#Q1-3" class="headerlink" title="Q1."></a>Q1.</h2><p>阅读并编译运行该程序，观察输出结果，说明程序功能。（编译命令：gcc -o thread thread.c -Wall –pthread）（执行命令1：./thread 1000）</p>
+<h2 id="A1-3"><a href="#A1-3" class="headerlink" title="A1."></a>A1.</h2><p>程序执行的输出结果如图：<br><img src="/images/操作系统/project1/14.png" alt="Alt text" title="./thread 1000执行结果"><br>阅读代码可知，程序的功能为开启两个线程，同时执行子函数worker，实现对counter变量的loops*2次累加，最后打印counter的初值和累加结果。</p>
+<h2 id="Q2-3"><a href="#Q2-3" class="headerlink" title="Q2."></a>Q2.</h2><p>尝试其他输入参数并执行，并总结执行结果的有何规律？你能尝试解释它吗？（例如执行命令2：./thread 100000）（或者其他参数。）</p>
+<h2 id="A2-3"><a href="#A2-3" class="headerlink" title="A2."></a>A2.</h2><p>更改参数，程序执行的输出结果如图：<br><img src="/images/操作系统/project1/15.png" alt="Alt text" title="更改参数输出结果"><br>从输出结果可以发现，counter的final值为输入参数的2倍，初始值恒为0.<br>原因：虽然程序同时创建了两个线程执行worker函数，但两个线程均是对同一个counter变量进行相同次数的累加，所以最终结果总为loops的2倍，即输入参数argc的2倍。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>使用库函数API和C代码中嵌入汇编代码两种方式使用同一个系统调用：<a href="https://blog.csdn.net/sunyeyi/article/details/44702575" target="_blank" rel="noopener">https://blog.csdn.net/sunyeyi/article/details/44702575</a></p>
+<p>linux系统调用号查询：<a href="https://blog.csdn.net/u012763794/article/details/78777938" target="_blank" rel="noopener">https://blog.csdn.net/u012763794/article/details/78777938</a></p>
+<p>Linux内存管理：<a href="https://www.cnblogs.com/ralap7/p/9184773.html" target="_blank" rel="noopener">https://www.cnblogs.com/ralap7/p/9184773.html</a></p>
 
       
     </div>
@@ -556,8 +555,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/04/数据库——完整性/" rel="next" title="数据库——完整性">
-                <i class="fa fa-chevron-left"></i> 数据库——完整性
+              <a href="/2019/03/14/操作系统——进程控制/" rel="next" title="操作系统——进程控制">
+                <i class="fa fa-chevron-left"></i> 操作系统——进程控制
               </a>
             
           </div>
@@ -565,10 +564,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/09/数据库——存储过程和函数/" rel="prev" title="数据库——存储过程和函数">
-                数据库——存储过程和函数 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -699,7 +694,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#表结构"><span class="nav-text">表结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据仿真方法"><span class="nav-text">数据仿真方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据记录数"><span class="nav-text">数据记录数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化规则及执行时间"><span class="nav-text">优化规则及执行时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优化规则一-建立索引"><span class="nav-text">优化规则一:建立索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化规则二-查询限制"><span class="nav-text">优化规则二:查询限制</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#系统调用实验"><span class="nav-text">系统调用实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Q1"><span class="nav-text">Q1.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A1"><span class="nav-text">A1.</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#执行"><span class="nav-text">执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统调用号"><span class="nav-text">系统调用号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中断向量号"><span class="nav-text">中断向量号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q2"><span class="nav-text">Q2.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A2"><span class="nav-text">A2.</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux系统调用的C函数形式"><span class="nav-text">linux系统调用的C函数形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#汇编代码"><span class="nav-text">汇编代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q3"><span class="nav-text">Q3.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A3"><span class="nav-text">A3.</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#并发实验"><span class="nav-text">并发实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Q1-1"><span class="nav-text">Q1.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A1-1"><span class="nav-text">A1.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q2-1"><span class="nav-text">Q2.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A2-1"><span class="nav-text">A2.</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内存分配实验"><span class="nav-text">内存分配实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Q1-2"><span class="nav-text">Q1.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A1-2"><span class="nav-text">A1.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q2-2"><span class="nav-text">Q2.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A2-2"><span class="nav-text">A2.</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#共享的问题"><span class="nav-text">共享的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Q1-3"><span class="nav-text">Q1.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A1-3"><span class="nav-text">A1.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q2-3"><span class="nav-text">Q2.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A2-3"><span class="nav-text">A2.</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
