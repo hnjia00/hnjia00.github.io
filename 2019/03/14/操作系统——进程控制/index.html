@@ -88,12 +88,12 @@
 
 
 
-<meta name="description" content="本次实验全部基于Ubuntu 16.04完成代码已全部上传至个人GitHub: https://github.com/hnjia00/OS2019  最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。 Q1.打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻">
+<meta name="description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub: https://github.com/hnjia00/OS2019  最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。 Q1.打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻找vi进程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统——进程控制">
 <meta property="og:url" content="http://hnjia00.github.io/2019/03/14/操作系统——进程控制/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
-<meta property="og:description" content="本次实验全部基于Ubuntu 16.04完成代码已全部上传至个人GitHub: https://github.com/hnjia00/OS2019  最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。 Q1.打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻">
+<meta property="og:description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub: https://github.com/hnjia00/OS2019  最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。 Q1.打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻找vi进程">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/1.1.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/1.2.png">
@@ -112,10 +112,10 @@
 <meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/段错误.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/段错误1.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/参数变化.png">
-<meta property="og:updated_time" content="2019-03-14T13:34:33.086Z">
+<meta property="og:updated_time" content="2019-03-16T09:39:46.671Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="操作系统——进程控制">
-<meta name="twitter:description" content="本次实验全部基于Ubuntu 16.04完成代码已全部上传至个人GitHub: https://github.com/hnjia00/OS2019  最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。 Q1.打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻">
+<meta name="twitter:description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub: https://github.com/hnjia00/OS2019  最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。 Q1.打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻找vi进程">
 <meta name="twitter:image" content="http://hnjia00.github.io/images/操作系统/project2/1.1.png">
 
 
@@ -428,7 +428,7 @@
 
       
         <blockquote>
-<p>本次实验全部基于Ubuntu 16.04完成<br>代码已全部上传至个人GitHub: <a href="https://github.com/hnjia00/OS2019" target="_blank" rel="noopener">https://github.com/hnjia00/OS2019</a></p>
+<p>本次实验全部基于Ubuntu 16.04完成<br>代码托管于GitHub: <a href="https://github.com/hnjia00/OS2019" target="_blank" rel="noopener">https://github.com/hnjia00/OS2019</a></p>
 </blockquote>
 <p>最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。</p>
 <h1 id="Q1"><a href="#Q1" class="headerlink" title="Q1."></a>Q1.</h1><p>打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻找vi进程的父进程，直到init进程为止。记录过程中所有进程的ID和父进程ID。将得到的进程树和由pstree命令的得到的进程树进行比较。</p>
@@ -663,9 +663,9 @@
 <li>WCHAN由hrtime变为‘-’，进程停止</li>
 <li>cmd部分多了僵尸进程标识符</li>
 </ul>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://www.cnblogs.com/robertoji/p/5555449.html" target="_blank" rel="noopener">https://www.cnblogs.com/robertoji/p/5555449.html</a></p>
-<p><a href="https://www.cnblogs.com/LeoBoy/p/7976612.html" target="_blank" rel="noopener">https://www.cnblogs.com/LeoBoy/p/7976612.html</a></p>
-<p><a href="https://blog.csdn.net/tcpipstack/article/details/8541980" target="_blank" rel="noopener">https://blog.csdn.net/tcpipstack/article/details/8541980</a></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>linux命令ps aux|grep xxx详解 <a href="https://www.cnblogs.com/robertoji/p/5555449.html" target="_blank" rel="noopener">https://www.cnblogs.com/robertoji/p/5555449.html</a></p>
+<p>linux的top命令参数详解 <a href="https://www.cnblogs.com/LeoBoy/p/7976612.html" target="_blank" rel="noopener">https://www.cnblogs.com/LeoBoy/p/7976612.html</a></p>
+<p>ps命令执行后各项参数的含义 <a href="https://blog.csdn.net/tcpipstack/article/details/8541980" target="_blank" rel="noopener">https://blog.csdn.net/tcpipstack/article/details/8541980</a></p>
 
       
     </div>
@@ -816,7 +816,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
