@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-center-atom.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub: https://github.com/hnjia00/OS2019  最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。 Q1.打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻找vi进程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统——进程控制">
+<meta property="og:url" content="http://hnjia00.github.io/2019/03/14/操作系统——进程控制/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub: https://github.com/hnjia00/OS2019  最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。 Q1.打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻找vi进程">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/1.1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/1.2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/1.3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/1.4.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/1.5.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/1.6.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/2.1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/2.2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/2.3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/3.1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/4.1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/kill.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/exit.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/段错误.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/段错误1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project2/参数变化.png">
+<meta property="og:updated_time" content="2019-03-16T09:39:46.671Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统——进程控制">
+<meta name="twitter:description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub: https://github.com/hnjia00/OS2019  最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。 Q1.打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻找vi进程">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/操作系统/project2/1.1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2019/03/14/操作系统——进程控制/">
+
+
+
+
+
+  <title>操作系统——进程控制 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Morning death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/03/14/操作系统——进程控制/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">操作系统——进程控制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-14T19:34:51+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/操作系统/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  11 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本次实验全部基于Ubuntu 16.04完成<br>代码托管于GitHub: <a href="https://github.com/hnjia00/OS2019" target="_blank" rel="noopener">https://github.com/hnjia00/OS2019</a></p>
+</blockquote>
+<p>最近的课程正在讲述进程有关的知识，老师说进程是面试的时候面试官最喜欢提问的话题，也是区分科班操作系统出身学生的一个标准，所以这部分内容和习题的实践性要远强于第一次。</p>
+<h1 id="Q1"><a href="#Q1" class="headerlink" title="Q1."></a>Q1.</h1><p>打开一个vi进程。通过ps命令以及选择合适的参数，只显示名字为vi的进程。寻找vi进程的父进程，直到init进程为止。记录过程中所有进程的ID和父进程ID。将得到的进程树和由pstree命令的得到的进程树进行比较。</p>
+<h1 id="A1"><a href="#A1" class="headerlink" title="A1."></a>A1.</h1><p>第一题还是以基本操作为主，是一个按部就班的过程，下面就来逐步讲述。</p>
+<ol>
+<li>打开vi进程只需在终端直接输入vi，执行结果如下：</li>
+</ol>
+<p><img src="/images/操作系统/project2/1.1.png" alt="Alt text" title="启动vi"></p>
+<ol start="2">
+<li>接下来启动另一个terminal，通过命令 <code>ps -A</code> 查找 <strong>vi</strong> 的进程信息，结果如下：</li>
+</ol>
+<p><img src="/images/操作系统/project2/1.2.png" alt="Alt text"><br><img src="/images/操作系统/project2/1.3.png" alt="Alt text" title="寻找进程vi"></p>
+<ol start="3">
+<li>在找到vi的进程号 <strong>pid</strong> 之后，可以继续从 <strong>ppid</strong> 处得到进程的父进程id，通过命令<code>ps -l</code>逐步寻找vi的父进程，寻找步骤如下：</li>
+</ol>
+<p><img src="/images/操作系统/project2/1.4.png" alt="Alt text" title="寻找父进程"></p>
+<ol start="4">
+<li><p>在得到vi的进程调用序列之后，通过pstree命令来查看所有的进程树如下图所示，可以发现进程树命令和逐层寻找得到的结果相同，均为如下序列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Systemd-&gt;lightdm-&gt;lightdm-&gt;gnome-terminal-&gt;bash-&gt;vi</span><br></pre></td></tr></table></figure>
+<p>这里还要额外提一句，使用 <strong>Systemd</strong> 就不需要再用 <del>init</del> 了。这是因为init进程有两个缺点：启动时间长且启动脚本复杂。<br>Systemd 就是为了解决这些问题而诞生的。它的设计目标是，为系统的启动和管理提供一套完整的解决方案。</p>
+</li>
+</ol>
+<p><img src="/images/操作系统/project2/1.5.png" alt="Alt text"><br><img src="/images/操作系统/project2/1.6.png" alt="Alt text" title="pstree查看"></p>
+<h1 id="Q2"><a href="#Q2" class="headerlink" title="Q2."></a>Q2.</h1><p>编写程序，首先使用fork系统调用，创建子进程。在父进程中继续执行空循环操作；在子进程中调用exec打开vi编辑器。然后在另外一个终端中，通过ps–Al命令、ps aux或者top等命令，查看vi进程及其父进程的运行状态，理解每个参数所表达的意义。选择合适的命令参数，对所有进程按照cpu占用率排序。</p>
+<h1 id="A2"><a href="#A2" class="headerlink" title="A2."></a>A2.</h1><ol>
+<li>首先需要编写一个用于实现题干功能的C语言代码。<br>分析题目可以看到，首先需要使用 <code>fork()</code> 系统调用创建子进程，其次根据fork的返回值相应的在父/子进程中填入对应的功能代码，我的代码具体如下，程序在父进程中执行空循环操作，在子进程中通过系统调用 <code>execlp()</code> 来启动vi进程，执行结果通过在另外的终端中的命令得以查看。  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">    pid = fork();</span><br><span class="line">    <span class="comment">//父进程: pid&gt;0</span></span><br><span class="line">    <span class="keyword">if</span>(pid &gt; <span class="number">0</span>) <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="comment">//子进程： pid=0</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(pid == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">int</span> ret;</span><br><span class="line">        ret = execlp(<span class="string">"vi"</span>,<span class="string">""</span>,<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ret == <span class="number">-1</span>)&#123;</span><br><span class="line">            perror (<span class="string">"execl"</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"excel error\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(pid == <span class="number">-1</span>)&#123;</span><br><span class="line">        perror(<span class="string">"fork"</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"fork error\n"</span>);</span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="ps-Al"><a href="#ps-Al" class="headerlink" title="ps-Al"></a>ps-Al</h2><p>执行 <code>ps -Al</code>命令的执行结果如下：<br><img src="/images/操作系统/project2/2.1.png" alt="Alt text" title="ps -Al执行结果"><br>其中，各个参数的解释如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">F</td>
+<td style="text-align:center">flag</td>
+</tr>
+<tr>
+<td style="text-align:center">S</td>
+<td style="text-align:center">程序的状态</td>
+</tr>
+<tr>
+<td style="text-align:center">UID</td>
+<td style="text-align:center">执行者身份</td>
+</tr>
+<tr>
+<td style="text-align:center">PID</td>
+<td style="text-align:center">进程ID</td>
+</tr>
+<tr>
+<td style="text-align:center">PPID</td>
+<td style="text-align:center">父进程ID</td>
+</tr>
+<tr>
+<td style="text-align:center">C</td>
+<td style="text-align:center">使用的CPU资源百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">PRI</td>
+<td style="text-align:center">进程的执行优先权</td>
+</tr>
+<tr>
+<td style="text-align:center">NI</td>
+<td style="text-align:center">进程的nice值</td>
+</tr>
+<tr>
+<td style="text-align:center">ADDR</td>
+<td style="text-align:center">内核函数</td>
+</tr>
+<tr>
+<td style="text-align:center">SZ</td>
+<td style="text-align:center">占用内存的大小</td>
+</tr>
+<tr>
+<td style="text-align:center">WCHAN</td>
+<td style="text-align:center">进程正在睡眠的内核函数名称</td>
+</tr>
+<tr>
+<td style="text-align:center">TTY</td>
+<td style="text-align:center">登入者的终端机位置</td>
+</tr>
+<tr>
+<td style="text-align:center">TIME</td>
+<td style="text-align:center">使用掉的CPU时间</td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:center">下达指令的名称</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ps-aux"><a href="#ps-aux" class="headerlink" title="ps aux"></a>ps aux</h2><p>执行 <code>ps aux</code> 命令可以打印使进程按如下格式输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND</span><br></pre></td></tr></table></figure></p>
+<p>其中，各个参数的解释如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:center">行程拥有者</td>
+</tr>
+<tr>
+<td style="text-align:center">PID</td>
+<td style="text-align:center">pid</td>
+</tr>
+<tr>
+<td style="text-align:center">%CPU</td>
+<td style="text-align:center">占用的 CPU 使用率</td>
+</tr>
+<tr>
+<td style="text-align:center">%MEM</td>
+<td style="text-align:center">占用的记忆体使用率</td>
+</tr>
+<tr>
+<td style="text-align:center">VSZ</td>
+<td style="text-align:center">占用的虚拟记忆体大小</td>
+</tr>
+<tr>
+<td style="text-align:center">RSS</td>
+<td style="text-align:center">占用的记忆体大小</td>
+</tr>
+<tr>
+<td style="text-align:center">TTY</td>
+<td style="text-align:center">终端的次要装置号码</td>
+</tr>
+<tr>
+<td style="text-align:center">STAT</td>
+<td style="text-align:center">该行程的状态(D=不可中断的睡眠状态,R=运行,S=睡眠,T=跟踪/停止,Z=僵尸进程)</td>
+</tr>
+<tr>
+<td style="text-align:center">START</td>
+<td style="text-align:center">行程开始时间</td>
+</tr>
+<tr>
+<td style="text-align:center">TIME</td>
+<td style="text-align:center">执行的时间</td>
+</tr>
+<tr>
+<td style="text-align:center">COMMAND</td>
+<td style="text-align:center">所执行的指令</td>
+</tr>
+</tbody>
+</table>
+<p>执行结果如下：<br><img src="/images/操作系统/project2/2.2.png" alt="Alt text" title="ps aux执行结果"><br>可以看到，<strong>./fork-exec</strong>进程一直在运行，且占用了97.7%的CPU资源，这应该全部归功于空循环。</p>
+<h2 id="top"><a href="#top" class="headerlink" title="top"></a>top</h2><p>top命令用于实时显示进程的动态，按照CPU的占有量降序排序，进程信息区统计信息区域的下方显示了各个进程的详细信息，各列的含义如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">PID</td>
+<td style="text-align:center">进程id</td>
+</tr>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:center">进程所有者的用户名</td>
+</tr>
+<tr>
+<td style="text-align:center">PR</td>
+<td style="text-align:center">优先级</td>
+</tr>
+<tr>
+<td style="text-align:center">NI</td>
+<td style="text-align:center">nice值。负值表示高优先级，正值表示低优先级</td>
+</tr>
+<tr>
+<td style="text-align:center">VIRT</td>
+<td style="text-align:center">进程使用的虚拟内存总量，单位kb</td>
+</tr>
+<tr>
+<td style="text-align:center">RES</td>
+<td style="text-align:center">进程使用的、未被换出的物理内存大小，单位kb</td>
+</tr>
+<tr>
+<td style="text-align:center">SHR</td>
+<td style="text-align:center">共享内存大小，单位kb</td>
+</tr>
+<tr>
+<td style="text-align:center">S</td>
+<td style="text-align:center">进程状态(D=不可中断的睡眠状态,R=运行,S=睡眠,T=跟踪/停止,Z=僵尸进程)</td>
+</tr>
+<tr>
+<td style="text-align:center">%CPU</td>
+<td style="text-align:center">上次更新到现在的CPU时间占用百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">%MEM</td>
+<td style="text-align:center">进程使用的物理内存百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">TIME+</td>
+<td style="text-align:center">进程使用的CPU时间总计，单位1/100秒</td>
+</tr>
+<tr>
+<td style="text-align:center">COMMAND</td>
+<td style="text-align:center">命令名/命令行</td>
+</tr>
+</tbody>
+</table>
+<p>执行结果如下：<br><img src="/images/操作系统/project2/2.3.png" alt="Alt text" title="top执行结果"></p>
+<h1 id="Q3"><a href="#Q3" class="headerlink" title="Q3."></a>Q3.</h1><p>使用fork系统调用，创建如下进程树，并使每个进程输出自己的ID和父进程的ID。观察进程的执行顺序和运行状态的变化。<br><img src="/images/操作系统/project2/3.1.png" alt="Alt text"></p>
+<h1 id="A3"><a href="#A3" class="headerlink" title="A3."></a>A3.</h1><p>实现进程树需要通过fork系统调用来实现，首先需要熟悉fork的具体作用。</p>
+<p>fork在英文中是”分叉”的意思，fork函数启动一个新的进程，这个进程几乎是当前进程的一个拷贝：子进程和父进程使用相同的代码段，子进程复制父进程的堆栈段和数据段。</p>
+<p>所以也就是说，执行一次fork函数，有两个返回值。根据返回值的不同可以区别父进程(&gt;0)和子进程(=0)。</p>
+<p>根据进程树的结构，p1有两个子进程p2和p3，同时p2也有两个子进程p4和p5，所以我所编写的代码如下：<br> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">      先打印根节点</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">pid_t</span> p1;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"p1 pid: %d, ppid: %d\n"</span>, getpid(),getppid());</span><br><span class="line">    <span class="keyword">if</span>(p1 == <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        进入进程p1</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">        <span class="keyword">pid_t</span> p3;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            先创建p3</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        p3 = fork();</span><br><span class="line">        <span class="keyword">if</span>(p3 == <span class="number">0</span>)</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">                j进入进程p3</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"p3 pid: %d, ppid: %d\n"</span>, getpid(),getppid());</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(p3 &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">                进入p3的父进程，也就是p1。</span></span><br><span class="line"><span class="comment">                接下来创建进程p2</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="keyword">pid_t</span> p2;</span><br><span class="line">            p2 = fork();</span><br><span class="line">            <span class="keyword">if</span>(p2==<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                    进入进程p2,接下来先创建p4</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"p2 pid: %d, ppid: %d\n"</span>, getpid(),getppid());</span><br><span class="line">                <span class="keyword">pid_t</span> p4;</span><br><span class="line">                p4 = fork();</span><br><span class="line">                <span class="keyword">if</span>(p4 == <span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="comment">/*</span></span><br><span class="line"><span class="comment">                        进入进程p4</span></span><br><span class="line"><span class="comment">                    */</span></span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">"p4 pid: %d, ppid: %d\n"</span>, getpid(),getppid());                   </span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(p4 &gt;<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="comment">/*</span></span><br><span class="line"><span class="comment">                        此处位于p4的父进程，即p2,继续创建p5</span></span><br><span class="line"><span class="comment">                    */</span></span><br><span class="line">                    <span class="keyword">pid_t</span> p5;</span><br><span class="line">                    p5 = fork();</span><br><span class="line">                    <span class="keyword">if</span>(p5==<span class="number">0</span>)</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"p5 pid: %d, ppid: %d\n"</span>, getpid(),getppid());  </span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    sleep(<span class="number">1</span>);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> 程序的输出结果如下，满足题目的进程树的架构：<br> <img src="/images/操作系统/project2/3.png" alt="Alt text" title="进程树模拟"></p>
+<h1 id="Q4"><a href="#Q4" class="headerlink" title="Q4."></a>Q4.</h1><p> 修改上述进程树中的进程，使得所有进程都循环输出自己的ID和父进程的ID。然后终止p2进程(分别采用kill -9 、自己正常退出exit()、段错误退出)，观察p1、p3、p4、p5进程的运行状态和其他相关参数有何改变。</p>
+<h1 id="A4"><a href="#A4" class="headerlink" title="A4."></a>A4.</h1><p> 第四题应该是这几个题中最难的一个，综合了前三个题的知识应用，必须有对进程的充分认识和fork系统调用的理解才能实现这些功能，我的视线具体如下：</p>
+<p> 代码部分需要在第三题的基础上进行修改，代码如下：<br> <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">      先打印根节点</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">pid_t</span> p1;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(p1 == <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        进入进程p1</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">        <span class="keyword">int</span> p1pid,p1ppid;</span><br><span class="line">        p1pid = getpid();</span><br><span class="line">        p1ppid = getppid();</span><br><span class="line">        <span class="comment">//printf("p1 pid: %d, ppid: %d\n", getpid(),getppid());</span></span><br><span class="line">        <span class="keyword">pid_t</span> p3;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">            先创建p3</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        p3 = fork();</span><br><span class="line">        <span class="keyword">if</span>(p3 == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">                j进入进程p3</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="keyword">int</span> i;</span><br><span class="line">            <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"p3 pid: %d, ppid: %d\n"</span>, getpid(),getppid());</span><br><span class="line">                sleep(<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(p3 &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">                进入p3的父进程，也就是p1。</span></span><br><span class="line"><span class="comment">                接下来创建进程p2</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="keyword">pid_t</span> p2;</span><br><span class="line">            p2 = fork();</span><br><span class="line">            <span class="keyword">if</span>(p2==<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                    进入进程p2,接下来先创建p4</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="keyword">pid_t</span> p4;</span><br><span class="line">                p4 = fork();</span><br><span class="line">                <span class="keyword">if</span>(p4 == <span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="comment">/*</span></span><br><span class="line"><span class="comment">                        进入进程p4</span></span><br><span class="line"><span class="comment">                    */</span></span><br><span class="line">                    <span class="keyword">int</span> i;</span><br><span class="line">                    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"p4 pid: %d, ppid: %d\n"</span>, getpid(),getppid());       </span><br><span class="line">                        sleep(<span class="number">1</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                                </span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(p4 &gt;<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="comment">/*</span></span><br><span class="line"><span class="comment">                        此处位于p4的父进程，即p2,继续创建p5</span></span><br><span class="line"><span class="comment">                    */</span></span><br><span class="line">                    <span class="keyword">pid_t</span> p5;</span><br><span class="line">                    p5 = fork();</span><br><span class="line">                    <span class="keyword">if</span>(p5==<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="comment">//p5</span></span><br><span class="line">                        <span class="keyword">int</span> i;</span><br><span class="line">                        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">                            <span class="built_in">printf</span>(<span class="string">"p5 pid: %d, ppid: %d\n"</span>, getpid(),getppid());</span><br><span class="line">                            sleep(<span class="number">1</span>);   </span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="comment">//p2</span></span><br><span class="line">                        <span class="keyword">int</span> i;</span><br><span class="line">                        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">                            <span class="comment">//通过exit()终止p2</span></span><br><span class="line">                            <span class="keyword">if</span>(i==<span class="number">2</span>)</span><br><span class="line">                                <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">                            <span class="comment">//段错误</span></span><br><span class="line">                            <span class="comment">//if(i==5)</span></span><br><span class="line">                            <span class="comment">//&#123;</span></span><br><span class="line">                            <span class="comment">//  int *p=NULL;</span></span><br><span class="line">                            <span class="comment">//  *p=0;</span></span><br><span class="line">                            <span class="comment">//&#125;</span></span><br><span class="line">                            <span class="built_in">printf</span>(<span class="string">"p2 pid: %d, ppid: %d\n"</span>, getpid(),getppid());</span><br><span class="line">                            sleep(<span class="number">1</span>);</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;           </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"p1 pid: %d, ppid: %d\n"</span>, getpid(),getppid());</span><br><span class="line">            sleep(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;       </span><br><span class="line">    &#125;</span><br><span class="line">    sleep(<span class="number">1</span>);    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>即需要在刚进入p1的时候记录p1的pid和ppid以便后续打印输出，p2进程的输出部分需要控制在p5进程的父进程部分，如果在刚进入p2就执行循环输出，p4和p5进程就会因此无法创建。</p>
+<p>程序的输出结果如下：<br><img src="/images/操作系统/project2/4.1.png" alt="Alt text" title="循环输出结果"></p>
+<p>下面分别采用kill -9 、自己正常退出exit()、段错误退出来终止p2进程。</p>
+<h2 id="kill-9"><a href="#kill-9" class="headerlink" title="kill -9"></a>kill -9</h2><p>kill -9属于手动中断进程，通过此命令中断p2的结果如下：<br><img src="/images/操作系统/project2/kill.png" alt="Alt text" title="kill命令中断"><br>在p2被中断之后，其子进程p4和p5的参数ppid的值随即发生改变。</p>
+<h2 id="exit"><a href="#exit" class="headerlink" title="exit()"></a>exit()</h2><p>exit()函数属于安放在代码中的正常退出函数，将其放入p2循环打印的代码中，控制其在特定次数后执行便可以达到我们的预期，结果如下：<br><img src="/images/操作系统/project2/exit.png" alt="Alt text" title="exit命令中断"><br>可以看到，由于p2先于其父进程p1结束，随即就变成了僵尸进程defunct状态</p>
+<h2 id="段错误"><a href="#段错误" class="headerlink" title="段错误"></a>段错误</h2><p>所谓段错误，一般是访问了未申请的内存或非法的内存时产生的，概括点说在代码中一般是由指针的不当使用引起的。<br>为了引起段错误，我在代码中设置了如下代码段：<br><img src="/images/操作系统/project2/段错误.png" alt="Alt text" title="段错误代码段"><br>其执行结果如下：<br><img src="/images/操作系统/project2/段错误1.png" alt="Alt text" title="段错误执行结果"></p>
+<h2 id="参数变化"><a href="#参数变化" class="headerlink" title="参数变化"></a>参数变化</h2><p>对于每种错误我均使用了ps命令来查看进程参数信息，最后发现三种情况所造成的进程中断所带来的参数变化是一样的，p2进程的参数变化如下：<br><img src="/images/操作系统/project2/参数变化.png" alt="Alt text" title="参数变化"><br>从图中可以看到：</p>
+<ul>
+<li>程序的状态由S变为Z，即僵死</li>
+<li>占用内存大小变为0</li>
+<li>WCHAN由hrtime变为‘-’，进程停止</li>
+<li>cmd部分多了僵尸进程标识符</li>
+</ul>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>linux命令ps aux|grep xxx详解 <a href="https://www.cnblogs.com/robertoji/p/5555449.html" target="_blank" rel="noopener">https://www.cnblogs.com/robertoji/p/5555449.html</a></p>
+<p>linux的top命令参数详解 <a href="https://www.cnblogs.com/LeoBoy/p/7976612.html" target="_blank" rel="noopener">https://www.cnblogs.com/LeoBoy/p/7976612.html</a></p>
+<p>ps命令执行后各项参数的含义 <a href="https://blog.csdn.net/tcpipstack/article/details/8541980" target="_blank" rel="noopener">https://blog.csdn.net/tcpipstack/article/details/8541980</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/09/数据库——存储过程和函数/" rel="next" title="数据库——存储过程和函数">
+                <i class="fa fa-chevron-left"></i> 数据库——存储过程和函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/16/操作系统——初步/" rel="prev" title="操作系统——初步">
+                操作系统——初步 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Q1"><span class="nav-text">Q1.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A1"><span class="nav-text">A1.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q2"><span class="nav-text">Q2.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A2"><span class="nav-text">A2.</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ps-Al"><span class="nav-text">ps-Al</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ps-aux"><span class="nav-text">ps aux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#top"><span class="nav-text">top</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q3"><span class="nav-text">Q3.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A3"><span class="nav-text">A3.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q4"><span class="nav-text">Q4.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A4"><span class="nav-text">A4.</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#kill-9"><span class="nav-text">kill -9</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exit"><span class="nav-text">exit()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#段错误"><span class="nav-text">段错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数变化"><span class="nav-text">参数变化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
