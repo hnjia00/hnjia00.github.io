@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-center-atom.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub: https://github.com/hnjia00/OS2019  本次试验的内容核心在于对于信号量的理解和利用，通过信号量的合理配置从而使进程和线程的运行合乎逻辑。 实验目的 系统调用的进一步理解。 进程上下文切换。 同步的方法。  Q1.通过fork的方式，产生4个进程P1,P2,P3,P4，每个进程打印输出自己的名字，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统——进程同步">
+<meta property="og:url" content="http://hnjia00.github.io/2019/04/04/操作系统——进程同步/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub: https://github.com/hnjia00/OS2019  本次试验的内容核心在于对于信号量的理解和利用，通过信号量的合理配置从而使进程和线程的运行合乎逻辑。 实验目的 系统调用的进一步理解。 进程上下文切换。 同步的方法。  Q1.通过fork的方式，产生4个进程P1,P2,P3,P4，每个进程打印输出自己的名字，">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/4.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/5.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/6.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/7.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/8.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/11.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/9.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/10.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/12.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/13.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/14.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/15.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/16.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/17.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/18.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/19.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/20.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/21.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/22.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/23.png">
+<meta property="og:image" content="https://uchicago-cs.github.io/mpcs52030/_images/stack3.png">
+<meta property="og:image" content="https://uchicago-cs.github.io/mpcs52030/_images/stack4.png">
+<meta property="og:image" content="https://uchicago-cs.github.io/mpcs52030/_images/stack5.png">
+<meta property="og:image" content="https://uchicago-cs.github.io/mpcs52030/_images/stack6.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/25.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project3/26.png">
+<meta property="og:updated_time" content="2019-04-06T08:02:50.758Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统——进程同步">
+<meta name="twitter:description" content="本次实验全部基于Ubuntu 16.04完成代码托管于GitHub: https://github.com/hnjia00/OS2019  本次试验的内容核心在于对于信号量的理解和利用，通过信号量的合理配置从而使进程和线程的运行合乎逻辑。 实验目的 系统调用的进一步理解。 进程上下文切换。 同步的方法。  Q1.通过fork的方式，产生4个进程P1,P2,P3,P4，每个进程打印输出自己的名字，">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/操作系统/project3/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2019/04/04/操作系统——进程同步/">
+
+
+
+
+
+  <title>操作系统——进程同步 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Morning death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/04/04/操作系统——进程同步/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">操作系统——进程同步</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-04T10:49:40+08:00">
+                2019-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/操作系统/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  5.3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  20 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本次实验全部基于Ubuntu 16.04完成<br>代码托管于GitHub: <a href="https://github.com/hnjia00/OS2019" target="_blank" rel="noopener">https://github.com/hnjia00/OS2019</a></p>
+</blockquote>
+<p>本次试验的内容核心在于对于信号量的理解和利用，通过信号量的合理配置从而使进程和线程的运行合乎逻辑。</p>
+<h1 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h1><ul>
+<li>系统调用的进一步理解。</li>
+<li>进程上下文切换。</li>
+<li>同步的方法。</li>
+</ul>
+<h1 id="Q1"><a href="#Q1" class="headerlink" title="Q1."></a>Q1.</h1><p><strong>通过fork的方式，产生4个进程P1,P2,P3,P4，每个进程打印输出自己的名字，例如P1输出“I am the process P1”。要求P1最先执行，P2、P3互斥执行，P4最后执行。通过多次测试验证实现是否正确。</strong></p>
+<h1 id="A1"><a href="#A1" class="headerlink" title="A1."></a>A1.</h1><p>首先需要理清楚进程的逻辑关系，为了使这四个进程满足题目要求的执行顺序，我在程序里使用了三组信号量，分别为<code>sem1</code>，<code>sem2</code>，<code>sem3</code>。</p>
+<p>需要注明的是：</p>
+<p>为了满足p1最先执行，p2和p3在其后等待，sem1设置了两个信号量，即<code>sem1 = [0,0]</code>。</p>
+<p>p2等待p1的信号量<code>sem1[0]</code>，p3等待p1的信号量<code>sem1[1]</code>从而达到在p1之后执行的要求。此外，为了满足p2和p3互斥执行，还定义了一个互斥信号量<code>sem2 = 1</code>，这样p2和p3在等待sem1之后还需要等待sem2以实现互斥执行的要求。</p>
+<p>为了满足p4最后执行，即满足p4在p2和p3之后执行，sem3设置了两个信号量，即<code>sem3 = [0,0]</code>。其需要等待p2结束后产生的信号量<code>sem3[0]</code>，以及等待p3结束后产生的信号量<code>sem3[1]</code>，从而实现最后执行的要求，整体逻辑图如下：</p>
+<p><img src="/images/操作系统/project3/1.png" alt="Alt text" title="信号量逻辑图"></p>
+<p>在逻辑图实现之后，需要考虑进程的创建关系。</p>
+<p>虽然一个父进程能创建若干个子进程，但是一个子进程只能对应一个父进程，也就是说进程的创建不能以信号量逻辑图为基础，因为P4不能对应两个父进程P2和P3。</p>
+<p>所以在创建中各个进程所对应的父子关系与信号量逻辑图略有不同。</p>
+<p>主程序代码如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid1, pid2, pid3;</span><br><span class="line">    <span class="keyword">int</span> sem1, sem2, sem3;</span><br><span class="line">    sem1 = semget(<span class="number">1000</span>, <span class="number">2</span>, <span class="number">0666</span> | IPC_CREAT);<span class="comment">//[0,0]，保证p1最先</span></span><br><span class="line">    sem2 = semget(<span class="number">1001</span>, <span class="number">1</span>, <span class="number">0666</span> | IPC_CREAT);<span class="comment">//[1],保证p2、p3互斥</span></span><br><span class="line">    sem3 = semget(<span class="number">1002</span>, <span class="number">2</span>, <span class="number">0666</span> | IPC_CREAT);<span class="comment">//[0,0]，保证p4最后</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//信号量赋值</span></span><br><span class="line">    ushort init_arry[<span class="number">2</span>] = &#123;<span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    setSemValues(sem1, init_arry);</span><br><span class="line">    setSemValue(sem2, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    setSemValues(sem3, init_arry);</span><br><span class="line"></span><br><span class="line">    pid1 = fork();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (pid1 &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        pid2 = fork();</span><br><span class="line">        <span class="comment">//p1</span></span><br><span class="line">        <span class="keyword">if</span> (pid2 &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"P1:I am P1\n"</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"pid,ppid:%d,%d\n"</span>,getpid(),getppid() );</span><br><span class="line">            signal(sem1,<span class="number">0</span>);</span><br><span class="line">            signal(sem1,<span class="number">1</span>);</span><br><span class="line">            sleep(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//p4</span></span><br><span class="line">        <span class="keyword">if</span>(pid2 == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            wait(sem3, <span class="number">0</span>);</span><br><span class="line">            wait(sem3, <span class="number">1</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"P4:I am P4\n"</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"pid,ppid:%d,%d\n"</span>,getpid(),getppid() );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pid1 == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        pid3 = fork();</span><br><span class="line">        <span class="comment">//p2</span></span><br><span class="line">        <span class="keyword">if</span> (pid3 &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            wait(sem1, <span class="number">0</span>);</span><br><span class="line">            wait(sem2, <span class="number">0</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"P2:I am P2\n"</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"pid,ppid:%d,%d\n"</span>,getpid(),getppid() );</span><br><span class="line">            signal(sem2, <span class="number">0</span>);</span><br><span class="line">            signal(sem3, <span class="number">0</span>);</span><br><span class="line">            sleep(<span class="number">1</span>);</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//p3</span></span><br><span class="line">        <span class="keyword">if</span> (pid3 == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            wait(sem1, <span class="number">1</span>);</span><br><span class="line">            wait(sem2, <span class="number">0</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"P3:I am P3\n"</span> );</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"pid,ppid:%d,%d\n"</span>,getpid(),getppid() );</span><br><span class="line">            signal(sem2, <span class="number">0</span>);</span><br><span class="line">            signal(sem3, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在第一题中，信号量的定义部分我使用了<code>semget()</code>函数，虽然其常用于定义一个单信号量，但我也用到了其定义信号量集的功能（如sem1和sem3），函数注释如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int semget(key_t key, int num_sems, int sem_flags):</span><br><span class="line">功能描述：</span><br><span class="line">    创建一个新信号量或取得一个已有信号量</span><br><span class="line">参数说明：</span><br><span class="line">    key:整数值,不相关的进程可以通过它访问一个信号量,它代表程序可能要使用的某个资源</span><br><span class="line">    num_sems:指定需要的信号量数目</span><br><span class="line">    sem_flags:一组标志,当想要当信号量不存在时创建一个新的信号量,可以和值IPC_CREAT做按位或操作</span><br><span class="line">    <span class="number">0666</span>:创建了一个权限为<span class="number">666</span>的信号量,每个人可读和可写</span><br></pre></td></tr></table></figure></p>
+<p>此外，代码中所用到的<code>setSemValues()</code>,<code>setSemValue()</code>,<code>wait()</code>,<code>signal()</code>的具体实现均已托管至GitHub，有兴趣可以进一步一探究竟！</p>
+<p>代码的执行结果如图，可以看到，多次执行均能保证进程次序。<br><img src="/images/操作系统/project3/2.png" alt="Alt text" title="执行结果"></p>
+<h1 id="Q2"><a href="#Q2" class="headerlink" title="Q2."></a>Q2.</h1><p><strong>火车票余票数ticketCount 初始值为1000，有一个售票线程，一个退票线程，各循环执行多次。添加同步机制，使得结果始终正确。要求多次测试添加同步机制前后的实验效果。(说明：为了更容易产生并发错误，可以在适当的位置增加一些pthread_yield()，放弃CPU，并强制线程频繁切换。)</strong></p>
+<h1 id="A2"><a href="#A2" class="headerlink" title="A2."></a>A2.</h1><p>从题目可以体会到，这是一个典型的生产者消费者问题，<strong>售票线程</strong>为消费者，<strong>退票线程</strong>为生产者，临界资源为<strong>火车票余票数ticketCount</strong>。</p>
+<h2 id="初步分析"><a href="#初步分析" class="headerlink" title="初步分析"></a>初步分析</h2><p>进一步分析可以得知：</p>
+<ul>
+<li>退票线程能够访问临界资源的条件为：火车票余量空间满足退票数目。</li>
+<li>售票线程能够访问临界资源的条件为：火车票余量大于0.</li>
+</ul>
+<p>有了以上思路后，可以通过设置两个信号量来实现上述功能，两个信号量的介绍如下：</p>
+<ul>
+<li>empty = 0：记录剩余空间</li>
+<li>full = 1000：记录剩余票数</li>
+</ul>
+<h2 id="初步实现"><a href="#初步实现" class="headerlink" title="初步实现"></a>初步实现</h2><p>代码的实现逻辑如下：<br><img src="/images/操作系统/project3/3.png" alt="Alt text" title="线程逻辑"></p>
+<p>为了保证代码和逻辑的鲁棒性，需要在关键代码部分增加pthread_yield()函数来测试代码，对pthread_yield()函数的解释为：</p>
+<blockquote>
+<p>pthread_yield() causes the calling thread to relinquish the CPU.<br>The thread is placed at the end of the run queue for its static priority and another thread is scheduled to run.</p>
+</blockquote>
+<p>即pthread_yield（）使调用线程放弃CPU。该线程放在运行队列的末尾，以获得其静态优先级并计划运行另一个线程。</p>
+<p>售票线程、退票线程的实现代码如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> ticketCount=<span class="number">1000</span>;<span class="comment">//剩余票数</span></span><br><span class="line"><span class="keyword">int</span> temp;</span><br><span class="line"><span class="keyword">sem_t</span> *empty = <span class="literal">NULL</span>;<span class="comment">//记录剩余空间</span></span><br><span class="line"><span class="keyword">sem_t</span> *full = <span class="literal">NULL</span>;<span class="comment">//记录剩余票数</span></span><br><span class="line"><span class="keyword">int</span> N_sell;<span class="comment">//售票数</span></span><br><span class="line"><span class="keyword">int</span> N_return;<span class="comment">//退票数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_yield</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//售票</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">Psell</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(;i&lt;N_sell;i++)&#123;</span><br><span class="line">        sem_wait(full);</span><br><span class="line">        <span class="comment">//售票进程关键代码</span></span><br><span class="line">        temp=ticketCount;</span><br><span class="line">        pthread_yield();</span><br><span class="line">        temp=temp<span class="number">-1</span>;</span><br><span class="line">        pthread_yield();</span><br><span class="line">        ticketCount=temp;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"[Sell - %d]\n"</span>,i+<span class="number">1</span>);</span><br><span class="line">        sem_post(empty);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[Sell end: total sell:%d]\n"</span>,i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//退票进程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">Preturn</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(;i&lt;N_return;i++)&#123;</span><br><span class="line">        sem_wait(empty);</span><br><span class="line">        <span class="comment">//退票进程关键代码</span></span><br><span class="line">        temp=ticketCount;</span><br><span class="line">        pthread_yield();</span><br><span class="line">        temp=temp+<span class="number">1</span>;</span><br><span class="line">        pthread_yield();</span><br><span class="line">        ticketCount=temp;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"&#123;Return + %d&#125;\n"</span>,i+<span class="number">1</span>);</span><br><span class="line">        sem_post(full);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"&#123;Return end: total return:%d&#125;\n"</span>,i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="初步测试"><a href="#初步测试" class="headerlink" title="初步测试"></a>初步测试</h2><p>对于<strong>售票数=30，退票数=7</strong>的测试，执行结果如图所示，可以看到在模拟售票30张退票7张时，程序的执行结果正确：<br><img src="/images/操作系统/project3/4.png" alt="Alt text" title="小规模执行结果"></p>
+<p>在小规模测试上获得正确结果之后，接下来我将测试级扩大到了10w级别，对于<strong>售票数=100000，退票数=99000</strong>的测试，程序的结果如下：<br><img src="/images/操作系统/project3/5.png" alt="Alt text" title="大规模执行结果"><br>竟然得到了错误的结果！</p>
+<h2 id="出错分析"><a href="#出错分析" class="headerlink" title="出错分析"></a>出错分析</h2><p>为了探究出错原因，我将pthread_yield()函数去掉重新执行了代码，这次程序的出了正确的结果：<br><img src="/images/操作系统/project3/6.png" alt="Alt text" title="去掉pthread_yield()的执行结果"></p>
+<p>纠其原因，尽管使用了生产消费者所常用的配套信号量，但仍然不足以克服pthread_yield函数所带来的线程切换。<strong>也就是说，尽管通过sem_wait(empty)能控制退票线程Preturn()访问临界区的的入口条件，但即使Preturn()进入了临界区，其也有可能被pthread_yield所强制切换到Psell()售票线程，从而导致临界区被两个线程同时访问，以至于临界资源ticketCount被错误修改！</strong></p>
+<p>所以，为了达到保护临界资源的目的，需要设置互斥信号量！从而保证任意适合只能有一个线程对临界资源进行访问修改。</p>
+<h2 id="二次修改"><a href="#二次修改" class="headerlink" title="二次修改"></a>二次修改</h2><p>修改后的线程逻辑如下：<br><img src="/images/操作系统/project3/7.png" alt="Alt text" title="修改线程逻辑"></p>
+<p>进而修改线程代码为：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sem_t</span> *mutex = <span class="literal">NULL</span>;<span class="comment">//互斥信号量</span></span><br><span class="line"><span class="comment">//售票</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">Psell</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(;i&lt;N_sell;i++)&#123;</span><br><span class="line">        sem_wait(full);</span><br><span class="line">        <span class="comment">//等待互斥信号</span></span><br><span class="line">        sem_wait(mutex);</span><br><span class="line">        <span class="comment">//售票进程关键代码</span></span><br><span class="line">        temp=ticketCount;</span><br><span class="line">        <span class="comment">//pthread_yield();</span></span><br><span class="line">        temp=temp<span class="number">-1</span>;</span><br><span class="line">        <span class="comment">//pthread_yield();</span></span><br><span class="line">        ticketCount=temp;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"[Sell - %d]\n"</span>,i+<span class="number">1</span>);</span><br><span class="line">        sem_post(empty);</span><br><span class="line">        <span class="comment">//释放互斥信号</span></span><br><span class="line">        sem_post(mutex);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[Sell end: total sell:%d]\n"</span>,i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//退票进程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">Preturn</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(;i&lt;N_return;i++)&#123;</span><br><span class="line">        sem_wait(empty);</span><br><span class="line">        <span class="comment">//等待互斥信号</span></span><br><span class="line">        sem_wait(mutex);</span><br><span class="line">        <span class="comment">//退票进程关键代码</span></span><br><span class="line">        temp=ticketCount;</span><br><span class="line">        pthread_yield();</span><br><span class="line">        temp=temp+<span class="number">1</span>;</span><br><span class="line">        pthread_yield();</span><br><span class="line">        ticketCount=temp;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"&#123;Return + %d&#125;\n"</span>,i+<span class="number">1</span>);</span><br><span class="line">        sem_post(full);</span><br><span class="line">        <span class="comment">//释放互斥信号</span></span><br><span class="line">        sem_post(mutex);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"&#123;Return end: total return:%d&#125;\n"</span>,i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="正确执行"><a href="#正确执行" class="headerlink" title="正确执行"></a>正确执行</h2><p>再次执行上次的测试用例，这次的执行结果为0，即<strong>售票-10w,退票+9.9w,初始+0.1w=0</strong>，完全正确！<br><img src="/images/操作系统/project3/8.png" alt="Alt text" title="正确结果"></p>
+<h1 id="Q3"><a href="#Q3" class="headerlink" title="Q3."></a>Q3.</h1><p><strong>一个生产者一个消费者线程同步。设置一个线程共享的缓冲区， char buf[10]。一个线程不断从键盘输入字符到buf,一个线程不断的把buf的内容输出到显示器。要求输出的和输入的字符和顺序完全一致。（在输出线程中，每次输出睡眠一秒钟，然后以不同的速度输入测试输出是否正确）。要求多次测试添加同步机制前后的实验效果。</strong></p>
+<h1 id="A3"><a href="#A3" class="headerlink" title="A3."></a>A3.</h1><p>这是一个典型的生产者-消费者问题，思路与第二题相仿，需要两个信号量来辅助实现，信号量的使用情况如下：</p>
+<ul>
+<li>empty = 5：记录剩余空间</li>
+<li>full = 0：记录使用空间</li>
+</ul>
+<p><strong>要说明的一点是，为了便于测试debug和结果演示，我将<code>char buf[10]</code>修改为了<code>int buf[5]</code>，一来是缩小规模可以更直观看到演示结果，二来使用int型数组也可以防止回车符的乱入。</strong></p>
+<p>由于逻辑与上一题相仿，仅仅是取消了互斥mutex，所以这里不做赘述。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>读入和输出线程的实现代码如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 5</span></span><br><span class="line"><span class="keyword">int</span> buf[N];</span><br><span class="line"><span class="comment">//信号量</span></span><br><span class="line"><span class="keyword">sem_t</span> *empty=<span class="literal">NULL</span>,*full=<span class="literal">NULL</span>;</span><br><span class="line"><span class="comment">//T1、T2分别代表输入输出的测试规模</span></span><br><span class="line"><span class="keyword">int</span> T1=<span class="number">15</span>,T2=<span class="number">15</span>;</span><br><span class="line"><span class="comment">//in：输入指针，out：输出指针</span></span><br><span class="line"><span class="keyword">int</span> in=<span class="number">0</span>,out=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//输入线程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">producer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> nextp;</span><br><span class="line">    <span class="keyword">while</span>(T1--)&#123;</span><br><span class="line">        sem_wait(empty);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,<span class="string">"input: "</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;nextp);</span><br><span class="line">        buf[in]=nextp;</span><br><span class="line">        in = (in+<span class="number">1</span>)%N;</span><br><span class="line">        sem_post(full);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, <span class="string">"[input]:over"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出线程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">consumer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> nextc;</span><br><span class="line">    <span class="keyword">while</span>(T2--)&#123;</span><br><span class="line">        sem_wait(full);</span><br><span class="line">        nextc=buf[out];</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"output:%d\n"</span>, nextc);</span><br><span class="line">        out = (out+<span class="number">1</span>)%N;</span><br><span class="line">        sem_post(empty);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, <span class="string">"[output]:over"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">empty = sem_open(<span class="string">"empty"</span>,O_CREAT,<span class="number">0666</span>,<span class="number">5</span>);<span class="comment">//记录剩余空间</span></span><br><span class="line">full = sem_open(<span class="string">"full"</span>,O_CREAT,<span class="number">0666</span>,<span class="number">0</span>);<span class="comment">//记录使用空间</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入规模：T1=15</span><br><span class="line">输出规模：T2=15</span><br><span class="line">测试数据：1、2、3...9、0、9、8、7、6、5</span><br></pre></td></tr></table></figure>
+<h2 id="正常速度输入"><a href="#正常速度输入" class="headerlink" title="正常速度输入"></a>正常速度输入</h2><p>对于正常的输入速度，程序的执行结果如下。可以看到，每一个输入下都匹配着正确的输出结果。</p>
+<p><img src="/images/操作系统/project3/11.png" alt="Alt text" title="正常输入"></p>
+<h2 id="快速输入"><a href="#快速输入" class="headerlink" title="快速输入"></a>快速输入</h2><p>对于快速的输入速度，程序的执行结果如下。<br><strong>可以看到尽管输入提示语句<code>input:</code>看起来有一些“不合位置”，但在两个信号量<code>empty</code>和<code>full</code>的合理使用下，输入输出线程的进入条件会严格受控于缓冲区的剩余空间和已使用空间，十五个数字字符1～0，9～5全被成功输入并得以按顺序依次输出。</strong></p>
+<p><img src="/images/操作系统/project3/9.png" alt="Alt text"><br><img src="/images/操作系统/project3/10.png" alt="Alt text" title="快速输入"></p>
+<h2 id="去同步机制输入"><a href="#去同步机制输入" class="headerlink" title="去同步机制输入"></a>去同步机制输入</h2><p>为了测试信号量的作用，这次测试将信号量去掉，重新进行快速输入，结果如下。<br><strong>可以看到对于块长为5的缓冲区，在输入线程的指针<code>in</code>超过输出线程指针<code>out</code>的移动位置后，原先已经被输入但还未来得及输出的字符会被新的输入所覆盖，从而造成输出丢失，进而导致输出持续混乱</strong><br><img src="/images/操作系统/project3/12.png" alt="Alt text" title="去掉同步机制的输入输出"></p>
+<h1 id="Q4"><a href="#Q4" class="headerlink" title="Q4."></a>Q4.</h1><p><strong>a）通过实验测试，验证共享内存的代码中，receiver能否正确读出sender发送的字符串？如果把其中互斥的代码删除，观察实验结果有何不同？如果在发送和接收进程中打印输出共享内存地址，他们是否相同，为什么？<br>b)有名管道和无名管道通信系统调用是否已经实现了同步机制？通过实验验证，发送者和接收者如何同步的。比如，在什么情况下，发送者会阻塞，什么情况下，接收者会阻塞？<br>c）消息通信系统调用是否已经实现了同步机制？通过实验验证，发送者和接收者如何同步的。比如，在什么情况下，发送者会阻塞，什么情况下，接收者会阻塞？</strong></p>
+<h1 id="A4"><a href="#A4" class="headerlink" title="A4."></a>A4.</h1><h2 id="a-共享内存"><a href="#a-共享内存" class="headerlink" title="a) 共享内存"></a>a) 共享内存</h2><h3 id="功能测试"><a href="#功能测试" class="headerlink" title="功能测试"></a>功能测试</h3><p>同时开启两个终端，分别启动<code>receiver</code>进程和<code>sender</code>进程，执行操作如下，<strong>在sender端键入字符串，且sender端以空格作为一段字符串的分隔标志，可以在receiver段得到sender端所输入的的字符串</strong>：<br><img src="/images/操作系统/project3/13.png" alt="Alt text" title="sender-receiver"></p>
+<h3 id="删除互斥"><a href="#删除互斥" class="headerlink" title="删除互斥"></a>删除互斥</h3><p>在删去信号量后，在接收端会发生输出混乱，具体表现如下：<br><strong>receiver端不会等待sender端的输入情况，其会不加限制的重复输出共享内存中已有的内容：</strong><br><img src="/images/操作系统/project3/14.png" alt="Alt text" title="问题1"></p>
+<p><strong>重新开启进程后，上次程序所写在共享内存区内的字符串仍然会被重复输出：</strong><br><img src="/images/操作系统/project3/15.png" alt="Alt text" title="问题2"></p>
+<h3 id="观察地址"><a href="#观察地址" class="headerlink" title="观察地址"></a>观察地址</h3><p>重新调回互斥，在sender进程和receiver进程分别添加语句<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"\n[Sender] address:%p\n"</span>, shm_ptr);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"\n[Receiver] address:%p\n"</span>, shm_ptr);</span><br></pre></td></tr></table></figure></p>
+<p>实现打印共享内存的地址，可以观测到如下输出结果，两个进程的共享内存地址并不相同。<br><strong>其原因为：sender进程和receiver进程实现了对共享内存shm_ptr的访问，shm_ptr的物理地址有且唯一，但在程序进程中所查询到的地址并不是shm_ptr的物理地址，而是shm_ptr向进程所映射的虚拟地址，所以这就造成了同一块物理地址在不同的进程中的打印值不同的结果。<br>即：共享内存在每个进程里的映射地址是不同的</strong><br><img src="/images/操作系统/project3/16.png" alt="Alt text" title="共享内存地址"></p>
+<h2 id="b-管道通信"><a href="#b-管道通信" class="headerlink" title="b) 管道通信"></a>b) 管道通信</h2><h3 id="无名管道"><a href="#无名管道" class="headerlink" title="无名管道"></a>无名管道</h3><h4 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h4><p>无名管道的代码执行结果如图。<br><strong><br>无名管道通过定义<code>fd[2]</code>文件描述符数组来实现消息同步：<br><code>fd[0]</code>描述只读,<code>fd[1]</code>描述只写，从而实现读写同步。<br>但值得注意的是，无名管道是半双工的，就是对于一个管道来讲，只能读，或者写。
+</strong><br>无名管道只能在相关的，有共同祖先的进程间使用（即一般用户父子进程），而多进程用同一管道通信容易造成交叉读写的问题。<br><img src="/images/操作系统/project3/17.png" alt="Alt text" title="无名管道"></p>
+<h4 id="阻塞"><a href="#阻塞" class="headerlink" title="阻塞"></a>阻塞</h4><p>在执行<code>open</code>,<code>write</code>,<code>read</code>等操作时会发生阻塞现象。<br><strong>因为管道和文件一样，文件read函数以O_RDONLY方式打开也会阻塞，但是文件数据在本地，读取非常快，感觉不到阻塞，但是管道以O_RDONLY方式打开，会阻塞进程，read()函数会等待管道另一端写入数据，直到另一端关闭文件描述符。</strong><br>更具体的，读写进程的阻塞可归类为下列几类情况：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">读进程</th>
+<th style="text-align:center">写进程</th>
+<th style="text-align:center">管道无数据</th>
+<th style="text-align:center">管道有数据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">阻塞</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">return 0</td>
+<td style="text-align:center">返回数据</td>
+</tr>
+<tr>
+<td style="text-align:center">阻塞</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">阻塞等待</td>
+<td style="text-align:center">读取数据</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">阻塞</td>
+<td style="text-align:center">收到<code>SIGPIPE</code>信号，<code>write</code>返回-1</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">阻塞</td>
+<td style="text-align:center">写入数据</td>
+<td style="text-align:center">满则阻塞等待</td>
+</tr>
+</tbody>
+</table>
+<h3 id="有名管道"><a href="#有名管道" class="headerlink" title="有名管道"></a>有名管道</h3><h4 id="同步-1"><a href="#同步-1" class="headerlink" title="同步"></a>同步</h4><p>有名管道的代码执行结果如图。<br><strong>有名管道分别定义了两个进程来实现消息同步：<br>进程<code>fifo_send</code>实现了创建管道、向管道只写数据的功能。<br>进程<code>fifo_rcv</code>实现了查阅管道，从管道中只读数据的功能。<br>通过两个进程对同一管道的只读只写从而实现同步机制。
+</strong><br><img src="/images/操作系统/project3/18.png" alt="Alt text" title="有名管道"></p>
+<h4 id="阻塞-1"><a href="#阻塞-1" class="headerlink" title="阻塞"></a>阻塞</h4><p>有名管道的读写阻塞情况同无名管道。<br>此外，有名管道比无名管道还多一种阻塞情况：<strong>通信双方一方不存在则阻塞</strong>，如下图所示。</p>
+<p><img src="/images/操作系统/project3/19.png" alt="Alt text"><br><img src="/images/操作系统/project3/20.png" alt="Alt text" title="一方不存在则阻塞"></p>
+<h3 id="c-消息队列"><a href="#c-消息队列" class="headerlink" title="c) 消息队列"></a>c) 消息队列</h3><h4 id="同步-2"><a href="#同步-2" class="headerlink" title="同步"></a>同步</h4><p>消息队列的代码执行结果如图。<br><strong>消息队列通过<code>server</code>端和<code>client</code>端的配合操作实现消息同步：<br>进程client中创建了两个进程，其中父进程用于接受键盘键入以及发送数据，子进程用于接收server的返回数据并实现输出。<br>进程server中等待接收client端发送的数据，当收到信息后，打印接收到的数据，并原样的返回client端。<br>以上流程通过两个<em><code>struct msgbuf</code></em>类型结构体<code>sndBuf</code>,<code>rcvBuf</code>来辅助实现。
+</strong><br><img src="/images/操作系统/project3/21.png" alt="Alt text" title="消息队列"></p>
+<h4 id="阻塞-2"><a href="#阻塞-2" class="headerlink" title="阻塞"></a>阻塞</h4><p>阻塞情况与管道类似，在队列中没有消息时读进程会阻塞，在队列中数据已满时写进程会阻塞。</p>
+<h1 id="Q5"><a href="#Q5" class="headerlink" title="Q5."></a>Q5.</h1><p><strong>阅读Pintos操作系统，找到并阅读进程上下文切换的代码，说明实现的保存和恢复的上下文内容以及进程切换的工作流程。</strong></p>
+<h1 id="A5"><a href="#A5" class="headerlink" title="A5."></a>A5.</h1><h2 id="代码阅读"><a href="#代码阅读" class="headerlink" title="代码阅读"></a>代码阅读</h2><p>有关关上下文切换的代码位于<code>/threads/switch.h</code>和<code>/threads/switch.S</code>中，这里首先介绍对两个代码的简略阅读。</p>
+<h3 id="switch-h"><a href="#switch-h" class="headerlink" title="switch.h"></a>switch.h</h3><p>头文件代码如下：<br><img src="/images/操作系统/project3/22.png" alt="Alt text" title="switch.h"><br>汇编代码如下：<br><img src="/images/操作系统/project3/23.png" alt="Alt text" title="switch.S"></p>
+<p>从CUR（正在运行的线程）切换到NEXT，NEXT也必须运行switch_threads（），在NEXT的上下文中返回CUR。这个函数通过假设我们切换到的线程也在运行switch_threads（）来工作。因此，它所要做的就是在堆栈上保留一些寄存器，然后切换堆栈并恢复寄存器。作为切换堆栈的一部分，我们在CUR的线程结构中记录当前堆栈指针。</p>
+<h2 id="线程切换"><a href="#线程切换" class="headerlink" title="线程切换"></a>线程切换</h2><p>如果一个线程用完了它的时间片，<code>thread_tick</code>就会调用该函数<code>intr_yield_on_return</code>。但是，此时不会产生下一个线程。相反，它修改一个标志，让中断处理程序知道，在从中断返回之前，它应该执行一个上下文切换到另一个线程。</p>
+<p>于是，经过<code>thread_tick</code>和<code>timer_interrupt</code>回报，<code>intr_handler</code>将调用<code>thread_yield</code>，它将调用<code>schedule</code>。<code>schedule</code>选择要运行的下一个线程并调用一个函数<code>switch_threads</code>，在x86程序集中实现，带有两个参数:( <code>cur</code>指向<code>thread</code> 当前线程结构的指针，即被抢占<code>next</code>的指针）和（指向下一个<code>thread结构</code>的指针） 线程运行）。</p>
+<p>所以，堆栈看起来像这样：<br><img src="https://uchicago-cs.github.io/mpcs52030/_images/stack3.png" alt="Alt text"></p>
+<p>理解switch_threads的关键是要明白，如果切换到另一个线程，那么其他线程switch_threads在被抢占时也必须运行。实际上，一个自愿或非自愿地产生CPU的线程将始终具有类似于以下之一的堆栈：<br><img src="https://uchicago-cs.github.io/mpcs52030/_images/stack4.png" alt="Alt text"></p>
+<p><code>switch_threads</code>后面的所隐含的内容是，要切换到另一个线程，只需要<strong>切换堆栈</strong>（因为每个线程都保证<code>switch_threads</code>在被抢占的位置运行），我们只需更改<strong><code>esp</code></strong>值就可以做到这一点。</p>
+<p>在调用之后<code>switch_threads</code>，堆栈的底部将如下所示：<br><img src="https://uchicago-cs.github.io/mpcs52030/_images/stack5.png" alt="Alt text"></p>
+<p><code>switch_threads</code>堆栈帧（<code>0x0C00</code>）的起始地址是任意的，没有深刻的意义。但是，显示的所有其他值将与从中<code>switch_threads</code>开始的堆栈帧<code>0x0C00</code>一致。</p>
+<p>首先，switch_threads需要保存一些寄存器（这是x86架构所要求的）：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pushl  ％ebx </span><br><span class="line">pushl  ％ebp </span><br><span class="line">pushl  ％esi </span><br><span class="line">pushl  ％edi</span><br></pre></td></tr></table></figure></p>
+<p>堆栈结构如下：<br><img src="https://uchicago-cs.github.io/mpcs52030/_images/stack6.png" alt="Alt text"></p>
+<p>接下来，<code>switch.h</code>将<code>SWITCH_CUR</code>和<code>SWITCH_NEXT</code>定义为堆栈帧中的<code>cur</code>和<code>next</code>的偏移量（20和24）。在x86中，表达式<code>SWITCH_CUR(%esp)</code>变为<code>20(%esp)</code>，转换为内存地址<code>esp+20cur</code>。换句话说，这给了我们当前thread（）的地址。类似的，<code>SWITCH_NEXT(%esp)</code>提供了<code>next</code>线程的地址 。</p>
+<p>下面一段汇编代码保存当前线程的堆栈指针，并设置esp为指向要运行的下一个线程的（先前保存的）堆栈指针。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">movl  SWITCH_CUR （％esp ）， ％eax </span><br><span class="line">movl  ％esp ， （％eax ，％edx ，<span class="number">1</span> ）</span><br><span class="line">movl  SWITCH_NEXT （％esp ）， ％ecx </span><br><span class="line">movl  （％ecx ，％edx ，<span class="number">1</span> ）， ％esp</span><br></pre></td></tr></table></figure></p>
+<p>在完成上述操作后，切换线程即完成，剩下的就是恢复之前推入堆栈的寄存器，然后返回switch_threads：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">popl  ％edi </span><br><span class="line">popl  ％esi </span><br><span class="line">popl  ％ebp </span><br><span class="line">popl  ％ebx </span><br><span class="line">ret</span><br></pre></td></tr></table></figure></p>
+<h2 id="进程切换"><a href="#进程切换" class="headerlink" title="进程切换"></a>进程切换</h2><p>在理解清楚线程的切换机理后，进程切换也可以类比。</p>
+<p>所谓进程切换，其只是线程切换和内核空间与用户空间之间切换的组合。基本上，当一个进程正在运行时，一个定时器中断将控制CPU回到内核，这将导致中断处理过程（最终导致调用<code>thread_tick</code>）。此时，如果我们抢占当前线程（及其关联的进程），我们将切换到不同的内核线程。如果此内核线程与进程关联，我们将切换回用户空间。</p>
+<p>主要的区别是，切换到一个新的进程也将涉及调用<code>process_activate</code>从<code>thread_schedule_tail</code>（即运行功能之后<code>switch_threads</code>，但是从中断处理程序返回之前）。<code>process_activate</code>更新CPU的<code>cr3</code>寄存器以指向当前正在运行的进程的页面目录，并将值保存<code>esp</code>到<code>TSS</code>。</p>
+<p>其中<code>process_activate</code>源码位于<code>\userprog\process.c</code>,<code>TSS</code>的源码位于<code>\userprog\tss.c</code>，如下所示：<br><img src="/images/操作系统/project3/25.png" alt="Alt text" title="process_activate"><br><img src="/images/操作系统/project3/26.png" alt="Alt text" title="tss_update"></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>【1】Linux共享内存实现机制的详解 :<a href="https://www.jb51.net/article/118285.htm" target="_blank" rel="noopener">https://www.jb51.net/article/118285.htm</a><br>【2】Linux 进程通信（无名管道）:<a href="https://www.cnblogs.com/zhanggaofeng/p/5829801.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhanggaofeng/p/5829801.html</a><br>【3】Linux进程间通信 – 管道(pipe):<a href="https://www.cnblogs.com/Jimmy1988/p/7553069.html" target="_blank" rel="noopener">https://www.cnblogs.com/Jimmy1988/p/7553069.html</a><br>【4】Linux进程间通信 – 消息队列:<a href="https://www.cnblogs.com/Jimmy1988/p/7699351.html" target="_blank" rel="noopener">https://www.cnblogs.com/Jimmy1988/p/7699351.html</a><br>【5】How does thread/process switching work in Pintos?:<br><a href="https://uchicago-cs.github.io/mpcs52030/switch.html" target="_blank" rel="noopener">https://uchicago-cs.github.io/mpcs52030/switch.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/03/编译原理——无符号数识别/" rel="next" title="编译原理——无符号数识别">
+                <i class="fa fa-chevron-left"></i> 编译原理——无符号数识别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验目的"><span class="nav-text">实验目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q1"><span class="nav-text">Q1.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A1"><span class="nav-text">A1.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q2"><span class="nav-text">Q2.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A2"><span class="nav-text">A2.</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初步分析"><span class="nav-text">初步分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初步实现"><span class="nav-text">初步实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初步测试"><span class="nav-text">初步测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#出错分析"><span class="nav-text">出错分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二次修改"><span class="nav-text">二次修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正确执行"><span class="nav-text">正确执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q3"><span class="nav-text">Q3.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A3"><span class="nav-text">A3.</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试用例"><span class="nav-text">测试用例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正常速度输入"><span class="nav-text">正常速度输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速输入"><span class="nav-text">快速输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#去同步机制输入"><span class="nav-text">去同步机制输入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q4"><span class="nav-text">Q4.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A4"><span class="nav-text">A4.</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a-共享内存"><span class="nav-text">a) 共享内存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#功能测试"><span class="nav-text">功能测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除互斥"><span class="nav-text">删除互斥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#观察地址"><span class="nav-text">观察地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#b-管道通信"><span class="nav-text">b) 管道通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无名管道"><span class="nav-text">无名管道</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同步"><span class="nav-text">同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#阻塞"><span class="nav-text">阻塞</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有名管道"><span class="nav-text">有名管道</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同步-1"><span class="nav-text">同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#阻塞-1"><span class="nav-text">阻塞</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-消息队列"><span class="nav-text">c) 消息队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同步-2"><span class="nav-text">同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#阻塞-2"><span class="nav-text">阻塞</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q5"><span class="nav-text">Q5.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A5"><span class="nav-text">A5.</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码阅读"><span class="nav-text">代码阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#switch-h"><span class="nav-text">switch.h</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程切换"><span class="nav-text">线程切换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程切换"><span class="nav-text">进程切换</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
