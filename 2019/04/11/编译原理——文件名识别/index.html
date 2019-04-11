@@ -88,13 +88,22 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Haonan_Jia blogs">
-<meta property="og:url" content="http://hnjia00.github.io/archives/2019/03/index.html">
+<meta name="description" content="题目思考本次选做题是制作一个文件名的识别程序，其可以识别诸如xx:xx.xx之类的文件名，具体题目要求如下：某操作系统下合法的文件名规则为：device:name.extention,其中第一部分（device:)和第三部分（.extention)可缺省，若device、name和extention都是由字母组成，长度不限，但至少一位。 显然这样的题目要求与词法分析器和无符号数识别类似，按照之前的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理——文件名识别">
+<meta property="og:url" content="http://hnjia00.github.io/2019/04/11/编译原理——文件名识别/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="题目思考本次选做题是制作一个文件名的识别程序，其可以识别诸如xx:xx.xx之类的文件名，具体题目要求如下：某操作系统下合法的文件名规则为：device:name.extention,其中第一部分（device:)和第三部分（.extention)可缺省，若device、name和extention都是由字母组成，长度不限，但至少一位。 显然这样的题目要求与词法分析器和无符号数识别类似，按照之前的">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/文件名识别/DFA.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/文件名识别/data.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/文件名识别/1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/文件名识别/2.png">
+<meta property="og:updated_time" content="2019-04-11T09:42:58.533Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Haonan_Jia blogs">
+<meta name="twitter:title" content="编译原理——文件名识别">
+<meta name="twitter:description" content="题目思考本次选做题是制作一个文件名的识别程序，其可以识别诸如xx:xx.xx之类的文件名，具体题目要求如下：某操作系统下合法的文件名规则为：device:name.extention,其中第一部分（device:)和第三部分（.extention)可缺省，若device、name和extention都是由字母组成，长度不限，但至少一位。 显然这样的题目要求与词法分析器和无符号数识别类似，按照之前的">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/编译原理/文件名识别/DFA.png">
 
 
 
@@ -124,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://hnjia00.github.io/archives/2019/03/">
+  <link rel="canonical" href="http://hnjia00.github.io/2019/04/11/编译原理——文件名识别/">
 
 
 
 
 
-  <title>Archive | Haonan_Jia blogs</title>
+  <title>编译原理——文件名识别 | Haonan_Jia blogs</title>
   
 
 
@@ -150,7 +159,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -266,391 +275,236 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/04/11/编译原理——文件名识别/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">编译原理——文件名识别</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-11T16:46:02+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        Um..! 23 posts in total. Keep on posting.
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/编译原理/" itemprop="url" rel="index">
+                    <span itemprop="name">编译原理</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/16/操作系统——初步/" itemprop="url">
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
               
-                <span itemprop="name">操作系统——初步</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  550 字
+                </span>
               
-            </a>
-        
-      </h2>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-16T15:53:36+08:00" content="2019-03-16">
-          03-16
-        </time>
-      </div>
+              
+                <span class="post-meta-divider">|</span>
+              
 
-    </header>
-  </article>
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  2 min
+                </span>
+              
+            </div>
+          
 
+          
 
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/14/操作系统——进程控制/" itemprop="url">
-              
-                <span itemprop="name">操作系统——进程控制</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-14T19:34:51+08:00" content="2019-03-14">
-          03-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/09/数据库——存储过程和函数/" itemprop="url">
-              
-                <span itemprop="name">数据库——存储过程和函数</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-09T11:17:02+08:00" content="2019-03-09">
-          03-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h2 id="题目思考"><a href="#题目思考" class="headerlink" title="题目思考"></a>题目思考</h2><p>本次选做题是制作一个文件名的识别程序，其可以识别诸如xx:xx.xx之类的文件名，具体题目要求如下：<br><strong>某操作系统下合法的文件名规则为：device:name.extention,其中第一部分（device:)和第三部分（.extention)可缺省，若device、name和extention都是由字母组成，长度不限，但至少一位。</strong></p>
+<p>显然这样的题目要求与词法分析器和无符号数识别类似，按照之前的词法分析器程序的编写思路，首先来构造程序的状态转换图。</p>
+<h2 id="状态转换图"><a href="#状态转换图" class="headerlink" title="状态转换图"></a>状态转换图</h2><p>题目给出了文件名规则：<code>device:name.extention</code>，我们令<strong>d</strong>代表字母，则该规则可以转化为正则式表示为：<code>d*:d+.d*</code>，其中*和+分别代表0和1次及以上自重复。</p>
+<p>从而可以得到如下的状态转换图：<br><img src="/images/编译原理/文件名识别/DFA.png" alt="Alt text" title="状态转换图"></p>
+<p>其中：2状态的终结态代表device和extension均缺省的情况，4状态的终结态代表extension缺省的情况，6状态的终结态代表device缺省的情况。</p>
+<h2 id="数据流"><a href="#数据流" class="headerlink" title="数据流"></a>数据流</h2><p>根据上述状态转换图，可以拟定初步的编程数据流图如下：<br><img src="/images/编译原理/文件名识别/data.png" alt="Alt text" title="数据流图"></p>
+<h2 id="子程序实现"><a href="#子程序实现" class="headerlink" title="子程序实现"></a>子程序实现</h2><p>显然，从数据流图中可以看到，功能实现的核心在于函数：<br><code>int next_state(int current_state,char temp)</code><br>即根据现在状态以及下一个字符判断下一个状态，代码如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">next_state</span><span class="params">(<span class="keyword">int</span> current_state,<span class="keyword">char</span> temp)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> next=<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">switch</span> (current_state) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">isalpha</span>(temp))&#123;</span><br><span class="line">                next=<span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                next=<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">isalpha</span>(temp))&#123;</span><br><span class="line">                next=<span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(temp==<span class="string">'.'</span>)&#123;</span><br><span class="line">                next=<span class="number">5</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(temp==<span class="string">':'</span>)&#123;</span><br><span class="line">                next=<span class="number">3</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                next=<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">isalpha</span>(temp))&#123;</span><br><span class="line">                next=<span class="number">4</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                next=<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span>:&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">isalpha</span>(temp))&#123;</span><br><span class="line">                next=<span class="number">4</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(temp==<span class="string">'.'</span>)&#123;</span><br><span class="line">                next=<span class="number">5</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                next=<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">5</span>:&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">isalpha</span>(temp))&#123;</span><br><span class="line">                next=<span class="number">6</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                next=<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">6</span>:&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">isalpha</span>(temp))&#123;</span><br><span class="line">                next=<span class="number">6</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                next=<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="代码测试"><a href="#代码测试" class="headerlink" title="代码测试"></a>代码测试</h2><p>在程序完备之后，我对程序选择了如下测试样例进行测试：<br><img src="/images/编译原理/文件名识别/1.png" alt="Alt text"><br><img src="/images/编译原理/文件名识别/2.png" alt="Alt text" title="测试"></p>
+<p>可以看到，凡是name缺省的错误文件命名均可以被识别。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/08/数据库——SQL调优/" itemprop="url">
-              
-                <span itemprop="name">数据库——SQL调优</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-08T22:40:24+08:00" content="2019-03-08">
-          03-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/04/数据库——完整性/" itemprop="url">
-              
-                <span itemprop="name">数据库——完整性</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-04T15:46:58+08:00" content="2019-03-04">
-          03-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/04/数据库——安全性练习/" itemprop="url">
-              
-                <span itemprop="name">数据库——安全性练习</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-04T11:17:10+08:00" content="2019-03-04">
-          03-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/04/数据库——SQL实验/" itemprop="url">
-              
-                <span itemprop="name">数据库——SQL练习</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-04T10:33:54+08:00" content="2019-03-04">
-          03-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/03/计算机网络——交换机VLAN实验/" itemprop="url">
-              
-                <span itemprop="name">计算机网络——交换机VLAN实验</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-03T16:03:17+08:00" content="2019-03-03">
-          03-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/03/计算机网络——实现路由算法/" itemprop="url">
-              
-                <span itemprop="name">计算机网络——实现路由算法</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-03T15:41:37+08:00" content="2019-03-03">
-          03-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/03/计算机网络——实现Go-Back-N/" itemprop="url">
-              
-                <span itemprop="name">计算机网络——实现Go-Back-N</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-03T11:18:37+08:00" content="2019-03-03">
-          03-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/06/git——日常使用/" rel="next" title="git——日常使用">
+                <i class="fa fa-chevron-left"></i> git——日常使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2019/03/page/2/">2</a><a class="extend next" rel="next" href="/archives/2019/03/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -658,6 +512,16 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -678,8 +542,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -762,6 +635,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目思考"><span class="nav-text">题目思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态转换图"><span class="nav-text">状态转换图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据流"><span class="nav-text">数据流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子程序实现"><span class="nav-text">子程序实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码测试"><span class="nav-text">代码测试</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -923,6 +812,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -951,6 +844,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 

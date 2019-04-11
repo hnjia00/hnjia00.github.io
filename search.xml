@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[编译原理——文件名识别]]></title>
+    <url>%2F2019%2F04%2F11%2F%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%90%8D%E8%AF%86%E5%88%AB%2F</url>
+    <content type="text"><![CDATA[题目思考本次选做题是制作一个文件名的识别程序，其可以识别诸如xx:xx.xx之类的文件名，具体题目要求如下：某操作系统下合法的文件名规则为：device:name.extention,其中第一部分（device:)和第三部分（.extention)可缺省，若device、name和extention都是由字母组成，长度不限，但至少一位。 显然这样的题目要求与词法分析器和无符号数识别类似，按照之前的词法分析器程序的编写思路，首先来构造程序的状态转换图。 状态转换图题目给出了文件名规则：device:name.extention，我们令d代表字母，则该规则可以转化为正则式表示为：d*:d+.d*，其中*和+分别代表0和1次及以上自重复。 从而可以得到如下的状态转换图： 其中：2状态的终结态代表device和extension均缺省的情况，4状态的终结态代表extension缺省的情况，6状态的终结态代表device缺省的情况。 数据流根据上述状态转换图，可以拟定初步的编程数据流图如下： 子程序实现显然，从数据流图中可以看到，功能实现的核心在于函数：int next_state(int current_state,char temp)即根据现在状态以及下一个字符判断下一个状态，代码如下：123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869int next_state(int current_state,char temp)&#123; int next=-1; switch (current_state) &#123; case 1:&#123; if(isalpha(temp))&#123; next=2; &#125; else&#123; next=-1; &#125; break; &#125; case 2:&#123; if(isalpha(temp))&#123; next=2; &#125; else if(temp=='.')&#123; next=5; &#125; else if(temp==':')&#123; next=3; &#125; else&#123; next=-1; &#125; break; &#125; case 3:&#123; if(isalpha(temp))&#123; next=4; &#125; else&#123; next=-1; &#125; break; &#125; case 4:&#123; if(isalpha(temp))&#123; next=4; &#125; else if(temp=='.')&#123; next=5; &#125; else&#123; next=-1; &#125; break; &#125; case 5:&#123; if(isalpha(temp))&#123; next=6; &#125; else&#123; next=-1; &#125; break; &#125; case 6:&#123; if(isalpha(temp))&#123; next=6; &#125; else&#123; next=-1; &#125; break; &#125; &#125; return next;&#125; 代码测试在程序完备之后，我对程序选择了如下测试样例进行测试： 可以看到，凡是name缺省的错误文件命名均可以被识别。]]></content>
+      <categories>
+        <category>编译原理</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[git——日常使用]]></title>
     <url>%2F2019%2F04%2F06%2Fgit%E2%80%94%E2%80%94%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8%2F</url>
     <content type="text"><![CDATA[今天好不容易写完了操作系统，刚想行云流水一波上传到GitHub，结果在最后一步pull的时候报错，给我慌了十分钟的一批，解决完决定记录一下有关的操作流程。 用网页传代码或者文件着实不像一个计算机系学生应有的水准，下面来列支一下每次上传文件的流程。 git init git add . git commit -m &quot;xxx&quot; git push -u origin master 对，没有问题，操作仅仅就这么几步而已，那么我今天遇到的error是什么呢？ 上一次手残把project2的commit写错了，想改发现不能直接在网页端改，所以还是需要依靠命令来修改。 修改的步骤如下： git log：罗列commit记录，每一次commit都对应一个记录编码 git reset --hard xxx：将HEAD强行指向xxx所对应的commit记录 git push -u origin master -f：更新仓库，这一步至关重要，如果缺少了这一步就会导致本地与GitHub端的HEAD指向不匹配，从而报错 至此，平时所需要的的操作就叙述结束了，当然git命令还不止这些，下面这些命令也有可能被用到： git clone https://仓库地址：下载文件到本地 git remote add origin https:// https://github.com/hnjia00/OS2019：这条命令可以与仓库建立联系]]></content>
