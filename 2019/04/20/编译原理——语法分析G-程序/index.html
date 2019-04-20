@@ -88,13 +88,29 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Haonan_Jia blogs">
-<meta property="og:url" content="http://hnjia00.github.io/categories/Hexo/index.html">
+<meta name="description" content="题目描述本次选做题需要实现一个简单的语法分析器，其文法描述如下：  &amp;lt;程序&amp;gt;→begin &amp;lt;语句&amp;gt; end &amp;lt;语句&amp;gt;→&amp;lt;赋值语句&amp;gt;│&amp;lt;条件语句&amp;gt; &amp;lt;赋值语句&amp;gt;→&amp;lt;变量&amp;gt;:=&amp;lt;表达式&amp;gt; &amp;lt;条件语句&amp;gt;→if &amp;lt;表达式&amp;gt; then &amp;lt;语句&amp;gt; &amp;lt;表达式&amp;gt;→&amp;lt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理——语法分析G[&lt;程序&gt;]">
+<meta property="og:url" content="http://hnjia00.github.io/2019/04/20/编译原理——语法分析G-程序/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="题目描述本次选做题需要实现一个简单的语法分析器，其文法描述如下：  &amp;lt;程序&amp;gt;→begin &amp;lt;语句&amp;gt; end &amp;lt;语句&amp;gt;→&amp;lt;赋值语句&amp;gt;│&amp;lt;条件语句&amp;gt; &amp;lt;赋值语句&amp;gt;→&amp;lt;变量&amp;gt;:=&amp;lt;表达式&amp;gt; &amp;lt;条件语句&amp;gt;→if &amp;lt;表达式&amp;gt; then &amp;lt;语句&amp;gt; &amp;lt;表达式&amp;gt;→&amp;lt;">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/program.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/statement.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/assign.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/condition.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/expression.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/expression_1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/variable.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/测试用例/1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/测试用例/2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/测试用例/3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/测试用例/4.png">
+<meta property="og:updated_time" content="2019-04-20T07:17:03.655Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Haonan_Jia blogs">
+<meta name="twitter:title" content="编译原理——语法分析G[&lt;程序&gt;]">
+<meta name="twitter:description" content="题目描述本次选做题需要实现一个简单的语法分析器，其文法描述如下：  &amp;lt;程序&amp;gt;→begin &amp;lt;语句&amp;gt; end &amp;lt;语句&amp;gt;→&amp;lt;赋值语句&amp;gt;│&amp;lt;条件语句&amp;gt; &amp;lt;赋值语句&amp;gt;→&amp;lt;变量&amp;gt;:=&amp;lt;表达式&amp;gt; &amp;lt;条件语句&amp;gt;→if &amp;lt;表达式&amp;gt; then &amp;lt;语句&amp;gt; &amp;lt;表达式&amp;gt;→&amp;lt;">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/program.png">
 
 
 
@@ -124,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://hnjia00.github.io/categories/Hexo/">
+  <link rel="canonical" href="http://hnjia00.github.io/2019/04/20/编译原理——语法分析G-程序/">
 
 
 
 
 
-  <title>Category: Hexo | Haonan_Jia blogs</title>
+  <title>编译原理——语法分析G[<程序>] | Haonan_Jia blogs</程序></title>
   
 
 
@@ -150,7 +166,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -266,79 +282,255 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Hexo<small>Category</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/04/20/编译原理——语法分析G-程序/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/02/16/Hexo——评论篇/" itemprop="url">
-              
-                <span itemprop="name">Hexo——评论篇</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">编译原理——语法分析G[<程序>]</程序></h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-16T11:07:25+08:00" content="2019-02-16">
-          02-16
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-20T14:54:03+08:00">
+                2019-04-20
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/编译原理/" itemprop="url" rel="index">
+                    <span itemprop="name">编译原理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  548 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  2 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/15/Hexo——bug篇/" itemprop="url">
-              
-                <span itemprop="name">Hexo——bug篇</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-15T10:15:22+08:00" content="2019-02-15">
-          02-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>本次选做题需要实现一个简单的语法分析器，其文法描述如下：</p>
+<blockquote>
+<p>&lt;程序&gt;→begin &lt;语句&gt; end<br> &lt;语句&gt;→&lt;赋值语句&gt;│&lt;条件语句&gt;<br> &lt;赋值语句&gt;→&lt;变量&gt;:=&lt;表达式&gt;<br> &lt;条件语句&gt;→if &lt;表达式&gt; then &lt;语句&gt;<br> &lt;表达式&gt;→&lt;表达式&gt;+&lt;变量&gt;│&lt;变量&gt;<br> &lt;变量&gt;→i</p>
+</blockquote>
+<h1 id="消除左递归"><a href="#消除左递归" class="headerlink" title="消除左递归"></a>消除左递归</h1><p>一目了然就可以看到，产生式：<strong><code>&lt;表达式&gt;→&lt;表达式&gt;+&lt;变量&gt;│&lt;变量&gt;</code></strong>存在左递归。<br>所以第一步要做的是消除左递归，消除结果为：</p>
+<blockquote>
+<p>&lt;表达式&gt;→&lt;变量&gt;&lt;表达式1&gt;<br> &lt;表达式1&gt;→+&lt;变量&gt;&lt;表达式1&gt;|ε</p>
+</blockquote>
+<p>到此，文法中的左递归已经完全消除，且满足LL(1)文法。</p>
+<h1 id="重命名"><a href="#重命名" class="headerlink" title="重命名"></a>重命名</h1><p>为了便于编程，下面对文法中的非终结符用单词替换，如下：</p>
+<blockquote>
+<p>program     程序<br> statement    语句<br> assign       赋值语句<br> condition    条件语句<br> expression   表达式<br> expression_1 表达式1<br> variable     变量</p>
+</blockquote>
+<h1 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h1><p> 根据递归下降编程的思想，上述7个非终结符分别对应7个子函数，其实现的流程图分别如下：<br> 其中：</p>
+<blockquote>
+<p>match(token)函数的作用是用token与当前扫描到的字符(串)进行匹配，匹配成功则返回true<br> nextsym()函数的作用是使指针item滑动到下一个单词处</p>
+</blockquote>
+<h2 id="program"><a href="#program" class="headerlink" title="program"></a>program</h2><p><img src="/images/编译原理/选做4-8/流程图/program.png" alt="Alt text" title="程序"></p>
+<h2 id="statement"><a href="#statement" class="headerlink" title="statement"></a>statement</h2><p><img src="/images/编译原理/选做4-8/流程图/statement.png" alt="Alt text" title="语句"></p>
+<h2 id="assign"><a href="#assign" class="headerlink" title="assign"></a>assign</h2><p><img src="/images/编译原理/选做4-8/流程图/assign.png" alt="Alt text" title="赋值语句"></p>
+<h2 id="condition"><a href="#condition" class="headerlink" title="condition"></a>condition</h2><p><img src="/images/编译原理/选做4-8/流程图/condition.png" alt="Alt text" title="条件语句"></p>
+<h2 id="expression"><a href="#expression" class="headerlink" title="expression"></a>expression</h2><p><img src="/images/编译原理/选做4-8/流程图/expression.png" alt="Alt text" title="表达式"></p>
+<h2 id="expression-1"><a href="#expression-1" class="headerlink" title="expression_1"></a>expression_1</h2><p>这里需要说明的是，由于产生式<strong><code>&lt;表达式1&gt;→+&lt;变量&gt;&lt;表达式1&gt;|ε</code></strong>中含有<strong><code>&lt;表达式1&gt;→ε</code></strong>，故在匹配时如果没有match到其first集中的元素，则接下来需要去match其follow集中的元素，即“end”和“then”，若与follow集中的元素匹配成功，则指针item需要回滚。<br><img src="/images/编译原理/选做4-8/流程图/expression_1.png" alt="Alt text" title="表达式1"></p>
+<h2 id="variable"><a href="#variable" class="headerlink" title="variable"></a>variable</h2><p><img src="/images/编译原理/选做4-8/流程图/variable.png" alt="Alt text" title="变量"></p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>我选用了正确和错误的两组共四个测试用例对程序进行了测试，测试结果如下：</p>
+<h2 id="正确样例"><a href="#正确样例" class="headerlink" title="正确样例"></a>正确样例</h2><p><img src="/images/编译原理/选做4-8/测试用例/1.png" alt="Alt text"><br><img src="/images/编译原理/选做4-8/测试用例/2.png" alt="Alt text"></p>
+<h2 id="错误样例"><a href="#错误样例" class="headerlink" title="错误样例"></a>错误样例</h2><p><img src="/images/编译原理/选做4-8/测试用例/3.png" alt="Alt text"><br><img src="/images/编译原理/选做4-8/测试用例/4.png" alt="Alt text"></p>
+<p>可以看到，程序能够成功识别该文法的语言并给出正确的反馈信息！</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/11/编译原理——文件名识别/" rel="next" title="编译原理——文件名识别">
+                <i class="fa fa-chevron-left"></i> 编译原理——文件名识别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -346,6 +538,16 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -366,8 +568,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -450,6 +661,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目描述"><span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消除左递归"><span class="nav-text">消除左递归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重命名"><span class="nav-text">重命名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#程序实现"><span class="nav-text">程序实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#program"><span class="nav-text">program</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#statement"><span class="nav-text">statement</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assign"><span class="nav-text">assign</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#condition"><span class="nav-text">condition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#expression"><span class="nav-text">expression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#expression-1"><span class="nav-text">expression_1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#variable"><span class="nav-text">variable</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正确样例"><span class="nav-text">正确样例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误样例"><span class="nav-text">错误样例</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -611,6 +838,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -639,6 +870,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
