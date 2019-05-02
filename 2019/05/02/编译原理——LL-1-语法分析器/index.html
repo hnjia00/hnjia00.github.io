@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-center-atom.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实验项目实现LL(1)分析中控制程序（表驱动程序）;完成以下描述赋值语句的LL(1)文法的LL(1)分析过程。123456789S→V=EE→TE′E′→ATE′|εT→FT′T′→MFT′|εF→ (E)|iA→+|-M→*|/V→i 设计说明终结符号i为用户定义的简单变量，即标识符的定义 设计要求（1）输入串应是词法分析的输出二元式序列，即某算术表达式“专题1”的输出结果。输出为输入串是否为该">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理——LL(1)语法分析器">
+<meta property="og:url" content="http://hnjia00.github.io/2019/05/02/编译原理——LL-1-语法分析器/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="实验项目实现LL(1)分析中控制程序（表驱动程序）;完成以下描述赋值语句的LL(1)文法的LL(1)分析过程。123456789S→V=EE→TE′E′→ATE′|εT→FT′T′→MFT′|εF→ (E)|iA→+|-M→*|/V→i 设计说明终结符号i为用户定义的简单变量，即标识符的定义 设计要求（1）输入串应是词法分析的输出二元式序列，即某算术表达式“专题1”的输出结果。输出为输入串是否为该">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/data.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/analyze.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/r.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/w.png">
+<meta property="og:updated_time" content="2019-05-02T07:41:29.486Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译原理——LL(1)语法分析器">
+<meta name="twitter:description" content="实验项目实现LL(1)分析中控制程序（表驱动程序）;完成以下描述赋值语句的LL(1)文法的LL(1)分析过程。123456789S→V=EE→TE′E′→ATE′|εT→FT′T′→MFT′|εF→ (E)|iA→+|-M→*|/V→i 设计说明终结符号i为用户定义的简单变量，即标识符的定义 设计要求（1）输入串应是词法分析的输出二元式序列，即某算术表达式“专题1”的输出结果。输出为输入串是否为该">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/data.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2019/05/02/编译原理——LL-1-语法分析器/">
+
+
+
+
+
+  <title>编译原理——LL(1)语法分析器 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Morning death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/05/02/编译原理——LL-1-语法分析器/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">编译原理——LL(1)语法分析器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-02T11:46:53+08:00">
+                2019-05-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/编译原理/" itemprop="url" rel="index">
+                    <span itemprop="name">编译原理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  3.4k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  15 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="实验项目"><a href="#实验项目" class="headerlink" title="实验项目"></a>实验项目</h1><p>实现LL(1)分析中控制程序（表驱动程序）;<br>完成以下描述赋值语句的LL(1)文法的LL(1)分析过程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">S→V=E</span><br><span class="line">E→TE′</span><br><span class="line">E′→ATE′|ε</span><br><span class="line">T→FT′</span><br><span class="line">T′→MFT′|ε</span><br><span class="line">F→ (E)|i</span><br><span class="line">A→+|-</span><br><span class="line">M→*|/</span><br><span class="line">V→i</span><br></pre></td></tr></table></figure></p>
+<h1 id="设计说明"><a href="#设计说明" class="headerlink" title="设计说明"></a>设计说明</h1><p>终结符号i为用户定义的简单变量，即标识符的定义</p>
+<h1 id="设计要求"><a href="#设计要求" class="headerlink" title="设计要求"></a>设计要求</h1><p>（1）输入串应是词法分析的输出二元式序列，即某算术表达式“专题1”的输出结果。输出为输入串是否为该文法定义的算术表达式的判断结果；<br>（2）LL(1)分析过程应能发现输入串出错；<br>（3）设计两个测试用例（尽可能完备，正确和出错），并给出测试结果；<br>（4）考虑根据LL(1)文法编写程序构造LL（1）分析表，并添加到你的LL（1）分析程序中。 </p>
+<h1 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h1><h2 id="总数据流"><a href="#总数据流" class="headerlink" title="总数据流"></a>总数据流</h2><p>LL(1)语法分析器的实现相比递归下降而言复杂了很多，但概括起来程序的实现总共需要如下几步：</p>
+<ol>
+<li>构造非终结符的First集</li>
+<li>构造非终结符的Follow集</li>
+<li>根据First集和Follow集构造LL(1)分析表</li>
+<li>根据分析表构造分析栈逐个匹配</li>
+</ol>
+<p>所以流程如下：<br><img src="/images/编译原理/LL1语法分析/data.png" alt="Alt text" title="总数据流"></p>
+<h2 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h2><p>在总数据流确定之后，可以发现在分析过程中涉及到很多辅助量，例如各个非终结符对应的First集。<br>而设置怎样的数据结构来存储这些辅助量是一个在程序编写之前就应该确定下来的问题。<br>下面给出我在程序编写中所预设的数据结构：</p>
+<style>
+table th:first-of-type {
+    width: 100px;
+}
+</style>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量名</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">rule</td>
+<td style="text-align:center">map&lt;string,vector<string>&gt;</string></td>
+<td style="text-align:center">记录产生式规则: <code>string→{string,string...}</code></td>
+</tr>
+<tr>
+<td style="text-align:center">first</td>
+<td style="text-align:center">map&lt;char,set<char>&gt;</char></td>
+<td style="text-align:center">记录各个非终结符号对应的first集</td>
+</tr>
+<tr>
+<td style="text-align:center">follow</td>
+<td style="text-align:center">map&lt;char,set<char>&gt;</char></td>
+<td style="text-align:center">记录各个非终结符号对应的follow集</td>
+</tr>
+<tr>
+<td style="text-align:center">Vt</td>
+<td style="text-align:center">set&lt;char></td>
+<td style="text-align:center">记录终结符集合Vt</td>
+</tr>
+<tr>
+<td style="text-align:center">Vn</td>
+<td style="text-align:center">set&lt;char></td>
+<td style="text-align:center">记录非终结符集合Vn</td>
+</tr>
+<tr>
+<td style="text-align:center">start</td>
+<td style="text-align:center">char</td>
+<td style="text-align:center">文法开始符号</td>
+</tr>
+<tr>
+<td style="text-align:center">point</td>
+<td style="text-align:center">struct Point{char vt; char vn}</td>
+<td style="text-align:center">记录分析表坐标</td>
+</tr>
+<tr>
+<td style="text-align:center">table</td>
+<td style="text-align:center">map&lt;point,string&gt;</td>
+<td style="text-align:center">LL(1)分析表：<code>point[坐标]→string[对应动作]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">file_tuple</td>
+<td style="text-align:center">typedef struct {int code; char symbol}</td>
+<td style="text-align:center">记录输入的二元组,<code>code:编码,symbol:符号</code></td>
+</tr>
+<tr>
+<td style="text-align:center">file_text</td>
+<td style="text-align:center">vector&lt;file_tuple&gt;</td>
+<td style="text-align:center">存储整个输入文件</td>
+</tr>
+</tbody>
+</table>
+<p>在存储结构确定之后，我们便可以着手落实LL(1)语法分析器的实现了，首先从first集的构造开始。</p>
+<h2 id="构造first集"><a href="#构造first集" class="headerlink" title="构造first集"></a>构造first集</h2><p>首先需要对first集有一个理性的定义：</p>
+<p>$$<br>first(α)=\lbrace a| α=^*&gt;aδ,且a∈V_t,δ∈V^* \big\rbrace (若α=^*&gt;ε,则ε∈first(α)\big)<br>$$</p>
+<p>first集的构造有确定的算法，算法的描述如下：</p>
+<blockquote>
+<p>若x∈Vt, 则FIRST(x)={x}<br>若X∈Vn, 有X→aα,(a∈Vt)或/和X→ε,则a或/和ε∈FIRST(x)<br>对X→Y1Y2…….Yk(且Y1∈Vn), 反复使用以下直到每一个FIRST(X)不再增大为止.</p>
+<blockquote>
+<p>i. 若Y1 ∈Vn,则把FIRST(Y1 )\ {ε}元素加入FIRST(X)中<br>ii. 若Y1、Y2、……Y i-1 ∈Vn (2≤i ≤k),且ε ∈FIRST(Yj) (1≤j≤i-1),则把FIRST(Yi)\ {ε}元素加入FIRST(x)中<br>iii. 若Y1、Y2、……Yk ∈Vn,且ε∈FIRST(Yj)(1≤j≤k),则把ε元素加入FIRST(x)中</p>
+</blockquote>
+</blockquote>
+<p>用代码实现这样抽象的算法并不是一件简约的事情，下面是构造first集的代码，其中各个步骤都标有详细的注释，分别对应上述算法中的各个步骤：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">make_first</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//初始化first集</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt;::iterator it = Vn.begin();it!=Vn.end();it++)&#123;</span><br><span class="line">        <span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt;t;</span><br><span class="line">        first.insert(make_pair(*it,t));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//遍历规则rule</span></span><br><span class="line">    <span class="comment">//2.若X∈Vn,有X→aα,(a∈Vt)或/和X→ε 则a或/和ε∈FIRST(x)</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;::iterator it=rule.begin();it!=rule.end();it++)&#123;</span><br><span class="line">        <span class="comment">//用tempp记录it-&gt;first对应的first集</span></span><br><span class="line">        <span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt; tempp;</span><br><span class="line">        <span class="comment">//left -&gt; right</span></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; right=it-&gt;second;</span><br><span class="line">        <span class="built_in">string</span> left=it-&gt;first;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;right.size();i++)&#123;</span><br><span class="line">            <span class="comment">// X-&gt;aα (a∈Vt) a即right[i][0]</span></span><br><span class="line">            <span class="keyword">if</span>(Vt.count(right[i][<span class="number">0</span>])!=<span class="number">0</span>)&#123;</span><br><span class="line">                tempp.insert(right[i][<span class="number">0</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// X→ε 则ε∈FIRST(x)</span></span><br><span class="line">            <span class="keyword">if</span>(right[i]==<span class="string">" "</span>)&#123;</span><br><span class="line">                tempp.insert(<span class="string">' '</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(first.at(*left.c_str()).size()==<span class="number">0</span>)&#123;</span><br><span class="line">            first.at(*left.c_str())=tempp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            first.at(*left.c_str()).insert(tempp.begin(),tempp.end());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//循环结束条件： 直到每一个FIRST(X)不再增大为止</span></span><br><span class="line">    <span class="comment">//3.对X→Y0Y1…….Yk(且Y0 ∈Vn), 反复使用以下直到每一个FIRST(X)不再增大为止</span></span><br><span class="line">    <span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt; temp[<span class="number">9</span>];</span><br><span class="line">    <span class="keyword">int</span> k=<span class="number">0</span>,first_size=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;::iterator it=rule.begin();;it++,k++)&#123;</span><br><span class="line">        <span class="comment">//用temp[k]记录it-&gt;first对应的first集</span></span><br><span class="line">        <span class="comment">//set&lt;char&gt; temp;</span></span><br><span class="line">        <span class="comment">//left -&gt; right</span></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; right=it-&gt;second;</span><br><span class="line">        <span class="built_in">string</span> left=it-&gt;first;</span><br><span class="line">        <span class="comment">//3.对X→Y0Y1…….Yk(且Y0 ∈Vn), 反复使用以下直到每一个FIRST(X)不再增大为止</span></span><br><span class="line">        <span class="keyword">bool</span> flag=<span class="literal">true</span>;<span class="comment">//检测连续含&#123;ε&#125;的Yj</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;right.size();i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;right[i].size()&amp;&amp;(Vn.count(right[i][j])&gt;<span class="number">0</span>)&amp;&amp;flag;j++)&#123;</span><br><span class="line">                <span class="comment">//FIRST(Yj)</span></span><br><span class="line">                <span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt; temp1=first.at(right[i][j]);</span><br><span class="line">                <span class="comment">//i 若Y0∈Vn  则把FIRST(Y0)\&#123;ε&#125;元素加入FIRST(X)中</span></span><br><span class="line">                <span class="keyword">if</span>(j==<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="comment">//\&#123;ε&#125;</span></span><br><span class="line">                    <span class="keyword">if</span>(temp1.count(<span class="string">' '</span>)&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                        temp1.erase(<span class="string">' '</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//Y0不含&#123;ε&#125;</span></span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                        flag=<span class="literal">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//FIRST(Y0)\&#123;ε&#125;</span></span><br><span class="line">                    temp[k].insert(temp1.begin(),temp1.end());</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                 ii 若Y1、Y2、……Y i-1 ∈Vn(2≤i ≤k) 且ε ∈FIRST(Y j) (1≤j ≤i-1)</span></span><br><span class="line"><span class="comment">                    则把FIRST(Yi )\&#123;ε&#125;元素加入FIRST(x)中</span></span><br><span class="line"><span class="comment">                 */</span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(j&lt;right[i].size()<span class="number">-1</span>)&#123;</span><br><span class="line">                    <span class="comment">//Y0...Yj-1含&#123;ε&#125;</span></span><br><span class="line">                    <span class="keyword">if</span>(temp1.count(<span class="string">' '</span>)&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                        temp1.erase(<span class="string">' '</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//Yj不含&#123;ε&#125;</span></span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                        flag=<span class="literal">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//FIRST(Yj)\&#123;ε&#125;</span></span><br><span class="line">                    temp[k].insert(temp1.begin(),temp1.end());</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                 iii 若Y0、Y1、……Yk ∈Vn且ε ∈FIRST(Yj)(0≤j ≤k)</span></span><br><span class="line"><span class="comment">                    则把ε元素加入FIRST(x)中</span></span><br><span class="line"><span class="comment">                 */</span></span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    temp[k].insert(<span class="string">' '</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(first.at(*left.c_str()).size()==<span class="number">0</span>)&#123;</span><br><span class="line">            first.at(*left.c_str())=temp[k];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            first.at(*left.c_str()).insert(temp[k].begin(),temp[k].end());</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//跳出条件</span></span><br><span class="line">        <span class="keyword">if</span>(k==first.size()<span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">            <span class="comment">//求和，观察first集有无增大</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> kk=<span class="number">0</span>;kk&lt;=k;kk++)&#123;</span><br><span class="line">                cnt+=temp[kk].size();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//和上一次大小一样，循环终止</span></span><br><span class="line">            <span class="keyword">if</span>(cnt==first_size)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="comment">//重新循环</span></span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                k=<span class="number">0</span>;</span><br><span class="line">                it=rule.begin();</span><br><span class="line">                first_size=cnt;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="构造follow集"><a href="#构造follow集" class="headerlink" title="构造follow集"></a>构造follow集</h2><p>在构造完first集之后，下一步便可进入到follow集的构造。<br>当然顺序不是我规定的，但是follow集必须在first集构造完后构造，因为其算法描述是基于first集所定义的。<br>follow集的定义如下：</p>
+<p>$$<br>follow(A)= \lbrace a| S=^*&gt;αAaδ,且a∈V_t,α,δ∈V^* \rbrace \big(若S=^*&gt;αA,则 \sharp∈follow(A)\big)<br>$$</p>
+<p>当然，也存在构造follow集的成熟算法，算法描述为：</p>
+<blockquote>
+<p>i. 置FIRST(α)={ }<br>ii. FIRST(X1)\ {ε}加入FIRST(α)<br>iii. 若ε ∈ FIRST(X1),则FIRST(X2)\ {ε}加入FIRST(α)<br>&emsp;&nbsp;若ε ∈ FIRST(X1)且ε ∈ FIRST(X2),则FIRST(X3)\ {ε}加入FIRST(α) ……..以此类推<br>&emsp;&nbsp;若ε ∈ FIRST(Xi) 1≤ i ≤n 则ε ∈ FIRST(α)</p>
+</blockquote>
+<p>在定义和算法都描述清晰之后，下一步需要把算法细化为代码实现。<br>follow集的实现与first集的实现大同小异，代码如下，其中各个步骤都标有详细的注释，分别对应上述算法中的各个步骤：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">make_follow</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//初始化follow集</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt;::iterator it = Vn.begin();it!=Vn.end();it++)&#123;</span><br><span class="line">        <span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt;t;</span><br><span class="line">        <span class="comment">//令#∈FOLLOW(S) S为文法开始符号</span></span><br><span class="line">        <span class="keyword">if</span>(*it==start)</span><br><span class="line">            t.insert(<span class="string">'#'</span>);</span><br><span class="line">        follow.insert(make_pair(*it,t));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//遍历规则rule</span></span><br><span class="line">    <span class="comment">//2.对A→ αBβ,且β ≠ε, 则将 FIRST(β)\&#123;ε&#125;加入FOLLOW(B)中</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;::iterator it=rule.begin();it!=rule.end();it++)&#123;</span><br><span class="line">        <span class="comment">//left -&gt; right</span></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; right=it-&gt;second;</span><br><span class="line">        <span class="built_in">string</span> left=it-&gt;first;</span><br><span class="line">        <span class="comment">//对每个left遍历</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;right.size();i++)&#123;</span><br><span class="line">            <span class="comment">//对left的每一个规则遍历</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;right[i].size();j++)&#123;</span><br><span class="line">                <span class="comment">//找到B所在：right[i][j]</span></span><br><span class="line">                <span class="keyword">if</span>(Vn.count(right[i][j])!=<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt; tt;</span><br><span class="line">                    <span class="comment">//β属于Vt</span></span><br><span class="line">                    <span class="keyword">if</span>(Vt.count(right[i][j+<span class="number">1</span>])!=<span class="number">0</span>)&#123;</span><br><span class="line">                        tt.insert(right[i][j+<span class="number">1</span>]);</span><br><span class="line">                        follow.at(right[i][j]).insert(tt.begin(),tt.end());</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//β属于Vn,FIRST(β)\&#123;ε&#125;加入FOLLOW(B)中</span></span><br><span class="line">                    <span class="keyword">if</span>(Vn.count(right[i][j+<span class="number">1</span>])!=<span class="number">0</span>)&#123;</span><br><span class="line">                        tt=first.at(right[i][j+<span class="number">1</span>]);</span><br><span class="line">                        tt.erase(<span class="string">' '</span>);</span><br><span class="line">                        follow.at(right[i][j]).insert(tt.begin(),tt.end());</span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line">                &#125;<span class="comment">//找到B所在：right[i][j]</span></span><br><span class="line">            &#125;<span class="comment">//对left的每一个规则遍历</span></span><br><span class="line">        &#125;<span class="comment">//对每个left遍历</span></span><br><span class="line">    &#125;<span class="comment">//遍历规则rule</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3.反复, 直至每一个FOLLOW(A)不再增大</span></span><br><span class="line">    <span class="comment">//   对A→ αB或A→ αBβ(且ε ∈ FIRST(β))</span></span><br><span class="line">    <span class="comment">//   则FOLLOW(A)中的全部元素加入FOLLOW(B)</span></span><br><span class="line">    <span class="keyword">int</span> k=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> follow_size=<span class="number">0</span>;<span class="comment">//记录follow集的大小</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;::iterator it=rule.begin();;it++,k++)&#123;</span><br><span class="line">        <span class="comment">//left -&gt; right</span></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; right=it-&gt;second;</span><br><span class="line">        <span class="built_in">string</span> left=it-&gt;first;</span><br><span class="line">        <span class="comment">//对每个left遍历(一个left对应多个规则)</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;right.size();i++)&#123;</span><br><span class="line">            <span class="comment">//对left的每一个规则遍历（一个规则对应多个字符）</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;right[i].size();j++)&#123;</span><br><span class="line">                <span class="comment">//找到B所在：right[i][j]</span></span><br><span class="line">                <span class="keyword">if</span>(Vn.count(right[i][j])!=<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt; tt;</span><br><span class="line">                    <span class="comment">//到规则的最后一个字符</span></span><br><span class="line">                    <span class="keyword">if</span>(j==right[i].size()<span class="number">-1</span>)&#123;</span><br><span class="line">                        <span class="comment">//最后一个字符是Vn，即A→αB，则FOLLOW(A)中的全部元素加入FOLLOW(B)</span></span><br><span class="line">                        tt=follow.at(*left.c_str());</span><br><span class="line">                        follow.at(right[i][j]).insert(tt.begin(),tt.end());</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">//没到最后一个,即A→ αBβ(且ε∈FIRST(β)) 这种情况</span></span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                        <span class="keyword">bool</span> flag=<span class="literal">true</span>;</span><br><span class="line">                        <span class="comment">//检索ε∈FIRST(β)是否成立</span></span><br><span class="line">                        <span class="keyword">for</span>(<span class="keyword">int</span> jj=j+<span class="number">1</span>;jj&lt;right[i].size()&amp;&amp;flag;jj++)&#123;</span><br><span class="line">                            <span class="comment">//right[i][jj]是Vn且包含ε</span></span><br><span class="line">                            <span class="keyword">if</span>(Vn.count(right[i][jj])!=<span class="number">0</span>&amp;&amp;first.at(right[i][jj]).count(<span class="string">' '</span>)!=<span class="number">0</span>)&#123;</span><br><span class="line">                                <span class="keyword">continue</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="comment">//right[i][jj]不是Vn或不包含ε</span></span><br><span class="line">                            <span class="keyword">else</span>&#123;</span><br><span class="line">                                flag=<span class="literal">false</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="comment">//A→ αBβ(且ε∈FIRST(β))情况满足</span></span><br><span class="line">                        <span class="keyword">if</span>(flag)&#123;</span><br><span class="line">                            tt=follow.at(*left.c_str());</span><br><span class="line">                            follow.at(right[i][j]).insert(tt.begin(),tt.end());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;<span class="comment">//找到B所在：right[i][j]</span></span><br><span class="line">            &#125;<span class="comment">//对left的每一个规则遍历</span></span><br><span class="line">        &#125;<span class="comment">//对每个left遍历</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//跳出条件</span></span><br><span class="line">        <span class="keyword">if</span>(k==follow.size()<span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="built_in">map</span>&lt;<span class="keyword">char</span>,<span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt;&gt;::iterator it1=follow.begin();it1!=follow.end();it1++)&#123;</span><br><span class="line">                cnt+=it1-&gt;second.size();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//和上一次大小一样，循环终止</span></span><br><span class="line">            <span class="keyword">if</span>(cnt==follow_size)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="comment">//重新循环</span></span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                k=<span class="number">0</span>;</span><br><span class="line">                it=rule.begin();</span><br><span class="line">                follow_size=cnt;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="comment">//跳出条件</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="构造LL-1-分析表"><a href="#构造LL-1-分析表" class="headerlink" title="构造LL(1)分析表"></a>构造LL(1)分析表</h2><p>在first集和follow集都构造好之后，我们的前期准备工作已经进入到了最后阶段<br>现在我们需要做的就是：<strong>根据first集和follow集来构造LL(1)分析表</strong><br>分析表的横坐标由终结符Vt构成，纵轴由非终结符Vn构成，坐标点的内容为对横纵坐标组合所采取的产生式动作。</p>
+<p>由每一个产生式<strong><code>A→α1|α2|...|αn</code></strong>确定M[A,a]矩阵，<em>a∈Vt</em>，分析表<strong>M</strong>的定义如下：</p>
+<blockquote>
+<p>i. 任何a∈FIRST(αi),置M[A, a]=“pop,push(αi′)”,α′为α倒置 或将A→αi 规则填入M[A, a]<br>ii. 若ε ∈ FIRST(αi),则对于任一个b∈FOLLOW(A),b∈Vt或#,置M[A, b]=“pop”或将A → ε规则填入M[A,b],此时b不属于FIRST(A)<br>iii. 其它空白为出错</p>
+</blockquote>
+<p>根据分析表的算法描述，可以编写出如下的代码，其中各个步骤都标有详细的注释，分别对应上述算法中的各个步骤：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">make_table</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">string</span> action;</span><br><span class="line">    <span class="comment">//纵轴遍历Vn</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt;::iterator it1=Vn.begin();it1!=Vn.end();it1++)&#123;</span><br><span class="line">        <span class="comment">//横轴遍历Vt</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt;::iterator it2=Vt.begin();it2!=Vt.end();it2++)&#123;</span><br><span class="line">            <span class="comment">//结构体t（vn，vt）来记录坐标</span></span><br><span class="line">            point t;</span><br><span class="line">            t.vn=*it1;</span><br><span class="line">            t.vt=*it2;</span><br><span class="line">            action=<span class="string">""</span>;</span><br><span class="line">            <span class="comment">//如果it2是it1的first集元素:it2∈first(it1)</span></span><br><span class="line">            <span class="keyword">if</span>(first.at(t.vn).count(t.vt)!=<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="comment">//本应有一步动作：查询it2是it1哪一个规则的first集元素</span></span><br><span class="line">                <span class="built_in">string</span> v= &amp;t.vn;<span class="comment">//将it1转化为string类型</span></span><br><span class="line">                <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; Trule;</span><br><span class="line">                Trule=rule.at(v.substr(<span class="number">0</span>,<span class="number">1</span>));</span><br><span class="line">                </span><br><span class="line">                <span class="comment">//剔除空产生式</span></span><br><span class="line">                <span class="keyword">int</span> T=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;::iterator it=Trule.begin();T&lt;Trule.size();it++,T++)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(*it==<span class="string">" "</span>)</span><br><span class="line">                        Trule.erase(it);</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span>(Trule.size()&gt;<span class="number">1</span>)&#123;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> ii=<span class="number">0</span>;ii&lt;Trule.size();ii++)&#123;</span><br><span class="line">                        <span class="comment">//空动作不管</span></span><br><span class="line">                        <span class="keyword">if</span>(Trule[ii]==<span class="string">" "</span>)</span><br><span class="line">                            <span class="keyword">continue</span>;</span><br><span class="line">                        <span class="comment">//产生式的第一个即为vt，则必定为其first集</span></span><br><span class="line">                        <span class="keyword">if</span>(Trule[ii].find(t.vt)!=<span class="built_in">string</span>::npos)&#123;</span><br><span class="line">                            action=Trule[ii];</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> action = rule.at(v.substr(<span class="number">0</span>,<span class="number">1</span>))[<span class="number">0</span>];<span class="comment">//直接拿第一个规则，因为第二个规则即末尾规则肯定为it1-&gt;ε</span></span><br><span class="line">                table.insert(make_pair(t, action));</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//如果it2是it1的follow集元素:it2∈follow(it1),且若ε ∈ FIRST(it1)</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(first.at(t.vn).count(<span class="string">' '</span>)!=<span class="number">0</span>&amp;&amp;follow.at(t.vn).count(t.vt)!=<span class="number">0</span>)&#123;</span><br><span class="line">                action=<span class="string">"pop"</span>;</span><br><span class="line">                table.insert(make_pair(t, action));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//对应分析表中的空白，即出错</span></span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                action=<span class="string">"-1"</span>;</span><br><span class="line">                table.insert(make_pair(t, action));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="comment">//横轴遍历Vt</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//纵轴添加一个‘#’</span></span><br><span class="line">        point t1;</span><br><span class="line">        t1.vn=*it1;</span><br><span class="line">        t1.vt=<span class="string">'#'</span>;</span><br><span class="line">        <span class="comment">//添加条件：Vn-&gt;ε 且 ‘#’ ∈ follow(Vn)</span></span><br><span class="line">        <span class="keyword">if</span>(first.at(t1.vn).count(<span class="string">' '</span>)!=<span class="number">0</span>&amp;&amp;follow.at(t1.vn).count(t1.vt)!=<span class="number">0</span>)&#123;</span><br><span class="line">            action=<span class="string">"pop"</span>;</span><br><span class="line">            table.insert(make_pair(t1, action));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//对应分析表中的空白，即出错</span></span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            action=<span class="string">"-1"</span>;</span><br><span class="line">            table.insert(make_pair(t1, action));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="comment">//纵轴遍历Vn</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>代码中的action变量记录各种情况下应该采取的动作，即<strong>M[A,a]</strong><br>此外，对于空白，算法的描述为错误，代码这里将空白描述为<strong><code>action=‘-1’</code></strong>来代表出错。</p>
+<p>到此，我们的first集、follow集和分析表已经全部构造完毕！</p>
+<h2 id="构造分析栈"><a href="#构造分析栈" class="headerlink" title="构造分析栈"></a>构造分析栈</h2><p>准备工作全部完成之后，接下来便是构造分析栈来对输入二元组进行语法分析。<br>分析的算法流程描述如下：<br><img src="/images/编译原理/LL1语法分析/analyze.png" alt="Alt text" title="分析流程"></p>
+<p>其中<strong><code>start</code></strong>为文法开始符号</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>选用两组用例包含一错一对，测试结果如下：<br>对于<strong><code>i=i+i</code></strong>，编译结果为：<br><img src="/images/编译原理/LL1语法分析/r.png" alt="Alt text" title="i=i+i"><br>对于<strong><code>i=i+-</code></strong>，编译结果为：<br><img src="/images/编译原理/LL1语法分析/w.png" alt="Alt text" title="i=i+-"><br>可以看到，语法分析器可以正确实现其功能！</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>对于这种具有多个复杂存储结构的实验，一定要在事先理清楚各个变量的数据结构的意义，否则很容易陷入迷惑。<br>此外在c++中需要尽量避免char类型和string类型的混合使用，尽管string提供了c_str方法，但其返回值为char*，在循环时很容易造成指针错误，所以要谨慎使用！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/01/编译原理——递归下降语法分析器/" rel="next" title="编译原理——递归下降语法分析器">
+                <i class="fa fa-chevron-left"></i> 编译原理——递归下降语法分析器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验项目"><span class="nav-text">实验项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计说明"><span class="nav-text">设计说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计要求"><span class="nav-text">设计要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计思路"><span class="nav-text">设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总数据流"><span class="nav-text">总数据流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储结构"><span class="nav-text">存储结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造first集"><span class="nav-text">构造first集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造follow集"><span class="nav-text">构造follow集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造LL-1-分析表"><span class="nav-text">构造LL(1)分析表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造分析栈"><span class="nav-text">构造分析栈</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
