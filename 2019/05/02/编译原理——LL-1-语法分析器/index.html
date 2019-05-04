@@ -98,8 +98,10 @@
 <meta property="og:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/data.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/analyze.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/r.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/r2.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/w.png">
-<meta property="og:updated_time" content="2019-05-02T07:41:29.486Z">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/LL1语法分析/w2.png">
+<meta property="og:updated_time" content="2019-05-04T09:36:58.422Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编译原理——LL(1)语法分析器">
 <meta name="twitter:description" content="实验项目实现LL(1)分析中控制程序（表驱动程序）;完成以下描述赋值语句的LL(1)文法的LL(1)分析过程。123456789S→V=EE→TE′E′→ATE′|εT→FT′T′→MFT′|εF→ (E)|iA→+|-M→*|/V→i 设计说明终结符号i为用户定义的简单变量，即标识符的定义 设计要求（1）输入串应是词法分析的输出二元式序列，即某算术表达式“专题1”的输出结果。输出为输入串是否为该">
@@ -377,7 +379,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  3.4k 字
+                  3.5k 字
                 </span>
               
 
@@ -393,7 +395,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  15 min
+                  16 min
                 </span>
               
             </div>
@@ -521,7 +523,9 @@ table th:first-of-type {
 <p>到此，我们的first集、follow集和分析表已经全部构造完毕！</p>
 <h2 id="构造分析栈"><a href="#构造分析栈" class="headerlink" title="构造分析栈"></a>构造分析栈</h2><p>准备工作全部完成之后，接下来便是构造分析栈来对输入二元组进行语法分析。<br>分析的算法流程描述如下：<br><img src="/images/编译原理/LL1语法分析/analyze.png" alt="Alt text" title="分析流程"></p>
 <p>其中<strong><code>start</code></strong>为文法开始符号</p>
-<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>选用两组用例包含一错一对，测试结果如下：<br>对于<strong><code>i=i+i</code></strong>，编译结果为：<br><img src="/images/编译原理/LL1语法分析/r.png" alt="Alt text" title="i=i+i"><br>对于<strong><code>i=i+-</code></strong>，编译结果为：<br><img src="/images/编译原理/LL1语法分析/w.png" alt="Alt text" title="i=i+-"><br>可以看到，语法分析器可以正确实现其功能！</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>选用两组用例包含两错两对，测试结果如下：</p>
+<h2 id="正确样例"><a href="#正确样例" class="headerlink" title="正确样例"></a>正确样例</h2><p>对于<strong><code>i=i+i</code></strong>，编译结果为：<br><img src="/images/编译原理/LL1语法分析/r.png" alt="Alt text" title="i=i+i"><br>对于<strong><code>i=i*i/i</code></strong>，编译结果为：<br><img src="/images/编译原理/LL1语法分析/r2.png" alt="Alt text" title="i=i*i/i"></p>
+<h2 id="错误样例"><a href="#错误样例" class="headerlink" title="错误样例"></a>错误样例</h2><p>对于<strong><code>i=i+-</code></strong>，编译结果为：<br><img src="/images/编译原理/LL1语法分析/w.png" alt="Alt text" title="i=i+-"><br>对于<strong><code>i=i*i/)</code></strong>，编译结果为：<br><img src="/images/编译原理/LL1语法分析/w2.png" alt="Alt text" title="i=i*i/)"><br>可以看到，语法分析器可以正确实现其功能！</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>对于这种具有多个复杂存储结构的实验，一定要在事先理清楚各个变量的数据结构的意义，否则很容易陷入迷惑。<br>此外在c++中需要尽量避免char类型和string类型的混合使用，尽管string提供了c_str方法，但其返回值为char*，在循环时很容易造成指针错误，所以要谨慎使用！</p>
 
       
@@ -745,7 +749,7 @@ table th:first-of-type {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验项目"><span class="nav-text">实验项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计说明"><span class="nav-text">设计说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计要求"><span class="nav-text">设计要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计思路"><span class="nav-text">设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总数据流"><span class="nav-text">总数据流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储结构"><span class="nav-text">存储结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造first集"><span class="nav-text">构造first集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造follow集"><span class="nav-text">构造follow集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造LL-1-分析表"><span class="nav-text">构造LL(1)分析表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造分析栈"><span class="nav-text">构造分析栈</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验项目"><span class="nav-text">实验项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计说明"><span class="nav-text">设计说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计要求"><span class="nav-text">设计要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计思路"><span class="nav-text">设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总数据流"><span class="nav-text">总数据流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储结构"><span class="nav-text">存储结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造first集"><span class="nav-text">构造first集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造follow集"><span class="nav-text">构造follow集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造LL-1-分析表"><span class="nav-text">构造LL(1)分析表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造分析栈"><span class="nav-text">构造分析栈</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正确样例"><span class="nav-text">正确样例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误样例"><span class="nav-text">错误样例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
