@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-center-atom.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="写在前面人们常说，对于同一个工程的代码量而言：1C/C++ : JAVA : python = 1000:100:10 前三次在C/C++为主导下创作的作业，代码量明显是一个逐次递增的过程，甚至到实验三的时候，代码量已经破了500大关！我寻思这可不是一个好的趋势，于是赶紧投笔从戎，放下C刀，从军python  人生苦短，我用python！  目标任务实验项目实现算符优先分析算法，完成以下描述算术表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理——算符优先语法分析">
+<meta property="og:url" content="http://hnjia00.github.io/2019/05/12/编译原理——算符优先语法分析/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="写在前面人们常说，对于同一个工程的代码量而言：1C/C++ : JAVA : python = 1000:100:10 前三次在C/C++为主导下创作的作业，代码量明显是一个逐次递增的过程，甚至到实验三的时候，代码量已经破了500大关！我寻思这可不是一个好的趋势，于是赶紧投笔从戎，放下C刀，从军python  人生苦短，我用python！  目标任务实验项目实现算符优先分析算法，完成以下描述算术表">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/firstvt.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/firstvt1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/lastvt.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/lastvt1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/matrxi.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/analyse.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/input.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/r1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/r2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/w1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/w2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/OPG/w3.png">
+<meta property="og:updated_time" content="2019-05-12T05:57:01.866Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译原理——算符优先语法分析">
+<meta name="twitter:description" content="写在前面人们常说，对于同一个工程的代码量而言：1C/C++ : JAVA : python = 1000:100:10 前三次在C/C++为主导下创作的作业，代码量明显是一个逐次递增的过程，甚至到实验三的时候，代码量已经破了500大关！我寻思这可不是一个好的趋势，于是赶紧投笔从戎，放下C刀，从军python  人生苦短，我用python！  目标任务实验项目实现算符优先分析算法，完成以下描述算术表">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/编译原理/OPG/firstvt.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2019/05/12/编译原理——算符优先语法分析/">
+
+
+
+
+
+  <title>编译原理——算符优先语法分析 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Morning death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/05/12/编译原理——算符优先语法分析/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">编译原理——算符优先语法分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-12T11:01:33+08:00">
+                2019-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/编译原理/" itemprop="url" rel="index">
+                    <span itemprop="name">编译原理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2.9k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  12 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>人们常说，对于同一个工程的代码量而言：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C/C++ : JAVA : python = <span class="number">1000</span>:<span class="number">100</span>:<span class="number">10</span></span><br></pre></td></tr></table></figure></p>
+<p>前三次在C/C++为主导下创作的作业，代码量明显是一个逐次递增的过程，甚至到实验三的时候，代码量已经破了500大关！<br>我寻思这可不是一个好的趋势，于是赶紧投笔从戎，放下C刀，从军python</p>
+<blockquote>
+<p>人生苦短，我用python！</p>
+</blockquote>
+<h1 id="目标任务"><a href="#目标任务" class="headerlink" title="目标任务"></a>目标任务</h1><h2 id="实验项目"><a href="#实验项目" class="headerlink" title="实验项目"></a>实验项目</h2><p>实现算符优先分析算法，完成以下描述算术表达式的算符优先文法的算符优先分析过程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">G[E]:E→E+T∣E-T∣T</span><br><span class="line">     T→T*F∣T/F∣F</span><br><span class="line">     F→(E)∣i</span><br></pre></td></tr></table></figure></p>
+<h2 id="设计说明"><a href="#设计说明" class="headerlink" title="设计说明"></a>设计说明</h2><p>终结符号i为用户定义的简单变量,即标识符的定义。</p>
+<h2 id="设计要求"><a href="#设计要求" class="headerlink" title="设计要求"></a>设计要求</h2><p>（1）构造该算符优先文法的优先关系矩阵或优先函数；<br>（2）输入串应是词法分析的输出二元式序列，即某算术表达式“专题1”的输出结果。输出为输入串是否为该文法定义的算术表达式的判断结果。<br>（3）算符优先分析过程应能发现输入串出错。<br>（4）设计两个测试用例（尽可能完备，正确和出错），并给出测试结果；<br>（5）考虑编写程序根据算符优先文法构造算符优先关系矩阵，并添加到你的算符优先分析程序中。</p>
+<h1 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h1><p>由于本次实验切换到了python下，虽然python的语法规范宽泛，没有严格的句式要求，但是为了保证结果的泛用性，我决定采用<strong>面向对象编程</strong>的方法来组织此次作业。</p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>在明确好编程思想后，首先需要确定下来的就是如何组织类及类成员，如何存储数据。<br>下面给出算符优先语法分析类<strong><code>class OPG</code></strong>的成员变量/函数及其设计说明：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">成员变量</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">start</td>
+<td style="text-align:center">str</td>
+<td style="text-align:center">记录文法开始符号</td>
+</tr>
+<tr>
+<td style="text-align:center">Vt</td>
+<td style="text-align:center">list[str]</td>
+<td style="text-align:center">记录文法非终结符号集</td>
+</tr>
+<tr>
+<td style="text-align:center">Vn</td>
+<td style="text-align:center">list[str]</td>
+<td style="text-align:center">记录文法终结符号集</td>
+</tr>
+<tr>
+<td style="text-align:center">rule</td>
+<td style="text-align:center">dict{str: list[str]}</td>
+<td style="text-align:center">记录文法产生式</td>
+</tr>
+<tr>
+<td style="text-align:center">rule1</td>
+<td style="text-align:center">dict{str: list[str]}</td>
+<td style="text-align:center">用N替换rule产生式中的非终结符号，辅助判断最左素短语能否被规约</td>
+</tr>
+<tr>
+<td style="text-align:center">firstVt</td>
+<td style="text-align:center">dict{str: set()}</td>
+<td style="text-align:center">记录非终结符号str对应的firstVt集</td>
+</tr>
+<tr>
+<td style="text-align:center">lastVt</td>
+<td style="text-align:center">dict{str: set()}</td>
+<td style="text-align:center">记录非终结符号str对应的lastVt集</td>
+</tr>
+<tr>
+<td style="text-align:center">matrix</td>
+<td style="text-align:center">dict{(str,str): str}</td>
+<td style="text-align:center">记录优先关系矩阵</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">成员函数</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">__init__(self,start,Vn,Vt,rule)</td>
+<td style="text-align:center">class OPG</td>
+<td style="text-align:center">类的构造函数，通过输入文法的开始符号、非终结符/终结符号集、产生式规则从而构造并返回OPG类</td>
+</tr>
+<tr>
+<td style="text-align:center">get_firstVt(self)</td>
+<td style="text-align:center">void</td>
+<td style="text-align:center">自动生成所有非终结符对应的firstVt集</td>
+</tr>
+<tr>
+<td style="text-align:center">get_lastVt(self)</td>
+<td style="text-align:center">void</td>
+<td style="text-align:center">自动生成所有非终结符对应的lastVt集</td>
+</tr>
+<tr>
+<td style="text-align:center">get_matrix(self)</td>
+<td style="text-align:center">void</td>
+<td style="text-align:center">自动生成优先关系矩阵</td>
+</tr>
+<tr>
+<td style="text-align:center">get_assistrule(self)</td>
+<td style="text-align:center">void</td>
+<td style="text-align:center">生成辅助规则集合rule1</td>
+</tr>
+<tr>
+<td style="text-align:center">can_statute(self,test)</td>
+<td style="text-align:center">bool</td>
+<td style="text-align:center">判断字符串test能否被规约</td>
+</tr>
+<tr>
+<td style="text-align:center">compile(self,test)</td>
+<td style="text-align:center">bool</td>
+<td style="text-align:center">判断输入程序是否满足算符优先文法</td>
+</tr>
+</tbody>
+</table>
+<h2 id="自动生成firstVt"><a href="#自动生成firstVt" class="headerlink" title="自动生成firstVt"></a>自动生成firstVt</h2><p>生成firstVt由函数get_firstVt(self)实现，算法流程如下：<br><img src="/images/编译原理/OPG/firstvt.png" alt="Alt text"><br>其实现代码如下，注释均详细对应上述流程图<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_firstVt</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="comment"># 初始化firstVt</span></span><br><span class="line">    self.firstVt = &#123;Vn: set() <span class="keyword">for</span> Vn <span class="keyword">in</span> self.Vn&#125;</span><br><span class="line">    <span class="comment"># 初始化辅助栈</span></span><br><span class="line">    stack = []</span><br><span class="line">    <span class="comment"># 初始化辅助布尔判断函数</span></span><br><span class="line">    F = dict()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据原则①：若有规则U→b…, 或U→Vb…,则b∈FIRSTVT(U)</span></span><br><span class="line">    <span class="comment"># first -&gt; right</span></span><br><span class="line">    <span class="keyword">for</span> left <span class="keyword">in</span> self.firstVt:</span><br><span class="line">        <span class="keyword">for</span> right <span class="keyword">in</span> self.rule[left]:</span><br><span class="line">            <span class="comment"># U→b…</span></span><br><span class="line">            <span class="keyword">if</span>(right[<span class="number">0</span>] <span class="keyword">in</span> self.Vt):</span><br><span class="line">                self.firstVt[left].add(right[<span class="number">0</span>])</span><br><span class="line">                stack.append((left, right[<span class="number">0</span>]))</span><br><span class="line">                F[(left,right[<span class="number">0</span>])] = <span class="keyword">True</span></span><br><span class="line">            <span class="comment"># U→Vb…</span></span><br><span class="line">            <span class="keyword">elif</span>(len(right)&gt;<span class="number">1</span> <span class="keyword">and</span> right[<span class="number">0</span>] <span class="keyword">in</span> self.Vn <span class="keyword">and</span> right[<span class="number">1</span>] <span class="keyword">in</span> self.Vt):</span><br><span class="line">                self.firstVt[left].add(right[<span class="number">1</span>])</span><br><span class="line">                stack.append((left, right[<span class="number">1</span>]))</span><br><span class="line">                F[(left, right[<span class="number">1</span>])] = <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据原则②：若有规则U→V…,且b ∈FIRSTVT(V)，则b ∈FIRSTVT(U)</span></span><br><span class="line">    <span class="keyword">while</span>(len(stack)&gt;<span class="number">0</span>):</span><br><span class="line">        <span class="comment"># 弹出栈顶元素,记(V,b)</span></span><br><span class="line">        V,b = stack.pop()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> left <span class="keyword">in</span> self.Vn:</span><br><span class="line">            <span class="keyword">for</span> right <span class="keyword">in</span> self.rule[left]:</span><br><span class="line">                <span class="comment"># 对每一个形如U→V…的规则</span></span><br><span class="line">                <span class="comment"># U即left</span></span><br><span class="line">                <span class="keyword">if</span>(right[<span class="number">0</span>]==V):</span><br><span class="line">                    <span class="comment"># 若F(U,b) 为假,变为真,  进STACK栈</span></span><br><span class="line">                    <span class="keyword">if</span>((left,b) <span class="keyword">not</span> <span class="keyword">in</span> F.keys()):</span><br><span class="line">                        F[(left, b)]=<span class="keyword">True</span></span><br><span class="line">                        stack.append((left,b))</span><br><span class="line">                    <span class="comment"># 若F(U,b)为真,再循环</span></span><br><span class="line">                    <span class="keyword">if</span>(F[(left,b)]==<span class="keyword">True</span>):</span><br><span class="line">                        <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># FIRSTVT(U)=&#123;b∣F(U,b)=TRUE&#125;</span></span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> F:</span><br><span class="line">        self.firstVt[key[<span class="number">0</span>]].add(key[<span class="number">1</span>])</span><br></pre></td></tr></table></figure></p>
+<p>执行程序的结果如下，可以看出get_firstVt函数已正确执行：<br><img src="/images/编译原理/OPG/firstvt1.png" alt="Alt text" title="firstVt"></p>
+<h2 id="自动生成lastVt"><a href="#自动生成lastVt" class="headerlink" title="自动生成lastVt"></a>自动生成lastVt</h2><p>生成lastVt由函数get_lastVt(self)实现，流程与生成firstvt几乎相同，只是在规则①和②的地方改为了寻找最后一个或倒数两个字符，算法流程如下：<br><img src="/images/编译原理/OPG/lastvt.png" alt="Alt text"><br>其实现代码如下，注释均详细对应上述流程图<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_lastVt</span><span class="params">(self)</span>:</span></span><br><span class="line"><span class="comment"># 初始化lastVt</span></span><br><span class="line">self.lastVt = &#123;Vn: set() <span class="keyword">for</span> Vn <span class="keyword">in</span> self.Vn&#125;</span><br><span class="line"><span class="comment"># 初始化辅助栈</span></span><br><span class="line">stack = []</span><br><span class="line"><span class="comment"># 初始化辅助布尔判断函数</span></span><br><span class="line">F1 = dict()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据原则①：若有规则U→…b, 或U→…bV,则b∈LASTVT(U)</span></span><br><span class="line"><span class="comment"># first -&gt; right</span></span><br><span class="line"><span class="keyword">for</span> left <span class="keyword">in</span> self.firstVt:</span><br><span class="line">    <span class="keyword">for</span> right <span class="keyword">in</span> self.rule[left]:</span><br><span class="line">        <span class="comment"># U→…b</span></span><br><span class="line">        <span class="keyword">if</span>(right[<span class="number">-1</span>] <span class="keyword">in</span> self.Vt):</span><br><span class="line">            self.lastVt[left].add(right[<span class="number">-1</span>])</span><br><span class="line">            stack.append((left, right[<span class="number">-1</span>]))</span><br><span class="line">            F1[(left,right[<span class="number">-1</span>])] = <span class="keyword">True</span></span><br><span class="line">        <span class="comment"># U→…Vb</span></span><br><span class="line">        <span class="keyword">elif</span>(len(right)&gt;<span class="number">1</span> <span class="keyword">and</span> right[<span class="number">-1</span>] <span class="keyword">in</span> self.Vn <span class="keyword">and</span> right[<span class="number">-2</span>] <span class="keyword">in</span> self.Vt):</span><br><span class="line">            self.lastVt[left].add(right[<span class="number">-2</span>])</span><br><span class="line">            stack.append((left, right[<span class="number">-2</span>]))</span><br><span class="line">            F1[(left, right[<span class="number">-2</span>])] = <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据原则②：若有规则U→…V,且b ∈ LASTVT(V)，则b ∈ LASTVT(U)</span></span><br><span class="line"><span class="keyword">while</span>(len(stack)&gt;<span class="number">0</span>):</span><br><span class="line">    <span class="comment"># 弹出栈顶元素,记(V,b)</span></span><br><span class="line">    V,b = stack.pop()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> left <span class="keyword">in</span> self.Vn:</span><br><span class="line">        <span class="keyword">for</span> right <span class="keyword">in</span> self.rule[left]:</span><br><span class="line">            <span class="comment"># 对每一个形如U→…V的规则</span></span><br><span class="line">            <span class="comment"># U即left</span></span><br><span class="line">            <span class="keyword">if</span>(right[<span class="number">-1</span>]==V):</span><br><span class="line">                <span class="comment"># 若F(U,b) 为假,变为真,  进STACK栈</span></span><br><span class="line">                <span class="keyword">if</span>((left,b) <span class="keyword">not</span> <span class="keyword">in</span> F1.keys()):</span><br><span class="line">                    F1[(left, b)]=<span class="keyword">True</span></span><br><span class="line">                    stack.append((left,b))</span><br><span class="line">                <span class="comment"># 若F(U,b)为真,再循环</span></span><br><span class="line">                <span class="keyword">if</span>(F1[(left,b)]==<span class="keyword">True</span>):</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># FIRSTVT(U)=&#123;b∣F(U,b)=TRUE&#125;</span></span><br><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> F1:</span><br><span class="line">    self.lastVt[key[<span class="number">0</span>]].add(key[<span class="number">1</span>])</span><br></pre></td></tr></table></figure></p>
+<p>执行程序的结果如下，可以看出get_lastVt函数已正确执行：<br><img src="/images/编译原理/OPG/lastvt1.png" alt="Alt text" title="lastVt"></p>
+<h2 id="自动生成优先关系矩阵"><a href="#自动生成优先关系矩阵" class="headerlink" title="自动生成优先关系矩阵"></a>自动生成优先关系矩阵</h2><p>生成优先关系矩阵由函数get_matrix(self)实现，根据算法描述，程序需要考虑以下四种字符组合情况：</p>
+<ul>
+<li>…ab… : Xi = Xi+1</li>
+<li>…aVb… : Xi = Xi+2</li>
+<li>…aU… : a &lt; firstvt(U)</li>
+<li>…Ub… : lastvt(U) &gt; b</li>
+</ul>
+<p>对所有产生式中的规则而言，其均满足上述四种情况中的一种，其实现程序如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_matrix</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="comment"># 用字典映射来记录算符优先关系（横，纵）-&gt; '&gt;、&lt;、='</span></span><br><span class="line">    self.matrix = dict()</span><br><span class="line">    <span class="comment"># left -&gt; right</span></span><br><span class="line">    <span class="keyword">for</span> left <span class="keyword">in</span> self.Vn:</span><br><span class="line">        <span class="keyword">for</span> right <span class="keyword">in</span> self.rule[left]:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(len(right)<span class="number">-1</span>):</span><br><span class="line">                <span class="comment"># ...ab... : Xi = Xi+1</span></span><br><span class="line">                <span class="keyword">if</span>(right[ i ] <span class="keyword">in</span> self.Vt <span class="keyword">and</span> right[i + <span class="number">1</span>] <span class="keyword">in</span> self.Vt):</span><br><span class="line">                    self.matrix[(right[i], right[i + <span class="number">1</span>])] = <span class="string">'='</span></span><br><span class="line"></span><br><span class="line">                <span class="comment"># ...aVb... : Xi = Xi+2</span></span><br><span class="line">                <span class="keyword">if</span>(i&lt;len(right)<span class="number">-2</span> <span class="keyword">and</span> right[i] <span class="keyword">in</span> self.Vt <span class="keyword">and</span> right[i+<span class="number">2</span>] <span class="keyword">in</span> self.Vt):</span><br><span class="line">                    self.matrix[(right[i], right[i + <span class="number">2</span>])] = <span class="string">'='</span></span><br><span class="line"></span><br><span class="line">                <span class="comment"># ...aU... : a &lt; firstvt(U)</span></span><br><span class="line">                <span class="keyword">if</span>(right[i] <span class="keyword">in</span> self.Vt <span class="keyword">and</span> right[i+<span class="number">1</span>] <span class="keyword">in</span> self.Vn):</span><br><span class="line">                    <span class="keyword">for</span> b <span class="keyword">in</span> self.firstVt[right[i+<span class="number">1</span>]]:</span><br><span class="line">                        self.matrix[(right[i], b)] = <span class="string">'&lt;'</span></span><br><span class="line"></span><br><span class="line">                <span class="comment"># ...Ub... : lastvt(U) &gt; b</span></span><br><span class="line">                <span class="keyword">if</span>(right[i] <span class="keyword">in</span> self.Vn <span class="keyword">and</span> right[i+<span class="number">1</span>] <span class="keyword">in</span> self.Vt):</span><br><span class="line">                    <span class="keyword">for</span> a <span class="keyword">in</span> self.lastVt[right[i]]:</span><br><span class="line">                        self.matrix[(a, right[i+<span class="number">1</span>])] = <span class="string">'&gt;'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理：'#'</span></span><br><span class="line">    <span class="comment"># '#' &lt; firstvt(S)</span></span><br><span class="line">    <span class="comment"># '#' &lt; lastvt(S)</span></span><br><span class="line">    <span class="comment"># '(#,#)'='='</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> self.firstVt[self.start]:</span><br><span class="line">        self.matrix[(<span class="string">'#'</span>,item)]=<span class="string">'&lt;'</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> self.lastVt[self.start]:</span><br><span class="line">        self.matrix[(item,<span class="string">'#'</span>)]=<span class="string">'&gt;'</span></span><br><span class="line">    self.matrix[(<span class="string">'#'</span>,<span class="string">'#'</span>)]=<span class="string">'='</span></span><br></pre></td></tr></table></figure></p>
+<p>最后别忘了对<strong>#</strong>的处理，由于#只出现在拓广文法<strong><code>S-&gt;\#E\#</code></strong>中，所以可以直接应用上述第2、3、4种情况下的对应处理方法，即：</p>
+<blockquote>
+<p># = #<br> # &lt; firstVt[E]<br> lastVt[E] &gt; #</p>
+</blockquote>
+<p>程序的执行结果如下，可以看到优先关系矩阵的详细信息：<br><img src="/images/编译原理/OPG/matrxi.png" alt="Alt text" title="优先关系矩阵"></p>
+<h2 id="判断能否规约"><a href="#判断能否规约" class="headerlink" title="判断能否规约"></a>判断能否规约</h2><p>在分析OPG分析过程中，涉及到一步：<strong><code>对于找到的最左素短语，应判断是否存在产生式规则能对其进行规约</code></strong>。<br>由于在分析过程中，非终结符均被<strong><code>N</code></strong>所替代，所以首先要调用<strong><code>get_assistrule(self)</code></strong>将rule中非的终结符用N来替换，生成辅助规则集<code>rule1</code>，以便检查规约。get_assistrule(self)的代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_assistrule</span><span class="params">(self)</span>:</span></span><br><span class="line">    self.rule1 = &#123;key : list() <span class="keyword">for</span> key <span class="keyword">in</span> self.rule.keys()&#125;</span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> self.rule.keys():</span><br><span class="line">        <span class="keyword">for</span> right <span class="keyword">in</span> self.rule[key]:</span><br><span class="line">            right1=<span class="string">""</span></span><br><span class="line">            <span class="keyword">for</span> c <span class="keyword">in</span> range(len(right)):</span><br><span class="line">                <span class="keyword">if</span> (right[c] <span class="keyword">in</span> self.Vn):</span><br><span class="line">                    right1+=<span class="string">'N'</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    right1+=right[c]</span><br><span class="line">            self.rule1[key].append(right1)</span><br></pre></td></tr></table></figure></p>
+<p>在替换完成后，我们便可根据rule1来进行规则的匹配，对于传入的最左素短语test而言，调用函数<strong><code>can_statute(self,test)</code></strong>即可给出判断结果，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 判断最左素短语能否规约</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">can_statute</span><span class="params">(self,test)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> self.rule1:</span><br><span class="line">        <span class="keyword">for</span> right <span class="keyword">in</span> self.rule1[key]:</span><br><span class="line">            <span class="keyword">if</span>(test==right):</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="主分析"><a href="#主分析" class="headerlink" title="主分析"></a>主分析</h2><p>在上述准备工作都完成后，接下来便可以开始我们的主分析流程。<br>主分析对应函数<strong><code>compile(self,test)</code></strong>，其功能为：<strong>对于传入的程序串test，可以给出其对于算符优先文法的判别结果，如果出错可以返回出错分析结果。</strong><br>算法的处理流程如下：<br><img src="/images/编译原理/OPG/analyse.png" alt="Alt text" title="主分析流程"><br>总而言之，分析流程的思想为，先找到一个符号串满足如下约束：<br>$$<br>a_j&lt; a_j+1 = a_j+2 = … a_i &gt; R<br>$$<br>其中: R为即将输入的字符，a为分析栈中的字符<br>如果找到了这样的字符串，说明此时我们已经找到了分析栈中待规约的最左素短语$a_j-1…a_i$。<br>如果其能规约，只需将这一串字符替换为N；如果不能规约，说明其不满足该文法下的算符优先语法，即出错。</p>
+<p>主分析的代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compile</span><span class="params">(self,test)</span>:</span></span><br><span class="line">    <span class="comment"># 分析栈</span></span><br><span class="line">    analyse_stack = [<span class="string">'#'</span>]</span><br><span class="line"></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    j = <span class="number">0</span> <span class="comment"># j+1到i记录最左素短语</span></span><br><span class="line">    k = <span class="number">-1</span> <span class="comment"># i记录输入串下标</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="keyword">True</span>):</span><br><span class="line">        k = k+<span class="number">1</span></span><br><span class="line">        <span class="comment"># 数组越界则为出错</span></span><br><span class="line">        <span class="keyword">if</span>(k&gt;len(test) <span class="keyword">or</span> i&gt;len(analyse_stack) <span class="keyword">or</span> j&gt;len(analyse_stack)):</span><br><span class="line">            print(<span class="string">"[error] 输入串格式不满足算符文法格式"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        R = test[k] <span class="comment"># R记录输入串下一个要输入的字符</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">True</span>):</span><br><span class="line">            <span class="comment"># 寻找非终结符</span></span><br><span class="line">            <span class="keyword">if</span>(analyse_stack[i] <span class="keyword">in</span> self.Vt):</span><br><span class="line">                j = i</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                j = i<span class="number">-1</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># S(j),R 无优先关系</span></span><br><span class="line">            <span class="keyword">if</span>((analyse_stack[j],R) <span class="keyword">not</span> <span class="keyword">in</span> self.matrix.keys()):</span><br><span class="line">                print(<span class="string">"[error]  \'"</span> + analyse_stack[j] + <span class="string">"\',\'"</span> + R + <span class="string">"\' 无优先关系"</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># S(j)&lt;R 或 S(j)=R</span></span><br><span class="line">            <span class="keyword">if</span>(self.matrix[(analyse_stack[j],R)]!=<span class="string">'&gt;'</span>):</span><br><span class="line">                i = i+<span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span>(i&gt;=len(analyse_stack)):</span><br><span class="line">                    analyse_stack.append(R)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment">#analyse_stack.append(R)</span></span><br><span class="line">                    analyse_stack[i]=R</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># S(j)&gt;R</span></span><br><span class="line">            <span class="keyword">while</span>(<span class="keyword">True</span>):</span><br><span class="line">                <span class="comment"># Q=S(j)</span></span><br><span class="line">                Q = analyse_stack[j]</span><br><span class="line">                j = j<span class="number">-1</span></span><br><span class="line">                <span class="keyword">if</span>(analyse_stack[j] <span class="keyword">not</span> <span class="keyword">in</span> self.Vt):</span><br><span class="line">                    j = j<span class="number">-1</span></span><br><span class="line"></span><br><span class="line">                <span class="comment"># S(j),Q 无优先关系</span></span><br><span class="line">                <span class="keyword">if</span> ((analyse_stack[j], Q) <span class="keyword">not</span> <span class="keyword">in</span> self.matrix.keys()):</span><br><span class="line">                    print(<span class="string">"[error]  \'"</span> + analyse_stack[j] + <span class="string">"\',\'"</span> + Q + <span class="string">"\' 无优先关系"</span>)</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">                <span class="comment"># S(j)&lt; Q &gt;R</span></span><br><span class="line">                temp=self.matrix[(analyse_stack[j],Q)]</span><br><span class="line">                <span class="keyword">if</span>(temp==<span class="string">'&lt;'</span>):</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 检验最左素短语是否能规约</span></span><br><span class="line">            item = j+<span class="number">1</span></span><br><span class="line">            the_left=<span class="string">""</span></span><br><span class="line">            <span class="keyword">while</span>(item&lt;=i):</span><br><span class="line">                the_left += analyse_stack[item]</span><br><span class="line">                item+=<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span>(self.can_statute(the_left)):</span><br><span class="line">                <span class="keyword">for</span> c <span class="keyword">in</span> range(j+<span class="number">2</span>,i+<span class="number">1</span>):</span><br><span class="line">                    analyse_stack.pop()</span><br><span class="line">                i = j+<span class="number">1</span></span><br><span class="line">                analyse_stack[i] = <span class="string">'N'</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">"无法规约："</span>+the_left)</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 成功</span></span><br><span class="line">            <span class="keyword">if</span>(i==<span class="number">1</span> <span class="keyword">and</span> R==<span class="string">'#'</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="测试分析"><a href="#测试分析" class="headerlink" title="测试分析"></a>测试分析</h1><p>基于题设要求，输入文件为词法分析器的输出结果，类似如下格式：<br><img src="/images/编译原理/OPG/input.png" alt="Alt text" title="输入文件"></p>
+<p>我共选用了两组五个测试样例对模型进行了测试，包括两正三负：</p>
+<h2 id="正确样例"><a href="#正确样例" class="headerlink" title="正确样例"></a>正确样例</h2><p><img src="/images/编译原理/OPG/r1.png" alt="Alt text" title="(i*i/i)"><br><img src="/images/编译原理/OPG/r2.png" alt="Alt text" title="i+(i*i)/i-i"></p>
+<h2 id="错误样例"><a href="#错误样例" class="headerlink" title="错误样例"></a>错误样例</h2><p>模型可检测出不满足产生式的句型：<br><img src="/images/编译原理/OPG/w1.png" alt="Alt text" title="i++"><br>模型可检测出无优先级的句型：<br><img src="/images/编译原理/OPG/w2.png" alt="Alt text" title="i+ii-i"><br>模型可检测出包含未定义的符号（即无优先级）的句型：<br><img src="/images/编译原理/OPG/w3.png" alt="Alt text" title="i=i+i"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到此，本次算符优先实验已全部完成。<br>我的模型具有如下优点：</p>
+<ul>
+<li>根据产生式规则自动生成firstVt集合</li>
+<li>根据产生式规则自动生成lastVt集合</li>
+<li>根据产生式规则自动生成优先关系矩阵</li>
+<li>可以分析多种出错原因</li>
+<li>面向对象的思想，模型泛化能力强。只需要改变输入规则集，其可以应对一切算符优先文法。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/02/编译原理——LL-1-语法分析器/" rel="next" title="编译原理——LL(1)语法分析器">
+                <i class="fa fa-chevron-left"></i> 编译原理——LL(1)语法分析器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目标任务"><span class="nav-text">目标任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验项目"><span class="nav-text">实验项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计说明"><span class="nav-text">设计说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计要求"><span class="nav-text">设计要求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验过程"><span class="nav-text">实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构"><span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动生成firstVt"><span class="nav-text">自动生成firstVt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动生成lastVt"><span class="nav-text">自动生成lastVt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动生成优先关系矩阵"><span class="nav-text">自动生成优先关系矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断能否规约"><span class="nav-text">判断能否规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主分析"><span class="nav-text">主分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试分析"><span class="nav-text">测试分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正确样例"><span class="nav-text">正确样例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误样例"><span class="nav-text">错误样例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
