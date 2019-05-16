@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[pintos——project1_mission2]]></title>
-    <url>%2F2019%2F05%2F16%2Fpintos%E2%80%94%E2%80%94project1Mission2%2F</url>
-    <content type="text"><![CDATA[本篇博客将详细讲述pintos的project1中mission的实现部分。]]></content>
+    <title><![CDATA[pintos_project1]]></title>
+    <url>%2F2019%2F05%2F16%2Fpintos-project1%2F</url>
+    <content type="text"><![CDATA[本次博客将详细解释pintos project1的mission2部分。]]></content>
       <categories>
         <category>操作系统</category>
       </categories>
