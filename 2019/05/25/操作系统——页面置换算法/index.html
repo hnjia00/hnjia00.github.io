@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实验目的设计和实现最佳置换算法、先进先出置换算法、最近最久未使用置换算法、改进型Clock置换算法、页面缓冲置换算法；通过页面访问序列随机发生器实现对上述算法的测试及性能比较。 前提假设 页表用整数数组或结构数组来表示 页面访问序列串是一个整数序列，整数的取值范围为0到N-1。页面访问序列串中的每个元素p表示对页面p的一次访问  实验设计全局变量为了便于对不同算法的统一设计，在代码中设计了一些全局">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统——页面置换算法">
+<meta property="og:url" content="http://hnjia00.github.io/2019/05/25/操作系统——页面置换算法/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="实验目的设计和实现最佳置换算法、先进先出置换算法、最近最久未使用置换算法、改进型Clock置换算法、页面缓冲置换算法；通过页面访问序列随机发生器实现对上述算法的测试及性能比较。 前提假设 页表用整数数组或结构数组来表示 页面访问序列串是一个整数序列，整数的取值范围为0到N-1。页面访问序列串中的每个元素p表示对页面p的一次访问  实验设计全局变量为了便于对不同算法的统一设计，在代码中设计了一些全局">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project4/fifo.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project4/opt.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project4/lru.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project4/clock.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project4/pba.png">
+<meta property="og:updated_time" content="2019-05-25T06:19:11.907Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统——页面置换算法">
+<meta name="twitter:description" content="实验目的设计和实现最佳置换算法、先进先出置换算法、最近最久未使用置换算法、改进型Clock置换算法、页面缓冲置换算法；通过页面访问序列随机发生器实现对上述算法的测试及性能比较。 前提假设 页表用整数数组或结构数组来表示 页面访问序列串是一个整数序列，整数的取值范围为0到N-1。页面访问序列串中的每个元素p表示对页面p的一次访问  实验设计全局变量为了便于对不同算法的统一设计，在代码中设计了一些全局">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/操作系统/project4/fifo.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2019/05/25/操作系统——页面置换算法/">
+
+
+
+
+
+  <title>操作系统——页面置换算法 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Morning death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/05/25/操作系统——页面置换算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">操作系统——页面置换算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-25T11:27:21+08:00">
+                2019-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/操作系统/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  4.9k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  21 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h1><p>设计和实现最佳置换算法、先进先出置换算法、最近最久未使用置换算法、改进型Clock置换算法、页面缓冲置换算法；通过页面访问序列随机发生器实现对上述算法的测试及性能比较。</p>
+<h1 id="前提假设"><a href="#前提假设" class="headerlink" title="前提假设"></a>前提假设</h1><ul>
+<li>页表用整数数组或结构数组来表示</li>
+<li>页面访问序列串是一个整数序列，整数的取值范围为0到N-1。页面访问序列串中的每个元素p表示对页面p的一次访问</li>
+</ul>
+<h1 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h1><h2 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h2><p>为了便于对不同算法的统一设计，在代码中设计了一些全局变量，作如下说明：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量名</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">req</td>
+<td style="text-align:center">typedef struct {<br> int request;<br>bool lack=false;<br> int modify=0;}</td>
+<td style="text-align:center">记录一个页面请求。<br>request：请求页号；<br>lack：该请求是否缺页；<br>modify：请求页是否被修改。</td>
+</tr>
+<tr>
+<td style="text-align:center">re</td>
+<td style="text-align:center">vector&lt;req></td>
+<td style="text-align:center">数组记录，re[i]代表第i个时刻进来的页面请求结构体。</td>
+</tr>
+<tr>
+<td style="text-align:center">bar</td>
+<td style="text-align:center">int [M][N]</td>
+<td style="text-align:center">记录物理块情况。<br>M个块、N个请求。</td>
+</tr>
+<tr>
+<td style="text-align:center">access</td>
+<td style="text-align:center">int [M]</td>
+<td style="text-align:center">记录M个块所存页号的访问位</td>
+</tr>
+<tr>
+<td style="text-align:center">modify</td>
+<td style="text-align:center">int [M]</td>
+<td style="text-align:center">记录M个块所存页号的修改位</td>
+</tr>
+</tbody>
+</table>
+<h2 id="FIFO"><a href="#FIFO" class="headerlink" title="FIFO"></a>FIFO</h2><p>FIFO即<strong>first in first out</strong><br>该算法的替换策略为：</p>
+<blockquote>
+<p>每次发生缺页时总是替换出最早进入物理块的页号，即最先进来的就最先出去。</p>
+</blockquote>
+<p>所以整个算法总共分为三步：</p>
+<ol>
+<li><p>页号预装<strong>(注：预装页号默认为不会重复，下同)</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//没个块，n个请求</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">FIFO</span><span class="params">(<span class="keyword">int</span> m,<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(bar, <span class="number">-1</span>, <span class="keyword">sizeof</span>(bar));</span><br><span class="line">    <span class="comment">//初始化前0〜m-1个序列</span></span><br><span class="line">    <span class="comment">//i: 周期</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="comment">//j: 块</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=i;j++)&#123;</span><br><span class="line">            bar[j][i] = re[j].request;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查所到请求是否存在于物理块中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//装载第i: m〜n-1个序列</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=m;i&lt;n;i++)&#123;</span><br><span class="line">    <span class="comment">//对j：0〜m块，首先把第i-1时段各块的情况拷贝给第i的时段</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        bar[j][i] = bar[j][i<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//记录第i个请求</span></span><br><span class="line">    <span class="keyword">int</span> now_req=re[i].request;</span><br><span class="line">    <span class="comment">//判断现在内存中有无该请求页号</span></span><br><span class="line">    <span class="keyword">bool</span> has=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(bar[j][i]==now_req)&#123;</span><br><span class="line">            has=<span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//有的话直接下一个</span></span><br><span class="line">    <span class="keyword">if</span>(has) <span class="keyword">continue</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果不存在，则将最早进入物理块的页号替换出去</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有的话要考虑把谁替换掉</span></span><br><span class="line">    <span class="comment">// 先记录缺页</span></span><br><span class="line">    re[i].lack=<span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 考察序列范围：第i+1个到第n-1个</span></span><br><span class="line">    <span class="comment">// 对m个块中个字各自装载的页号考察</span></span><br><span class="line">    <span class="comment">// 需要向前检查bar[j][i]，即bar[j]目前内存中的页号装载了几个周期</span></span><br><span class="line">    <span class="keyword">int</span> long_m=<span class="number">-1</span>;<span class="comment">//记录待了最久的bar[j]的次数</span></span><br><span class="line">    <span class="keyword">int</span> long_j=<span class="number">-1</span>;<span class="comment">//记录待了最久的bar[j]的下标j</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        <span class="keyword">int</span> temp_m=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> temp_no=bar[j][i];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> k=i<span class="number">-1</span>;k&gt;<span class="number">0</span>;k--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(temp_no==bar[j][k])</span><br><span class="line">                temp_m++;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(temp_m&gt;long_m)&#123;</span><br><span class="line">            long_m=temp_m;</span><br><span class="line">            long_j=j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//替换</span></span><br><span class="line">    bar[long_j][i]=now_req;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="OPT"><a href="#OPT" class="headerlink" title="OPT"></a>OPT</h2><p>最佳页面置换算法OPT，即<strong>optimal page replacement</strong><br>该算法的替换策略为：</p>
+<blockquote>
+<p>选择永不使用或是在最长时间内不再被访问（即距现在最长时间才会被访问）的页面淘汰出内存</p>
+</blockquote>
+<p>所以在遇到缺页时，需要根据物理块中现有的页号<strong>向后</strong>考察请求队列，将最晚出现或者从未出现的页号替换出内存<br>整个算法总共分为三步：</p>
+<ol>
+<li><p>页号预装</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//最佳置换: m个块，n个周期序列</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">OPT</span><span class="params">(<span class="keyword">int</span> m,<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(bar, <span class="number">-1</span>, <span class="keyword">sizeof</span>(bar));</span><br><span class="line">    <span class="comment">//初始化前0〜m-1个序列</span></span><br><span class="line">    <span class="comment">//i: 周期</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="comment">//j: 块</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=i;j++)&#123;</span><br><span class="line">            bar[j][i] = re[j].request;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查所到请求是否存在于物理块中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//装载第i: m〜n-1个序列</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=m;i&lt;n;i++)&#123;</span><br><span class="line">    <span class="comment">//对j：0〜m块，首先把第i-1时段各块的情况拷贝给第i的时段</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        bar[j][i] = bar[j][i<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//记录第i个请求</span></span><br><span class="line">    <span class="keyword">int</span> now_req=re[i].request;</span><br><span class="line">    <span class="comment">//判断现在内存中有无该请求页号</span></span><br><span class="line">    <span class="keyword">bool</span> has=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(bar[j][i]==now_req)&#123;</span><br><span class="line">            has=<span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//有的话直接下一个</span></span><br><span class="line">    <span class="keyword">if</span>(has) <span class="keyword">continue</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果不存在，则将未来最长时间内不再被请求的页号替换出去</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有的话要考虑把谁替换掉</span></span><br><span class="line">    <span class="comment">// 先记录缺页</span></span><br><span class="line">    re[i].lack=<span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 考察序列范围：第i+1个到第n-1个</span></span><br><span class="line">    <span class="comment">// 对m个块中个字各自装载的页号考察</span></span><br><span class="line">    <span class="keyword">bool</span> find=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> far_no=<span class="number">-1</span>,far_m=<span class="number">-1</span>;<span class="comment">//记录最远出现的页号和其所在块</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        <span class="keyword">int</span> temp_no=bar[j][i];</span><br><span class="line">        <span class="keyword">int</span> temp_m=<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">int</span> k=i+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(;k&lt;n;k++)&#123;</span><br><span class="line">            <span class="comment">//在未来的请求序列中找到了temp_no</span></span><br><span class="line">            <span class="keyword">if</span>(re[k].request==temp_no)&#123;</span><br><span class="line">                temp_m=k;</span><br><span class="line">                find=<span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//记录距离最大的</span></span><br><span class="line">        <span class="keyword">if</span>(temp_m&gt;far_m)&#123;</span><br><span class="line">            far_m=temp_m;</span><br><span class="line">            far_no=j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//未来请求中没有，则肯定替换这个</span></span><br><span class="line">        <span class="keyword">if</span>(k==n)&#123;</span><br><span class="line">            find=<span class="literal">false</span>;</span><br><span class="line">            bar[j][i]=now_req;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//找到了一个未来中最大的</span></span><br><span class="line">    <span class="keyword">if</span>(find)&#123;</span><br><span class="line">        bar[far_no][i]=now_req;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h2><p>最近最久未使用置换算法LRU，即<strong>Least Recently Used</strong><br>该算法的替换策略为：</p>
+<blockquote>
+<p>以“最近的过去”作为“最近的将来”的近似，选择最近一段时间最长时间未被访问的页面淘汰出内存</p>
+</blockquote>
+<p>该算法的思想与OPT类似，但搜索方向相反，每次在遇到缺页时其总是根据物理块中现有的页号<strong>向前</strong>考察请求队列，将最早出现的请求页号替换出内存<br>整个算法总共分为三步：</p>
+<ol>
+<li><p>页号预装</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">LRU</span><span class="params">(<span class="keyword">int</span> m,<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(bar, <span class="number">-1</span>, <span class="keyword">sizeof</span>(bar));</span><br><span class="line">    <span class="comment">//初始化前0〜m-1个序列</span></span><br><span class="line">    <span class="comment">//i: 周期</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="comment">//j: 块</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=i;j++)&#123;</span><br><span class="line">            bar[j][i] = re[j].request;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查所到请求是否存在于物理块中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//装载第i: m〜n-1个序列</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=m;i&lt;n;i++)&#123;</span><br><span class="line">    <span class="comment">//对j：0〜m块，首先把第i-1时段各块的情况拷贝给第i的时段</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        bar[j][i] = bar[j][i<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//记录第i个请求</span></span><br><span class="line">    <span class="keyword">int</span> now_req=re[i].request;</span><br><span class="line">    <span class="comment">//判断现在内存中有无该请求页号</span></span><br><span class="line">    <span class="keyword">bool</span> has=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(bar[j][i]==now_req)&#123;</span><br><span class="line">            has=<span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//有的话直接下一个</span></span><br><span class="line">    <span class="keyword">if</span>(has) <span class="keyword">continue</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果不存在，则将此时刻之前最久没有被请求过的页号替换出去</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有的话要考虑把谁替换掉</span></span><br><span class="line">    <span class="comment">// 先记录缺页</span></span><br><span class="line">    re[i].lack=<span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 考察序列范围：第i-1个到第0个</span></span><br><span class="line">    <span class="comment">// 对m个块中个字各自装载的页号考察</span></span><br><span class="line">    <span class="keyword">bool</span> find=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> far_no=<span class="number">-1</span>,far_m=<span class="number">0xff</span>;<span class="comment">//记录最远出现的页号和其所在块</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        <span class="keyword">int</span> temp_no=bar[j][i];</span><br><span class="line">        <span class="keyword">int</span> temp_m=<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">int</span> k=i<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">for</span>(;k&gt;<span class="number">0</span>;k--)&#123;</span><br><span class="line">            <span class="comment">//在过去的请求序列中找到了temp_no</span></span><br><span class="line">            <span class="keyword">if</span>(re[k].request==temp_no)&#123;</span><br><span class="line">                temp_m=k;</span><br><span class="line">                find=<span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//记录距离最大的</span></span><br><span class="line">        <span class="keyword">if</span>(temp_m&lt;far_m)&#123;</span><br><span class="line">            far_m=temp_m;</span><br><span class="line">            far_no=j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//找到了一个过去中最远出现的</span></span><br><span class="line">    <span class="keyword">if</span>(find)&#123;</span><br><span class="line">        bar[far_no][i]=now_req;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="new-clock"><a href="#new-clock" class="headerlink" title="new clock"></a>new clock</h2><p>改进型Clock置换算法与上面三个有所不同，其需要用到页面的访问位和修改位，即在全局变量部分的access和modify数组。<br>算法的思想如下：</p>
+<blockquote>
+<p>① 从查寻指针当前位置起扫描内存分页循环队列，选择A=0且M=0的第一个页面淘汰；若未找到，转②<br>② 开始第二轮扫描，选择A=0且M=1的第一个页面淘汰，同时将经过的所有页面访问位置0；若不能找到，转①</p>
+</blockquote>
+<p>所以在算法执行时主要考察两类物理块，即</p>
+<blockquote>
+<p>1类(A =0, M = 0)：表示该页面最近既未被访问，又未被修改，是最佳淘汰页。<br> 2类(A =0, M = 1)：表示该页面最近未被访问，但已被修改，并不是很好的淘汰页。</p>
+</blockquote>
+<p>算法的设计需要五步：</p>
+<ol>
+<li><p>页号预装、变量初始化</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">new_clock</span><span class="params">(<span class="keyword">int</span> m,<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(bar, <span class="number">-1</span>, <span class="keyword">sizeof</span>(bar));</span><br><span class="line">    <span class="comment">//初始化前0〜m-1个序列</span></span><br><span class="line">    <span class="comment">//i: 周期</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        <span class="comment">//j: 块</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=i;j++)&#123;</span><br><span class="line">            bar[j][i] = re[j].request;</span><br><span class="line">            access[j] = <span class="number">1</span>;<span class="comment">//被访问</span></span><br><span class="line">            modify[j] = re[j].modify;<span class="comment">//被修改过</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> p=<span class="number">0</span>;<span class="comment">//充当指针</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查所到请求是否存在于物理块中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//装载第i: m〜n-1个序列</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=m;i&lt;n;i++)&#123;</span><br><span class="line">    <span class="comment">//对j：0〜m块，首先把第i-1时段各块的情况拷贝给第i的时段</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        bar[j][i] = bar[j][i<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//记录第i个请求</span></span><br><span class="line">    <span class="keyword">int</span> now_req=re[i].request;</span><br><span class="line">    <span class="keyword">int</span> now_modify=re[i].modify;</span><br><span class="line">    <span class="comment">//判断现在内存中有无该请求页号</span></span><br><span class="line">    <span class="keyword">bool</span> has=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(bar[p][i]==now_req)&#123;</span><br><span class="line">            has=<span class="literal">true</span>;</span><br><span class="line">            access[p]=<span class="number">1</span>;</span><br><span class="line">            modify[p]=now_modify;</span><br><span class="line">            p = (p+<span class="number">1</span>)%m;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        p = (p+<span class="number">1</span>)%m;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//有的话直接下一个</span></span><br><span class="line">    <span class="keyword">if</span>(has) <span class="keyword">continue</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果不存在，则先找第一类 access=0 &amp;&amp; modify==0</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有的话要考虑把谁替换掉</span></span><br><span class="line">    <span class="comment">// 先记录缺页</span></span><br><span class="line">    re[i].lack=<span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="comment">//先找第一类 access=0 &amp;&amp; modify==0</span></span><br><span class="line">        <span class="keyword">bool</span> first=<span class="literal">false</span>;</span><br><span class="line">        <span class="comment">//从指针所指位置开始</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(access[p]==<span class="number">0</span> &amp;&amp; modify[p]==<span class="number">0</span>)&#123;</span><br><span class="line">                bar[p][i] = now_req;<span class="comment">//找到则替换</span></span><br><span class="line">                access[p] = <span class="number">1</span>;<span class="comment">//被访问</span></span><br><span class="line">                modify[p] = now_modify;</span><br><span class="line">                </span><br><span class="line">                p = (p+<span class="number">1</span>)%m;</span><br><span class="line">                first=<span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            p = (p+<span class="number">1</span>)%m;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(first)&#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果第一类不存在，则找第二类 access=0 &amp;&amp; modify==1</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一类失败</span></span><br><span class="line"><span class="comment">//再第二类 access=0 &amp;&amp; modify==1</span></span><br><span class="line"><span class="keyword">bool</span> second=<span class="literal">false</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(access[p]==<span class="number">0</span> &amp;&amp; modify[p]==<span class="number">1</span>)&#123;</span><br><span class="line">        bar[p][i] = now_req;<span class="comment">//找到则替换</span></span><br><span class="line">        access[p] = <span class="number">1</span>;<span class="comment">//被访问</span></span><br><span class="line">        modify[p] = now_modify;</span><br><span class="line">        </span><br><span class="line">        p = (p+<span class="number">1</span>)%m;</span><br><span class="line">        second=<span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        access[p]=<span class="number">0</span>;<span class="comment">//访问位均改为0</span></span><br><span class="line">        p = (p+<span class="number">1</span>)%m;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(second)&#123;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果第二类也不存在，则转回第三步</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第二类失败</span></span><br><span class="line">    <span class="comment">//指针返回开始位置</span></span><br><span class="line">    p=<span class="number">0</span>;</span><br><span class="line">    <span class="comment">//将所有的访问位复0</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">        access[j]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">while</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="PBA"><a href="#PBA" class="headerlink" title="PBA"></a>PBA</h2><p>页面缓冲算法PBA，即Page Buffering Algorithm<br>该算法与前面提到的四个算法有着很大的差别，简单来说，该算法需要额外创建一个空闲页面链表，该链表的作用好比额外提供了一定数目的空闲物理块，挂在空闲链表上的页号仍然存在于内存中，只是不在现有的驻留集中，即存在位==0。<br>每当请求页号不在现有的驻留集中时，需要先考察链表上是否挂有请求页号，如果有则将其摘下俩表重新填回驻留集中，如果没有则将填入链首所指向的物理块中。<br>被替换的页号可以采用上面四种中的任意一种方法决定，在该实验中我选取的替换策略为FIFO。</p>
+<p>实现PBA需要额外引入一些新的变量，并且需要重新修改物理块的定义：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//PBA:基于先进先出: m个块，n个周期序列，k个空闲块</span></span><br><span class="line"><span class="comment">// 空闲页面链表</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> what;<span class="comment">//块内容</span></span><br><span class="line">    <span class="keyword">int</span> which;<span class="comment">//块号</span></span><br><span class="line">&#125;idle_bar;</span><br><span class="line"><span class="built_in">list</span>&lt;idle_bar&gt; idle;</span><br><span class="line"><span class="comment">// 物理块</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> flag=<span class="number">0</span>;<span class="comment">//存在位</span></span><br><span class="line">    <span class="keyword">int</span> No=<span class="number">-1</span>;<span class="comment">//块号</span></span><br><span class="line">    <span class="keyword">int</span> time=<span class="number">-1</span>;<span class="comment">//time时进入块，用于辅助先进先出判断</span></span><br><span class="line">&#125;NODE;</span><br><span class="line">NODE node[M+K];</span><br></pre></td></tr></table></figure></p>
+<p>算法的设计需要五步：</p>
+<ol>
+<li><p>页号预装、空闲页面链表初始化</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">PBA</span><span class="params">(<span class="keyword">int</span> m,<span class="keyword">int</span> n,<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//初始化前0〜m-1个序列</span></span><br><span class="line">    <span class="comment">//i: 周期</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"预设:\n"</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">        node[i].No=re[i].request;</span><br><span class="line">        node[i].flag=<span class="number">1</span>;</span><br><span class="line">        node[i].time=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//idle装入k个空闲物理块</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;k;i++)&#123;</span><br><span class="line">        idle_bar temp;</span><br><span class="line">        temp.what=<span class="number">-1</span>;</span><br><span class="line">        temp.which=m+i;</span><br><span class="line">        idle.push_back(temp);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查所到请求是否存在于物理块中且在当前驻留集中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//装载第i: m〜n-1个序列</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=m;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> now_req=re[i].request;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//先在物理块中寻找有没有</span></span><br><span class="line">        <span class="keyword">int</span> has=<span class="number">-2</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m+k;j++)&#123;</span><br><span class="line">            <span class="comment">//存在位为0，说明是挂在idle上的块</span></span><br><span class="line">            <span class="keyword">if</span>(node[j].flag==<span class="number">0</span>&amp;&amp;node[j].No==now_req)&#123;</span><br><span class="line">                <span class="comment">//has记录在哪个块中</span></span><br><span class="line">                has=j;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(node[j].flag==<span class="number">1</span>&amp;&amp;node[j].No==now_req)&#123;</span><br><span class="line">                has=<span class="number">-1</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//在内存中且在驻留集中</span></span><br><span class="line">        <span class="keyword">if</span>(has==<span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"[%d]: 在驻留集中\n"</span>,now_req);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>请求存在于物理块中，但不在当前驻留集中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在内存中但不在驻留集中</span></span><br><span class="line">        <span class="keyword">if</span>(has&gt;<span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"[%d]: 在空闲链表上\n"</span>,now_req);</span><br><span class="line">            <span class="comment">//要把其拿回到驻留集中</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="built_in">list</span>&lt;idle_bar&gt;::iterator it=idle.begin();it!=idle.end();it++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(it-&gt;what==now_req)&#123;</span><br><span class="line">                    <span class="comment">//fifo替换准则</span></span><br><span class="line">                    <span class="keyword">int</span> mintime=n,minjj=<span class="number">-1</span>;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> jj=<span class="number">0</span>;jj&lt;m+k;jj++)&#123;</span><br><span class="line">                        <span class="keyword">if</span>(node[jj].flag==<span class="number">0</span>)<span class="comment">//只能替换存在的</span></span><br><span class="line">                            <span class="keyword">continue</span>;</span><br><span class="line">                        <span class="keyword">if</span>(node[jj].time&lt;mintime)&#123;</span><br><span class="line">                            mintime=node[jj].time;</span><br><span class="line">                            minjj=jj;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    node[minjj].flag=<span class="number">0</span>;</span><br><span class="line">                    node[has].flag=<span class="number">1</span>;<span class="comment">//更新为存在</span></span><br><span class="line">                    node[has].time=i;<span class="comment">//更新时间</span></span><br><span class="line">                    <span class="comment">//在链表上删除掉，并把替换下来的minjj放入idle中</span></span><br><span class="line">                    idle.erase(it);</span><br><span class="line">                    idle_bar temp;</span><br><span class="line">                    temp.what=node[minjj].No;</span><br><span class="line">                    temp.which=minjj;</span><br><span class="line">                    idle.push_back(temp);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> ii=<span class="number">0</span>;ii&lt;m+k;ii++)</span><br><span class="line">                <span class="keyword">if</span>(node[ii].flag==<span class="number">1</span>)<span class="built_in">printf</span>(<span class="string">"%d "</span>,node[ii].No);</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>请求不在于物理块中，但当前空闲链表中存在空物理块</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果不在物理块(内存)中</span></span><br><span class="line">        <span class="keyword">if</span>(has==<span class="number">-2</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"[%d]: 不在物理块中\n"</span>,now_req);</span><br><span class="line">            re[i].lack=<span class="literal">true</span>;<span class="comment">//缺页</span></span><br><span class="line">            <span class="comment">//基于fifo替换</span></span><br><span class="line">            <span class="keyword">int</span> mintime=n,minjj=<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> jj=<span class="number">0</span>;jj&lt;m+k;jj++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(node[jj].flag==<span class="number">0</span>)<span class="comment">//只能替换存在的</span></span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span>(node[jj].time&lt;mintime)&#123;</span><br><span class="line">                    mintime=node[jj].time;</span><br><span class="line">                    minjj=jj;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//决定了要被替换的为node[minjj]</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">//先看idle中的空闲块没用满的情况</span></span><br><span class="line">            <span class="comment">//则新来的直接进空闲块</span></span><br><span class="line">            <span class="keyword">int</span> flag1=<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="built_in">list</span>&lt;idle_bar&gt;::iterator it=idle.begin();it!=idle.end();it++)&#123;</span><br><span class="line">                <span class="comment">//空闲块</span></span><br><span class="line">                <span class="keyword">if</span>(it-&gt;what==<span class="number">-1</span>)&#123;</span><br><span class="line">                    node[it-&gt;which].flag=<span class="number">1</span>;</span><br><span class="line">                    node[it-&gt;which].No=now_req;</span><br><span class="line">                    node[it-&gt;which].time=i;</span><br><span class="line">                    idle.erase(it);<span class="comment">//idle链表上删去这个空闲块</span></span><br><span class="line">                    </span><br><span class="line">                    idle_bar temp;</span><br><span class="line">                    temp.what=node[minjj].No;</span><br><span class="line">                    temp.which=minjj;</span><br><span class="line">                    idle.push_back(temp);<span class="comment">//被替换下来的进idle</span></span><br><span class="line">                    node[minjj].flag=<span class="number">0</span>;</span><br><span class="line">                    flag1=<span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(flag1==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> ii=<span class="number">0</span>;ii&lt;m+k;ii++)</span><br><span class="line">                    <span class="keyword">if</span>(node[ii].flag==<span class="number">1</span>)<span class="built_in">printf</span>(<span class="string">"%d "</span>,node[ii].No);</span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">                <span class="keyword">continue</span>;<span class="comment">//空闲替换成功</span></span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>请求不在于物理块中，当前空闲链表中不存在空物理块</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//idle中已经没有空闲块的情况</span></span><br><span class="line">    <span class="comment">//需要替换链首块的内容</span></span><br><span class="line">    <span class="comment">//将now_req放入此时idle链首的块里，原来链首的内容被彻底移出内存块</span></span><br><span class="line">    <span class="comment">//根据fifo提出新的块放入idle中</span></span><br><span class="line">    <span class="keyword">int</span> head=idle.begin()-&gt;which;</span><br><span class="line">    node[head].flag=<span class="number">1</span>;</span><br><span class="line">    node[head].time=i;</span><br><span class="line">    node[head].No=now_req;</span><br><span class="line">    idle.pop_front();<span class="comment">//移出队首</span></span><br><span class="line">    </span><br><span class="line">    idle_bar temp;</span><br><span class="line">    temp.what=node[minjj].No;</span><br><span class="line">    temp.which=minjj;</span><br><span class="line">    idle.push_back(temp);<span class="comment">//被替换下来的进idle</span></span><br><span class="line">    node[minjj].flag=<span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> ii=<span class="number">0</span>;ii&lt;m+k;ii++)</span><br><span class="line">        <span class="keyword">if</span>(node[ii].flag==<span class="number">1</span>)<span class="built_in">printf</span>(<span class="string">"%d "</span>,node[ii].No);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在所有页面置换算法实现之后，现在来构建页面访问序列随机生成函数。</p>
+<h2 id="随机生成算法"><a href="#随机生成算法" class="headerlink" title="随机生成算法"></a>随机生成算法</h2><p>根据实验的要求，符合局部访问特性的随机生成算法执行步骤如下：</p>
+<blockquote>
+<ol>
+<li>确定虚拟内存的尺寸N，工作集的起始位置p，工作集中包含的页数e，工作集移动率m（每处理m个页面访问则将起始位置p +1），以及一个范围在0和1之间的值t；</li>
+<li>生成m个取值范围在p和p + e间的随机数，并记录到页面访问序列串中；</li>
+<li>生成一个随机数r，0 ≤ r ≤ 1；</li>
+<li>如果r &lt; t，则为p生成一个新值，否则p = (p + 1) mod N；</li>
+<li>如果想继续加大页面访问序列串的长度，请返回第2步，否则结束。</li>
+</ol>
+</blockquote>
+<p>根据以上思想，可以编写如下生成函数：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 页面访问序列随机生成</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 虚拟内存大小：16位=64K</span></span><br><span class="line"><span class="comment"> 工作集的起始位置p，</span></span><br><span class="line"><span class="comment"> 工作集中包含的页数e，</span></span><br><span class="line"><span class="comment"> 工作集移动率m（每处理m个页面访问则将起始位置p +1），</span></span><br><span class="line"><span class="comment"> 以及一个范围在0和1之间的值t；</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> p = rand() % <span class="number">64</span>;</span><br><span class="line">    <span class="keyword">int</span> m = <span class="number">8</span>, e = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    <span class="keyword">double</span> t;</span><br><span class="line">    t = rand() % <span class="number">10</span> / <span class="number">10.0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//生成m个取值范围在p和p + e间的随机数，并记录到页面访问序列串中；</span></span><br><span class="line">        <span class="keyword">for</span> (j = i * m; j &lt; (i + <span class="number">1</span>) *m; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            req temp;</span><br><span class="line">            temp.request = (p + rand() % e) % <span class="number">64</span>;</span><br><span class="line">            temp.modify = rand()%<span class="number">2</span>;<span class="comment">//被随机修改，只针对clock算法</span></span><br><span class="line">            re.push_back(temp);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//生成一个随机数r，0 ≤ r ≤ 1；</span></span><br><span class="line">        <span class="keyword">double</span> r = (rand() % <span class="number">10</span>) / <span class="number">10.0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//如果r &lt; t，则为p生成一个新值，否则p = (p + 1) mod N</span></span><br><span class="line">        <span class="keyword">if</span> (r&lt;t)</span><br><span class="line">        &#123;</span><br><span class="line">            p=rand()%<span class="number">64</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            p=(p+<span class="number">1</span>)%<span class="number">64</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>在准备工作都完毕后，这一节将对各个算法进行测试。</p>
+<blockquote>
+<p>注：<br>1.下列测试均认为预设页面不算做缺页<br>2.‘X’代表当前请求产生缺页中断<br>3.应用PBA算法时，既不在驻留集也不在空闲链表上时才认为缺页</p>
+</blockquote>
+<h2 id="生成访问序列"><a href="#生成访问序列" class="headerlink" title="生成访问序列"></a>生成访问序列</h2><p>首先调用<code>init()</code>函数，生成<strong>符合局部访问特性</strong>的随机序列<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">序列<span class="number">1</span>:<span class="number">42</span> <span class="number">44</span> <span class="number">43</span> <span class="number">42</span> <span class="number">42</span> <span class="number">42</span> <span class="number">45</span> <span class="number">43</span> <span class="number">45</span> <span class="number">46</span> <span class="number">46</span> <span class="number">45</span> <span class="number">45</span> <span class="number">43</span> <span class="number">44</span> <span class="number">44</span> <span class="number">46</span> <span class="number">45</span> <span class="number">45</span> <span class="number">44</span> <span class="number">46</span> <span class="number">47</span> <span class="number">44</span> <span class="number">44</span> <span class="number">48</span> <span class="number">47</span> <span class="number">47</span> <span class="number">45</span> <span class="number">45</span> <span class="number">48</span> <span class="number">48</span> <span class="number">45</span></span><br><span class="line">序列<span class="number">2</span>:<span class="number">54</span> <span class="number">56</span> <span class="number">55</span> <span class="number">55</span> <span class="number">54</span> <span class="number">56</span> <span class="number">57</span> <span class="number">55</span> <span class="number">55</span> <span class="number">56</span> <span class="number">56</span> <span class="number">57</span> <span class="number">56</span> <span class="number">58</span> <span class="number">56</span> <span class="number">56</span> <span class="number">59</span> <span class="number">56</span> <span class="number">57</span> <span class="number">56</span> <span class="number">56</span> <span class="number">56</span> <span class="number">59</span> <span class="number">56</span> <span class="number">59</span> <span class="number">57</span> <span class="number">59</span> <span class="number">59</span> <span class="number">60</span> <span class="number">59</span> <span class="number">58</span> <span class="number">57</span></span><br><span class="line">序列<span class="number">3</span>:<span class="number">21</span> <span class="number">24</span> <span class="number">22</span> <span class="number">22</span> <span class="number">21</span> <span class="number">23</span> <span class="number">23</span> <span class="number">22</span> <span class="number">23</span> <span class="number">22</span> <span class="number">24</span> <span class="number">24</span> <span class="number">24</span> <span class="number">24</span> <span class="number">24</span> <span class="number">25</span> <span class="number">23</span> <span class="number">26</span> <span class="number">25</span> <span class="number">25</span> <span class="number">24</span> <span class="number">25</span> <span class="number">24</span> <span class="number">24</span> <span class="number">46</span> <span class="number">49</span> <span class="number">48</span> <span class="number">48</span> <span class="number">47</span> <span class="number">47</span> <span class="number">49</span> <span class="number">47</span></span><br></pre></td></tr></table></figure></p>
+<p>下面所有测试均取参数为：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">m = <span class="number">3</span>  <span class="comment">// 3个物理块</span></span><br><span class="line">n = <span class="number">32</span> <span class="comment">// 32个页号请求</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="FIFO-1"><a href="#FIFO-1" class="headerlink" title="FIFO"></a>FIFO</h2><p>针对序列1，调用<code>FIFO(m,n)</code>，可得到如下执行结果<br><img src="/images/操作系统/project4/fifo.png" alt="Alt text" title="FIFO"></p>
+<h2 id="OPT-1"><a href="#OPT-1" class="headerlink" title="OPT"></a>OPT</h2><p>针对序列1，调用<code>OPT(m,n)</code>，可得到如下执行结果<br><img src="/images/操作系统/project4/opt.png" alt="Alt text" title="OPT"></p>
+<h2 id="LRU-1"><a href="#LRU-1" class="headerlink" title="LRU"></a>LRU</h2><p>针对序列1，调用<code>LRU(m,n)</code>，可得到如下执行结果<br><img src="/images/操作系统/project4/lru.png" alt="Alt text" title="LRU"></p>
+<h2 id="new-clock-1"><a href="#new-clock-1" class="headerlink" title="new clock"></a>new clock</h2><p>针对序列1，调用<code>new_clock(m,n)</code>，可得到如下执行结果<br><img src="/images/操作系统/project4/clock.png" alt="Alt text" title="new_clock"></p>
+<h2 id="PBA-1"><a href="#PBA-1" class="headerlink" title="PBA"></a>PBA</h2><p>PBA的测试与上述四种略有不同，由于其新增了一个空闲链表，故输出格式采用按时间序列输出。</p>
+<blockquote>
+<p>本次测试采用k=2作为参数，即空闲链表上挂有两个空闲物理块。</p>
+</blockquote>
+<p>针对序列1，调用<code>PBA(m,n,k)</code>，可得到如下执行结果<br><img src="/images/操作系统/project4/pba.png" alt="Alt text" title="PBA"></p>
+<h2 id="汇总"><a href="#汇总" class="headerlink" title="汇总"></a>汇总</h2><p>针对序列2和序列3的测试结果此处不作详细展示<br>下面对基于序列1、2、3应用五种算法的结果作一个汇总</p>
+<h3 id="序列1"><a href="#序列1" class="headerlink" title="序列1"></a>序列1</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">缺页率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FIFO</td>
+<td style="text-align:center">0.1875</td>
+</tr>
+<tr>
+<td style="text-align:center">OPT</td>
+<td style="text-align:center">0.15625</td>
+</tr>
+<tr>
+<td style="text-align:center">LRU</td>
+<td style="text-align:center">0.25</td>
+</tr>
+<tr>
+<td style="text-align:center">new clock</td>
+<td style="text-align:center">0.25</td>
+</tr>
+<tr>
+<td style="text-align:center">PBA</td>
+<td style="text-align:center">0.125</td>
+</tr>
+</tbody>
+</table>
+<h3 id="序列2"><a href="#序列2" class="headerlink" title="序列2"></a>序列2</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">缺页率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FIFO</td>
+<td style="text-align:center">0.21875</td>
+</tr>
+<tr>
+<td style="text-align:center">OPT</td>
+<td style="text-align:center">0.15625</td>
+</tr>
+<tr>
+<td style="text-align:center">LRU</td>
+<td style="text-align:center">0.28125</td>
+</tr>
+<tr>
+<td style="text-align:center">new clock</td>
+<td style="text-align:center">0.3125</td>
+</tr>
+<tr>
+<td style="text-align:center">PBA</td>
+<td style="text-align:center">0.125</td>
+</tr>
+</tbody>
+</table>
+<h3 id="序列3"><a href="#序列3" class="headerlink" title="序列3"></a>序列3</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">缺页率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FIFO</td>
+<td style="text-align:center">0.25</td>
+</tr>
+<tr>
+<td style="text-align:center">OPT</td>
+<td style="text-align:center">0.21875</td>
+</tr>
+<tr>
+<td style="text-align:center">LRU</td>
+<td style="text-align:center">0.3125</td>
+</tr>
+<tr>
+<td style="text-align:center">new clock</td>
+<td style="text-align:center">0.375</td>
+</tr>
+<tr>
+<td style="text-align:center">PBA</td>
+<td style="text-align:center">0.21875</td>
+</tr>
+</tbody>
+</table>
+<h3 id="平均缺页率"><a href="#平均缺页率" class="headerlink" title="平均缺页率"></a>平均缺页率</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">缺页率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FIFO</td>
+<td style="text-align:center">0.21875</td>
+</tr>
+<tr>
+<td style="text-align:center">OPT</td>
+<td style="text-align:center">0.17708</td>
+</tr>
+<tr>
+<td style="text-align:center">LRU</td>
+<td style="text-align:center">0.28125</td>
+</tr>
+<tr>
+<td style="text-align:center">new clock</td>
+<td style="text-align:center">0.3125</td>
+</tr>
+<tr>
+<td style="text-align:center">PBA</td>
+<td style="text-align:center">0.15625</td>
+</tr>
+</tbody>
+</table>
+<p>可以看到，相较之下缺页率最低的页面置换算法为PBA，这也符合实际情况。</p>
+<p>另外需要说明的是，在应用<code>new clock</code>算法时，需要人为附加每个请求页的修改位标记，即<code>modify</code>，而另外四种算法则均忽略了修改位，所以单凭该试验结果，并不能说明表现最差的算法为改进型Clock置换算法，只能说明表现较好的算法为<code>PBA</code>和<code>OPT</code>算法。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/16/pintos-project1/" rel="next" title="pintos_project1">
+                <i class="fa fa-chevron-left"></i> pintos_project1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验目的"><span class="nav-text">实验目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前提假设"><span class="nav-text">前提假设</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验设计"><span class="nav-text">实验设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#全局变量"><span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FIFO"><span class="nav-text">FIFO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OPT"><span class="nav-text">OPT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LRU"><span class="nav-text">LRU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#new-clock"><span class="nav-text">new clock</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PBA"><span class="nav-text">PBA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机生成算法"><span class="nav-text">随机生成算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生成访问序列"><span class="nav-text">生成访问序列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FIFO-1"><span class="nav-text">FIFO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OPT-1"><span class="nav-text">OPT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LRU-1"><span class="nav-text">LRU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#new-clock-1"><span class="nav-text">new clock</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PBA-1"><span class="nav-text">PBA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汇总"><span class="nav-text">汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序列1"><span class="nav-text">序列1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列2"><span class="nav-text">序列2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列3"><span class="nav-text">序列3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平均缺页率"><span class="nav-text">平均缺页率</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
