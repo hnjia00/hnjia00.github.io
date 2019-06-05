@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="写在前面终于写完了最后一个必做实验，编译原理课程也几乎要告一段落了，在最后一次实验完成之际，我想简单陈述一下我个人对于这门课程的感悟和想法。 之前我常常疑惑，计科和别的专业的区别是什么，为什么小专业学我们学过的课，也学我们不学的课呢，这么看来计科怎么都好像是他们的一个“子集”。 到大三下，我发现了一个“不合群”的课程——编译原理。这是一个只有计科的才有植入的专业核心课，也是计科专业区别于其他专业的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理——编译器前端">
+<meta property="og:url" content="http://hnjia00.github.io/2019/06/05/编译原理——编译器前端/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="写在前面终于写完了最后一个必做实验，编译原理课程也几乎要告一段落了，在最后一次实验完成之际，我想简单陈述一下我个人对于这门课程的感悟和想法。 之前我常常疑惑，计科和别的专业的区别是什么，为什么小专业学我们学过的课，也学我们不学的课呢，这么看来计科怎么都好像是他们的一个“子集”。 到大三下，我发现了一个“不合群”的课程——编译原理。这是一个只有计科的才有植入的专业核心课，也是计科专业区别于其他专业的">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/前端/1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/前端/2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/前端/3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/前端/1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/前端/4.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/前端/5.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/前端/7.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/前端/8.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/前端/9.png">
+<meta property="og:updated_time" content="2019-06-05T09:35:54.788Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译原理——编译器前端">
+<meta name="twitter:description" content="写在前面终于写完了最后一个必做实验，编译原理课程也几乎要告一段落了，在最后一次实验完成之际，我想简单陈述一下我个人对于这门课程的感悟和想法。 之前我常常疑惑，计科和别的专业的区别是什么，为什么小专业学我们学过的课，也学我们不学的课呢，这么看来计科怎么都好像是他们的一个“子集”。 到大三下，我发现了一个“不合群”的课程——编译原理。这是一个只有计科的才有植入的专业核心课，也是计科专业区别于其他专业的">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/编译原理/前端/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2019/06/05/编译原理——编译器前端/">
+
+
+
+
+
+  <title>编译原理——编译器前端 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Morning death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/06/05/编译原理——编译器前端/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">编译原理——编译器前端</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-05T15:32:01+08:00">
+                2019-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/编译原理/" itemprop="url" rel="index">
+                    <span itemprop="name">编译原理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2.3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  9 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>终于写完了最后一个必做实验，编译原理课程也几乎要告一段落了，在最后一次实验完成之际，我想简单陈述一下我个人对于这门课程的感悟和想法。</p>
+<p>之前我常常疑惑，计科和别的专业的区别是什么，为什么小专业学我们学过的课，也学我们不学的课呢，这么看来计科怎么都好像是他们的一个“子集”。</p>
+<p>到大三下，我发现了一个“不合群”的课程——编译原理。这是一个只有计科的才有植入的专业核心课，也是计科专业区别于其他专业的唯一标准。</p>
+<p>于是责任心鞭策着我要认真对待这门课。争取课代表、每节课坐前排、手写作业认真完成、课程实验撰写博客、选做题积极响应等是我对这门课的态度。</p>
+<p>课程涵盖了文法定义、词法分析、符号表处理、各式各样的语法分析、到最后的目标代码生成，从内而外的介绍了编程语言被编译识别的过程，也让我体会到了计算机程序语言被机器所识别的内涵和精髓，这种上下文无关语言的识别过程为我探索自然语言处理等上下文有关语言的研究铺垫了道路，不论是知识开荒还是兴趣培养，这门课对我来说受益匪浅。</p>
+<p>最后引用一句实验指导书的片头语：</p>
+<blockquote>
+<p>编译原理课程中蕴含着计算机科学中解决问题的思路、抽象问题和解决问题的方法，其内容可让计算机专业学生“享用一辈子”。 </p>
+</blockquote>
+<p><strong>这门课的知识应该是一个计科专业的人贯穿自始至终的课程。</strong></p>
+<h1 id="目标任务"><a href="#目标任务" class="headerlink" title="目标任务"></a>目标任务</h1><h2 id="实验项目"><a href="#实验项目" class="headerlink" title="实验项目"></a>实验项目</h2><p>将词法分析程序设计原理与实现（专题1）和基于SLR(1)分析法的语法制导翻译及中间代码生成程序设计原理与实现（专题5）形成一个程序，即程序的输入为符号串源程序，输出为中间代码四元式序列。</p>
+<h2 id="设计要求"><a href="#设计要求" class="headerlink" title="设计要求"></a>设计要求</h2><p>（1）词法分析的输入为符号串，词法分析的输出为二元式形式的中间文件；<br>（2）语法制导翻译读取二元式形式的中间文件并生成中间代码四元式形式的中间文件；<br>（3）设计两个测试用例（尽可能完备），并给出程序执行结果。 </p>
+<h1 id="实验1-amp-5封装"><a href="#实验1-amp-5封装" class="headerlink" title="实验1&amp;5封装"></a>实验1&amp;5封装</h1><p>由于我的实验一采用了<strong>C++</strong>所编写，所以首要解决的一个问题就是：</p>
+<blockquote>
+<p>如何利用python调用C++程序？</p>
+</blockquote>
+<h2 id="词法分析器输出重定向"><a href="#词法分析器输出重定向" class="headerlink" title="词法分析器输出重定向"></a>词法分析器输出重定向</h2><p>因为需要将词法分析器与SLR语法分析器链接成一个整体，所以需要首先修改词法分析器的输出中间文件，即通过一定方法令词法分析器实现<strong>输出重定向</strong>功能。</p>
+<p>由于词法分析器的输出全部由函数<code>out(int c,string tok)</code>所控制，函数实现如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">out</span><span class="params">(<span class="keyword">int</span> c,<span class="built_in">string</span> tok)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 保留字只输出编码</span></span><br><span class="line">    <span class="keyword">if</span>(tok == <span class="string">"reserved"</span>)</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;c&lt;&lt;<span class="string">" "</span>&lt;&lt;reserved.at(c)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//ID和int输出</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="number">10</span>||c==<span class="number">11</span>)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"i"</span>&lt;&lt;<span class="string">" "</span>&lt;&lt;tok&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//注释(不)输出</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="number">25</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;"COMMENT "&lt;&lt;tok&lt;&lt;endl;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;tok&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以只需要针对其修改输出定向即可，实现语句如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp1 = freopen(<span class="string">"/Users/jiahaonan/Desktop/大三下/编译原理/前端展示/out.txt"</span>, <span class="string">"w+"</span>, <span class="built_in">stdout</span>);</span><br></pre></td></tr></table></figure></p>
+<p>再此执行词法分析器，可以观察到词法分析器的输出结果均被定向至<code>out.txt</code>文件中<br><img src="/images/编译原理/前端/1.png" alt="Alt text"></p>
+<h2 id="封装词法分析器"><a href="#封装词法分析器" class="headerlink" title="封装词法分析器"></a>封装词法分析器</h2><p>由于不是同一语言，解决输出重定向问题后，在保证词法分析器功能无误的前提下，需要对词法分析器进行功能封装，即转变为<strong>可执行程序</strong>。</p>
+<p>可以通过通过终端下的g++编译器实现，指令如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -o word_analyse main.cpp</span><br></pre></td></tr></table></figure></p>
+<p>将编译生成的可执行文件<code>word_analyse</code>放入与SLR语法分析类相同目录的文件夹下。</p>
+<p>到此，词法分析器的修改封装已成功完成。</p>
+<p>若需要在python中调用此可执行文件，需要使用如下代码：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.system(<span class="string">"word_analyse"</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="语法分析器"><a href="#语法分析器" class="headerlink" title="语法分析器"></a>语法分析器</h2><p>由于实验5在设计时采用了<strong>面向对象</strong>的思想，故在实验6中通过如下代码可以直接引入SLR类来使用，无需修改！</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SLR</span><br><span class="line"></span><br><span class="line">SLR.test()</span><br></pre></td></tr></table></figure>
+<p>这里的test即为实验5中的主测试函数，代码如下：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 终结符号集/非终结符号集</span></span><br><span class="line">    Vn = [<span class="string">'A'</span>, <span class="string">'V'</span>, <span class="string">'E'</span>, <span class="string">'T'</span>, <span class="string">'F'</span>]</span><br><span class="line">    Vt = [<span class="string">'+'</span>, <span class="string">'-'</span>, <span class="string">'*'</span>, <span class="string">'/'</span>, <span class="string">'('</span>, <span class="string">')'</span>, <span class="string">'i'</span>, <span class="string">'='</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 规则集合</span></span><br><span class="line">    rule = &#123;</span><br><span class="line">        <span class="string">'A'</span>: [<span class="string">"V=E"</span>],</span><br><span class="line">        <span class="string">'E'</span>: [<span class="string">"E+T"</span>, <span class="string">"E-T"</span>, <span class="string">"T"</span>],</span><br><span class="line">        <span class="string">'T'</span>: [<span class="string">"T*F"</span>, <span class="string">"T/F"</span>, <span class="string">"F"</span>],</span><br><span class="line">        <span class="string">'F'</span>: [<span class="string">"(E)"</span>, <span class="string">"i"</span>],</span><br><span class="line">        <span class="string">'V'</span>: [<span class="string">"i"</span>]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    slr = SLR(start=<span class="string">'A'</span>, Vt=Vt, Vn=Vn, rule=rule)</span><br><span class="line"></span><br><span class="line">    test_words = <span class="string">""</span></span><br><span class="line">    test_symbol = <span class="string">""</span></span><br><span class="line">    f = open(<span class="string">"out.txt"</span>, <span class="string">'r'</span>)</span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">True</span>):</span><br><span class="line">        t = f.readline().strip(<span class="string">'\n'</span>)</span><br><span class="line">        <span class="keyword">if</span> (t == <span class="string">''</span>): <span class="keyword">break</span></span><br><span class="line">        test_symbol += t[<span class="number">0</span>]</span><br><span class="line">        test_words += t[<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">    slr.compile(symbol=test_symbol, word=test_words, log=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="数据流"><a href="#数据流" class="headerlink" title="数据流"></a>数据流</h2><p>在封装好词法分析器后、引入语法分析器后，下一步需要做的就是如何设计文件I/O流，以衔接词法分析器和SLR语法分析器。</p>
+<p>我的设计思想如下：<br><img src="/images/编译原理/前端/2.png" alt="Alt text" title="数据流图"></p>
+<p>总体来说，共需要使用到3个操作文件：</p>
+<ol>
+<li>in.txt：词法分析器的接受输入文件</li>
+<li>out.txt：词法分析器的二元组输出文件，同时供语法分析器输入</li>
+<li>out1.txt：语法分析器的语法制导翻译过程输出文件</li>
+</ol>
+<p>文件的预览如下：<br><img src="/images/编译原理/前端/3.png" alt="Alt text" title="in"><br><img src="/images/编译原理/前端/1.png" alt="Alt text" title="out"><br><img src="/images/编译原理/前端/4.png" alt="Alt text" title="out1"></p>
+<blockquote>
+<p>需要说明的是，out1文件为了观测的直观性输出了一些辅助性信息，可以通过控制输出来取消，无大影响。</p>
+</blockquote>
+<h1 id="图形化前端设计"><a href="#图形化前端设计" class="headerlink" title="图形化前端设计"></a>图形化前端设计</h1><p>虽然本次实验的前端含义不代表web/图形化前端，但既然已经将工程转移到python下了，就一不做二不休。</p>
+<p>根据题目的需求，前端应该具有如下功能：</p>
+<blockquote>
+<ol>
+<li>接受待分析的代码输入</li>
+<li>对代码进行词法分析，并输出二元式中间文件</li>
+<li>对二元组中间文件进行语法分析，并输出四元式中间文件</li>
+</ol>
+</blockquote>
+<p>这里通过tkinter库来依次完成以上需求。</p>
+<h2 id="接受输入"><a href="#接受输入" class="headerlink" title="接受输入"></a>接受输入</h2><p>通过一个<strong><code>Entry</code></strong>类型的控件实现输入功能，代码如下：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tip = Label(root,text=<span class="string">"你可以在此输入代码"</span>,font=(<span class="string">"手扎体-简"</span>,<span class="number">18</span>))</span><br><span class="line">tip.place(x=<span class="number">100</span>,y=<span class="number">110</span>)</span><br><span class="line"></span><br><span class="line">code = Entry(root,width=<span class="number">18</span>)</span><br><span class="line">code.place(x=<span class="number">100</span>,y=<span class="number">135</span>)</span><br></pre></td></tr></table></figure></p>
+<p>如果要调用<strong>code</strong>控件的输入内容，只需使用如下函数即可：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code.get()</span><br></pre></td></tr></table></figure></p>
+<h2 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h2><p>对输入的代码进行词法分析应该属于功能选择类，所以我们需要通过两个<strong><code>Button</code></strong>类型的控件实现选择并打印，通过一个<strong><code>Text</code></strong>类型的控件实现词法分析结果的输出</p>
+<p>代码如下：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 选择词法分析</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compile_confirm</span><span class="params">(event)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(len(code.get())==<span class="number">0</span>):</span><br><span class="line">        a = messagebox.showinfo(<span class="string">""</span>,<span class="string">"您没有输入任何语句"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    f = open(<span class="string">"in.txt"</span>, <span class="string">'w'</span>)</span><br><span class="line">    var = code.get()</span><br><span class="line">    f.write(code.get())</span><br><span class="line">    f.write(<span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line">word_show = Text(root,height=<span class="number">6</span>,width=<span class="number">30</span>)</span><br><span class="line">word_show.place(x=<span class="number">75</span>,y=<span class="number">235</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择打印结果</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_confirm1</span><span class="params">(event)</span>:</span></span><br><span class="line">    word_ans = <span class="string">""</span></span><br><span class="line">    os.system(<span class="string">"word_analyse"</span>)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"out.txt"</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        word_ans += f.read()</span><br><span class="line"></span><br><span class="line">    word_show.delete(<span class="string">'1.0'</span>, <span class="string">'end'</span>)</span><br><span class="line">    word_show.insert(INSERT,word_ans)</span><br><span class="line"></span><br><span class="line">btn_compile = Button(root, text=<span class="string">" 词法分析 "</span>)</span><br><span class="line">btn_compile.place(x=<span class="number">140</span>,y=<span class="number">180</span>)</span><br><span class="line">btn_compile.bind(<span class="string">"&lt;Button-1&gt;"</span>,compile_confirm)</span><br><span class="line"></span><br><span class="line">btn_print1 = Button(root, text=<span class="string">" 打印结果 "</span>)</span><br><span class="line">btn_print1.place(x=<span class="number">140</span>,y=<span class="number">205</span>)</span><br><span class="line">btn_print1.bind(<span class="string">"&lt;Button-1&gt;"</span>,print_confirm1)</span><br></pre></td></tr></table></figure></p>
+<p>执行效果如下：<br><img src="/images/编译原理/前端/5.png" alt="Alt text"></p>
+<h2 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h2><p>词法分析成功之后，接下来实现语法分析功能。</p>
+<p>语法分析的实现机理与词法分析类似，需要通过一个<strong><code>Button</code></strong>类型的控件实现语法分析功能选择，通过一个<strong><code>Text</code></strong>类型的控件实现语法分析结果的输出</p>
+<p>代码如下；<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">langu_show = Text(root,height=<span class="number">10</span>,width=<span class="number">30</span>)</span><br><span class="line">langu_show.place(x=<span class="number">75</span>,y=<span class="number">365</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_confirm2</span><span class="params">(event)</span>:</span></span><br><span class="line">    langu_ans = <span class="string">""</span></span><br><span class="line">    SLR.test()</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"out1.txt"</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        langu_ans += f.read()</span><br><span class="line"></span><br><span class="line">    langu_show.delete(<span class="string">'1.0'</span>, <span class="string">'end'</span>)</span><br><span class="line">    langu_show.insert(INSERT,langu_ans)</span><br><span class="line"></span><br><span class="line">btn_compile1 = Button(root, text=<span class="string">" 语法分析 "</span>)</span><br><span class="line">btn_compile1.place(x=<span class="number">140</span>,y=<span class="number">335</span>)</span><br><span class="line">btn_compile1.bind(<span class="string">"&lt;Button-1&gt;"</span>,print_confirm2)</span><br></pre></td></tr></table></figure></p>
+<p>执行效果如下：<br><img src="/images/编译原理/前端/7.png" alt="Alt text"><br><img src="/images/编译原理/前端/8.png" alt="Alt text"><br><img src="/images/编译原理/前端/9.png" alt="Alt text"></p>
+<p>到此，前端的设计圆满成功！</p>
+<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> tkinter <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> tkinter <span class="keyword">import</span> messagebox</span><br><span class="line"><span class="keyword">import</span> SLR</span><br><span class="line"></span><br><span class="line">root = Tk()</span><br><span class="line">root.title(<span class="string">"前端展示"</span>)</span><br><span class="line">root.geometry(<span class="string">'400x600'</span>)</span><br><span class="line"></span><br><span class="line">title = Label(root,text=<span class="string">"编译前端"</span>,font=(<span class="string">"手扎体-简"</span>,<span class="number">30</span>))</span><br><span class="line">title.place(x=<span class="number">120</span>,y=<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tip = Label(root,text=<span class="string">"你可以在此输入代码"</span>,font=(<span class="string">"手扎体-简"</span>,<span class="number">18</span>))</span><br><span class="line">tip.place(x=<span class="number">100</span>,y=<span class="number">110</span>)</span><br><span class="line"></span><br><span class="line">code = Entry(root,width=<span class="number">18</span>)</span><br><span class="line">code.place(x=<span class="number">100</span>,y=<span class="number">135</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compile_confirm</span><span class="params">(event)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(len(code.get())==<span class="number">0</span>):</span><br><span class="line">        a = messagebox.showinfo(<span class="string">""</span>,<span class="string">"您没有输入任何语句"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    f = open(<span class="string">"in.txt"</span>, <span class="string">'w'</span>)</span><br><span class="line">    var = code.get()</span><br><span class="line">    f.write(code.get())</span><br><span class="line">    f.write(<span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line">word_show = Text(root,height=<span class="number">6</span>,width=<span class="number">30</span>)</span><br><span class="line">word_show.place(x=<span class="number">75</span>,y=<span class="number">235</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_confirm1</span><span class="params">(event)</span>:</span></span><br><span class="line">    word_ans = <span class="string">""</span></span><br><span class="line">    os.system(<span class="string">"word_analyse"</span>)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"out.txt"</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        word_ans += f.read()</span><br><span class="line"></span><br><span class="line">    word_show.delete(<span class="string">'1.0'</span>, <span class="string">'end'</span>)</span><br><span class="line">    word_show.insert(INSERT,word_ans)</span><br><span class="line"></span><br><span class="line">langu_show = Text(root,height=<span class="number">10</span>,width=<span class="number">30</span>)</span><br><span class="line">langu_show.place(x=<span class="number">75</span>,y=<span class="number">365</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_confirm2</span><span class="params">(event)</span>:</span></span><br><span class="line">    langu_ans = <span class="string">""</span></span><br><span class="line">    SLR.test()</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"out1.txt"</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        langu_ans += f.read()</span><br><span class="line"></span><br><span class="line">    langu_show.delete(<span class="string">'1.0'</span>, <span class="string">'end'</span>)</span><br><span class="line">    langu_show.insert(INSERT,langu_ans)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">btn_compile = Button(root, text=<span class="string">" 词法分析 "</span>)</span><br><span class="line">btn_compile.place(x=<span class="number">140</span>,y=<span class="number">180</span>)</span><br><span class="line">btn_compile.bind(<span class="string">"&lt;Button-1&gt;"</span>,compile_confirm)</span><br><span class="line"></span><br><span class="line">btn_print1 = Button(root, text=<span class="string">" 打印结果 "</span>)</span><br><span class="line">btn_print1.place(x=<span class="number">140</span>,y=<span class="number">205</span>)</span><br><span class="line">btn_print1.bind(<span class="string">"&lt;Button-1&gt;"</span>,print_confirm1)</span><br><span class="line"></span><br><span class="line">btn_compile1 = Button(root, text=<span class="string">" 语法分析 "</span>)</span><br><span class="line">btn_compile1.place(x=<span class="number">140</span>,y=<span class="number">335</span>)</span><br><span class="line">btn_compile1.bind(<span class="string">"&lt;Button-1&gt;"</span>,print_confirm2)</span><br><span class="line"></span><br><span class="line">root.mainloop()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/03/编译原理——基于SLR1的语法制导翻译及中间代码生成/" rel="next" title="编译原理——基于SLR1的语法制导翻译及中间代码生成">
+                <i class="fa fa-chevron-left"></i> 编译原理——基于SLR1的语法制导翻译及中间代码生成
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目标任务"><span class="nav-text">目标任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验项目"><span class="nav-text">实验项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计要求"><span class="nav-text">设计要求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验1-amp-5封装"><span class="nav-text">实验1&amp;5封装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#词法分析器输出重定向"><span class="nav-text">词法分析器输出重定向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装词法分析器"><span class="nav-text">封装词法分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法分析器"><span class="nav-text">语法分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据流"><span class="nav-text">数据流</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图形化前端设计"><span class="nav-text">图形化前端设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#接受输入"><span class="nav-text">接受输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#词法分析"><span class="nav-text">词法分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法分析"><span class="nav-text">语法分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附录"><span class="nav-text">附录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
