@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实验简介本实验要求在模拟的I/O系统之上开发一个简单的文件系统。用户通过create, open, read等命令与文件系统交互。文件系统把磁盘视为顺序编号的逻辑块序列，逻辑块的编号为0至L − 1。I/O系统利用内存中的数组模拟磁盘。 整体设计根据题设要求，文件系统的整体设计框架如下： I/O系统设计要求实际物理磁盘的结构是多维的：有柱面、磁头、扇区等概念。I/O系统的任务是隐藏磁盘的结构细节，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统——文件系统">
+<meta property="og:url" content="http://hnjia00.github.io/2019/06/13/操作系统——文件系统/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="实验简介本实验要求在模拟的I/O系统之上开发一个简单的文件系统。用户通过create, open, read等命令与文件系统交互。文件系统把磁盘视为顺序编号的逻辑块序列，逻辑块的编号为0至L − 1。I/O系统利用内存中的数组模拟磁盘。 整体设计根据题设要求，文件系统的整体设计框架如下： I/O系统设计要求实际物理磁盘的结构是多维的：有柱面、磁头、扇区等概念。I/O系统的任务是隐藏磁盘的结构细节，">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project5/0.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project5/1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project5/2.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project5/3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project5/4.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project5/5.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/操作系统/project5/6.png">
+<meta property="og:updated_time" content="2019-06-13T09:33:19.418Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统——文件系统">
+<meta name="twitter:description" content="实验简介本实验要求在模拟的I/O系统之上开发一个简单的文件系统。用户通过create, open, read等命令与文件系统交互。文件系统把磁盘视为顺序编号的逻辑块序列，逻辑块的编号为0至L − 1。I/O系统利用内存中的数组模拟磁盘。 整体设计根据题设要求，文件系统的整体设计框架如下： I/O系统设计要求实际物理磁盘的结构是多维的：有柱面、磁头、扇区等概念。I/O系统的任务是隐藏磁盘的结构细节，">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/操作系统/project5/0.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2019/06/13/操作系统——文件系统/">
+
+
+
+
+
+  <title>操作系统——文件系统 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Morning death</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/06/13/操作系统——文件系统/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">操作系统——文件系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-13T10:38:52+08:00">
+                2019-06-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/操作系统/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  4.3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  18 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="实验简介"><a href="#实验简介" class="headerlink" title="实验简介"></a>实验简介</h1><p>本实验要求在模拟的I/O系统之上开发一个简单的文件系统。用户通过create, open, read等命令与文件系统交互。文件系统把磁盘视为顺序编号的逻辑块序列，逻辑块的编号为0至L − 1。<br>I/O系统利用内存中的数组模拟磁盘。</p>
+<h1 id="整体设计"><a href="#整体设计" class="headerlink" title="整体设计"></a>整体设计</h1><p>根据题设要求，文件系统的整体设计框架如下：<br><img src="/images/操作系统/project5/0.png" alt="Alt text" title="整体设计"></p>
+<h1 id="I-O系统"><a href="#I-O系统" class="headerlink" title="I/O系统"></a>I/O系统</h1><h2 id="设计要求"><a href="#设计要求" class="headerlink" title="设计要求"></a>设计要求</h2><p>实际物理磁盘的结构是多维的：有柱面、磁头、扇区等概念。I/O系统的任务是隐藏磁盘的结构细节，把磁盘以逻辑块的面目呈现给文件系统。逻辑块顺序编号，编号取值范围为0至L−1，其中L表示磁盘的存储块总数。实验中，我们可以利用数组ldisk[C][H][B]构建磁盘模型，其中CHB 分别表示柱面号，磁头号和扇区号。每个扇区大小为512字节。I/O系统从文件系统接收命令，根据命令指定的逻辑块号把磁盘块的内容读入命令指定的内存区域，或者把命令指定的内存区域内容写入磁盘块。</p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>本实验需要用数组来模拟实际磁盘的三维结构，为了方便表述对扇区内存储内容的描述，我们使用如下结构体：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">ldisk</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> C; <span class="comment">//柱面号</span></span><br><span class="line">    <span class="keyword">int</span> H; <span class="comment">//磁头号</span></span><br><span class="line">    <span class="keyword">int</span> B; <span class="comment">//扇区号</span></span><br><span class="line">    <span class="keyword">char</span> content[SIZE + <span class="number">1</span>]; <span class="comment">//扇区中的内容</span></span><br><span class="line">&#125;LDISK;</span><br></pre></td></tr></table></figure></p>
+<h2 id="功能接口"><a href="#功能接口" class="headerlink" title="功能接口"></a>功能接口</h2><h3 id="read-block"><a href="#read-block" class="headerlink" title="read_block"></a>read_block</h3><p>函数原型<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">read_block(<span class="keyword">int</span> i, <span class="keyword">char</span> *p)</span><br></pre></td></tr></table></figure></p>
+<p>实现的功能：把逻辑块i的内容读入到指针p指向的内存位置，拷贝的字符个数为存储块的长度B。<br>核心思想：根据传入的逻辑块i计算出其对应的磁盘三维坐标数据，计算过程如注释所述。<br>其中<strong><code>sectorsPerTrack</code></strong>代表每个磁道上的扇区数目。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">read_block</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">char</span> *p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> y = i / sectorsPerTrack;</span><br><span class="line">    <span class="comment">//扇区号</span></span><br><span class="line">    disk[i].B = i % sectorsPerTrack + <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//柱面号</span></span><br><span class="line">    disk[i].C = y &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//磁头号</span></span><br><span class="line">    disk[i].H = y &amp; <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//读入p</span></span><br><span class="line">    <span class="built_in">strcpy</span>(p, disk[i].content);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="write-block"><a href="#write-block" class="headerlink" title="write_block"></a>write_block</h3><p>函数原型<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">write_block</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">char</span> *p)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>实现的功能：把指针p指向的内容写入逻辑块i，拷贝的字符个数为存储块的长度B。<br>实现思路同上，核心思想也是解决坐标的变换。<br>代码如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">write_block</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">char</span> *p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> y = i / sectorsPerTrack;</span><br><span class="line">    <span class="comment">//扇区号</span></span><br><span class="line">    disk[i].B = i % sectorsPerTrack + <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//柱面号</span></span><br><span class="line">    disk[i].C = y &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//磁头号</span></span><br><span class="line">    disk[i].H = y &amp; <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//写入</span></span><br><span class="line">    <span class="built_in">strcpy</span>(disk[i].content, p);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h1><h2 id="设计要求-1"><a href="#设计要求-1" class="headerlink" title="设计要求"></a>设计要求</h2><p>文件系统的总体设计共有如下要求：</p>
+<ul>
+<li>文件系统位于I/O系统之上；</li>
+<li>文件系统需提供如下函数：create, destroy, open, read, write；</li>
+<li>磁盘的前k个块是保留区，其中包含如下信息：位图和文件描述符；</li>
+<li>文件系统中仅设置一个目录，该目录包含文件系统中的所有文件；</li>
+<li>创建文件/删除文件；</li>
+<li>文件打开：在打开文件表中为其分配一个表目；</li>
+<li>文件关闭：其对应的表目被释放；</li>
+<li>文件读写：计算读写指针对应的位置在读写缓冲区中的偏移、把缓冲区中的内容拷贝到指定的内存位置。</li>
+</ul>
+<h2 id="文件系统的组织"><a href="#文件系统的组织" class="headerlink" title="文件系统的组织"></a>文件系统的组织</h2><p>磁盘的前k个块是保留区，其中包含如下信息：位图和文件描述符。位图用来描述磁盘块的分配情况。位图中的每一位对应一个逻辑块。创建或者删除文件，以及文件的长度发生变化时，文件系统都需要进行位图操作。前k个块的剩余部分包含一组文件描述符。每个文件描述符包含如下信息：<br>• 文件长度，单位字节<br>• 文件分配到的磁盘块号数组。该数组的长度是一个系统参数。在实验中我们可以把它设置为一个比较小的数，例如3。</p>
+<p>为了辅助实现用户与文件系统之间的接口函数，需要定义文件类型变量的结构体，根据上述需求，结构体中需要包含如下的的成员变量：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">files</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> number; <span class="comment">//文件编号</span></span><br><span class="line">    <span class="keyword">char</span> *filename; <span class="comment">//文件名</span></span><br><span class="line">    <span class="keyword">int</span> size; <span class="comment">//文件大小</span></span><br><span class="line">    <span class="keyword">int</span> pos; <span class="comment">//文件偏移指针</span></span><br><span class="line">    INDIRECT *addr[<span class="number">3</span>]; <span class="comment">//3个直接地址</span></span><br><span class="line">    <span class="keyword">char</span> *content; <span class="comment">//存放文件中的所有内容</span></span><br><span class="line">&#125;FILES;</span><br></pre></td></tr></table></figure></p>
+<h2 id="用户与文件系统之间的接口"><a href="#用户与文件系统之间的接口" class="headerlink" title="用户与文件系统之间的接口"></a>用户与文件系统之间的接口</h2><p>根据题目要求，该处的主要工作为上述五个接口函数的实现。</p>
+<h3 id="create"><a href="#create" class="headerlink" title="create"></a>create</h3><p>函数原型<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">create</span><span class="params">(<span class="keyword">char</span> *filename)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>实现的功能：根据指定的文件名创建新文件。</p>
+<p>实现思想：首先根据传入文件名判断是否已存在同名文件，若存在则报错；若不存在则将其装入位图。<br>实现代码如下，其中<strong><code>M</code></strong>为位图的行数、<strong><code>K</code></strong>为保留区的长度、<strong><code>L</code></strong>为总的逻辑扇区数目<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">create</span><span class="params">(<span class="keyword">char</span> *filename)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    DIC *dic = dicHead;</span><br><span class="line">    <span class="keyword">int</span> flag = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; countOfFiles; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">strcmp</span>(dic-&gt;filename, filename) == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            flag = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dic = dic-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(flag == <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"FileExisted!\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a = M;</span><br><span class="line">    <span class="keyword">int</span> start = K;</span><br><span class="line">    <span class="keyword">int</span> size = L - K;</span><br><span class="line">    countOfFiles ++;</span><br><span class="line">    <span class="comment">//生成随机数</span></span><br><span class="line">    <span class="keyword">int</span> blockNumber = createRandomNUmber(start, size);</span><br><span class="line">    <span class="comment">//查询位图</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">map</span>[blockNumber / a][blockNumber % a] == <span class="number">1</span>)</span><br><span class="line">        blockNumber = createRandomNUmber(start, size);</span><br><span class="line">    <span class="comment">//置位图为1</span></span><br><span class="line">    <span class="built_in">map</span>[blockNumber / a][blockNumber % a] = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//建立目录</span></span><br><span class="line">    createDirectory(filename, blockNumber);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"创建%s成功\n"</span>, filename);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h3><p>函数原型<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">delete</span><span class="params">(<span class="keyword">char</span> *filename)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>实现的功能：根据指定的文件名删除指定文件。</p>
+<p>实现思想：首先根据传入文件名判断是否已存在同名文件，若不存在则报错；若存在则将其从块、目录中删除。<br>实现代码如下，其中<strong><code>SIZE</code></strong>为扇区大小（字节数）<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">destroy</span><span class="params">(<span class="keyword">char</span> *filename)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    DIC *dic = dicHead;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> flag = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; countOfFiles; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">strcmp</span>(dic-&gt;filename, filename) == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            flag = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dic = dic-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(flag == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"FileNotExist!\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除文件</span></span><br><span class="line">    <span class="keyword">int</span> blockNumber = dic-&gt;index1-&gt;size / SIZE;</span><br><span class="line">    <span class="keyword">if</span>(dic-&gt;index1-&gt;size % SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        blockNumber ++;</span><br><span class="line">    <span class="comment">//删除所有块里的元素</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; blockNumber; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        write_block(dic-&gt;index1-&gt;addr[i]-&gt;diskNum, <span class="string">"\0"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//删除目录</span></span><br><span class="line">    destoryDirectory(filename);</span><br><span class="line">    countOfFiles --;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="open"><a href="#open" class="headerlink" title="open"></a>open</h3><p>函数原型<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FILES *<span class="title">open</span><span class="params">(<span class="keyword">char</span> *filename)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>实现的功能：根据指定的文件名打开文件，且该函数返回的索引号可用于后续的read, write, lseek,或close操作。</p>
+<p>实现思想：首先根据传入文件名判断是否已存在同名文件，若不存在则报错；若存在则计算块号和块内偏移地址，并将其从磁盘中读至file。<br>实现代码如下，其中<strong><code>SIZE</code></strong>为扇区大小（字节数）<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FILES *<span class="title">open</span><span class="params">(<span class="keyword">char</span> *filename)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    DIC *dic = dicHead;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> buffer[<span class="number">512</span>] = <span class="string">""</span>; <span class="comment">//缓冲区</span></span><br><span class="line">    <span class="keyword">int</span> flag = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; countOfFiles; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">strcmp</span>(dic-&gt;filename, filename) == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            flag = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dic = dic-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(flag == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"FileNotExist!\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    FILES *file = <span class="literal">NULL</span>;</span><br><span class="line">    file = (FILES *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(FILES));</span><br><span class="line">    file-&gt;number = dic-&gt;index1-&gt;number;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i ++)</span><br><span class="line">        file-&gt;addr[i] = (INDIRECT *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(INDIRECT));</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i ++)</span><br><span class="line">        <span class="built_in">memcpy</span>(file-&gt;addr[i], dic-&gt;index1-&gt;addr[i], <span class="keyword">sizeof</span>(INDIRECT));</span><br><span class="line">    file-&gt;size = dic-&gt;index1-&gt;size;</span><br><span class="line">    file-&gt;filename = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="built_in">strlen</span>(filename) * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    <span class="built_in">memcpy</span>(file-&gt;filename, filename, <span class="built_in">strlen</span>(filename));</span><br><span class="line">    file-&gt;pos = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//将磁盘中的内容读到file中</span></span><br><span class="line">    <span class="keyword">int</span> block = file-&gt;size / SIZE;</span><br><span class="line">    <span class="keyword">int</span> offset = file-&gt;size % SIZE;</span><br><span class="line">    file-&gt;content = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(file-&gt;size * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    <span class="keyword">if</span>(offset &gt; <span class="number">0</span>)</span><br><span class="line">        block ++;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; block; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        read_block(dic-&gt;index1-&gt;addr[i]-&gt;diskNum, buffer);</span><br><span class="line">        <span class="built_in">strcpy</span>(&amp;file-&gt;content[i * SIZE], buffer);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//    printf("打开成功\n");</span></span><br><span class="line">    <span class="keyword">return</span> file;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="close"><a href="#close" class="headerlink" title="close"></a>close</h3><p>函数原型<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">close</span><span class="params">(FILES *file)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>实现的功能：关闭指定文件。<br>实现思想：将file指针指定的文件的文件名和文件内容释放。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">close</span><span class="params">(FILES *file)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i ++)</span><br><span class="line">        <span class="built_in">free</span>(file-&gt;addr[i]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i ++)</span><br><span class="line">        file-&gt;addr[i] = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">//释放文件名</span></span><br><span class="line">    <span class="keyword">if</span>(file-&gt;filename != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">free</span>(file-&gt;filename);</span><br><span class="line">        file-&gt;filename = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//释放文件内容</span></span><br><span class="line">    <span class="keyword">if</span>(file-&gt;content != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">free</span>(file-&gt;content);</span><br><span class="line">        file-&gt;content = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//释放file指针</span></span><br><span class="line">    <span class="built_in">free</span>(file);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"关闭成功\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="read"><a href="#read" class="headerlink" title="read"></a>read</h3><p>函数原型<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FILES *<span class="title">read</span><span class="params">(FILES *file, <span class="keyword">char</span> *mem_area, <span class="keyword">int</span> count)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>实现的功能：从指定文件顺序读入count个字节memArea指定的内存位置。读操作从文件的读写指针指示的位置开始。</p>
+<p>实现思想：根据count指定的长度计算需要读的扇区数目<strong>a</strong>，然后依次从这<strong>a</strong>个扇区中将<strong>file-&gt;content</strong>所指向的数据依次读入缓冲区<strong>buffer</strong>，并拷贝至指定的内存连续区<strong>mem_area</strong>，最后修改读写文件指针<strong>file-&gt;pos</strong>向后移动<strong>count</strong>个位置即可。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FILES *<span class="title">read</span><span class="params">(FILES *file, <span class="keyword">char</span> *mem_area, <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buffer[<span class="number">512</span>] = <span class="string">""</span>; <span class="comment">//缓冲区</span></span><br><span class="line">    <span class="keyword">if</span>((count + file-&gt;pos) &gt; file-&gt;size)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//越界错误</span></span><br><span class="line">    <span class="keyword">int</span> a = count / SIZE;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memcpy</span>(buffer, &amp;file-&gt;content[file-&gt;pos + i * SIZE], SIZE * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">        <span class="built_in">strcpy</span>(&amp;mem_area[i * SIZE], buffer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">memcpy</span>(buffer, &amp;file-&gt;content[file-&gt;pos + a * SIZE], (count % SIZE) * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    <span class="built_in">strcpy</span>(&amp;mem_area[a * SIZE], buffer);</span><br><span class="line">    file-&gt;pos = file-&gt;pos + count;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"读入成功\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> file;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="write"><a href="#write" class="headerlink" title="write"></a>write</h3><p>函数原型<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FILES *<span class="title">write</span> <span class="params">(FILES *file, <span class="keyword">char</span> *mem_area, <span class="keyword">int</span> count)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>实现的功能：把memarea指定的内存位置开始的count个字节顺序写入指定文件。写操作从文件的读写指针指示的位置开始。</p>
+<p>实现思想：写入文件的逻辑较读操作来说更为复杂。<br>首先需要根据文件指针找到文件所在的逻辑块并清空所对应磁盘中的内容；其次需要将位图的对应部分清空；最后还需要将现有目录中的对应内容（即diskNum、count）清空。<br>准备工作完成后，下面进行写入动作。<br>首先根据写入文件的数据大小count更新文件读写指针的位置为file-&gt;pos + count；其次为文件内容区域重新分配内存空间并把待写入的数据mem_area写入；最后将写入新数据的file写回磁盘和目录中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FILES *<span class="title">write</span> <span class="params">(FILES *file, <span class="keyword">char</span> *mem_area, <span class="keyword">int</span> count)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    DIC *dic = dicHead;</span><br><span class="line">    <span class="keyword">char</span> buffer[<span class="number">512</span>] = <span class="string">""</span>; <span class="comment">//缓冲区</span></span><br><span class="line">    <span class="keyword">if</span>(file-&gt;pos + count &gt; file-&gt;size)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>; <span class="comment">//越界</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//清除原先磁盘扇区中的数据</span></span><br><span class="line">    <span class="keyword">int</span> m = M;</span><br><span class="line">    <span class="keyword">int</span> blocknumber = file-&gt;size / SIZE;</span><br><span class="line">    <span class="keyword">if</span>((file-&gt;size % SIZE) &gt; <span class="number">0</span>)</span><br><span class="line">        blocknumber ++;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; blocknumber; i ++)</span><br><span class="line">        <span class="built_in">strcpy</span>(disk[file-&gt;addr[i]-&gt;diskNum].content, <span class="string">"\0"</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; blocknumber; i ++)</span><br><span class="line">        <span class="comment">//改位图</span></span><br><span class="line">        <span class="built_in">map</span>[file-&gt;addr[i]-&gt;diskNum / m][file-&gt;addr[i]-&gt;diskNum % m] = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//找到目录</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; countOfFiles; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(dic-&gt;index1-&gt;number == file-&gt;number)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        dic = dic-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//更改目录中的内容</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; blocknumber; i ++)</span><br><span class="line">        dic-&gt;index1-&gt;addr[i]-&gt;diskNum= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i ++)</span><br><span class="line">        dic-&gt;index1-&gt;addr[i]-&gt;count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">3</span>; i ++)</span><br><span class="line">        dic-&gt;index1-&gt;addr[i]-&gt;diskNum = <span class="number">-1</span>;</span><br><span class="line">    <span class="comment">//更改file指针中文件的内容</span></span><br><span class="line">    file-&gt;size = file-&gt;pos + count;</span><br><span class="line">    <span class="comment">//重新分配空间</span></span><br><span class="line">    <span class="keyword">char</span> *s;</span><br><span class="line">    s = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="built_in">strlen</span>(file-&gt;content) *<span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    <span class="built_in">memcpy</span>(s, file-&gt;content, <span class="built_in">strlen</span>(file-&gt;content) *<span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    file-&gt;content = (<span class="keyword">char</span> *)<span class="built_in">realloc</span>(file-&gt;content, file-&gt;size * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    <span class="built_in">memcpy</span>(file-&gt;content, s, <span class="keyword">sizeof</span>(file-&gt;pos) *<span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    <span class="built_in">memcpy</span>(&amp;file-&gt;content[file-&gt;pos], mem_area, count * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    <span class="comment">//将file中的内容通过buffer写入磁盘</span></span><br><span class="line">    blocknumber = file-&gt;size / SIZE;</span><br><span class="line">    <span class="keyword">if</span>(file-&gt;size % SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        blocknumber ++;</span><br><span class="line">    <span class="comment">//生成随机的磁盘扇区块</span></span><br><span class="line">    <span class="keyword">int</span> start = K;</span><br><span class="line">    <span class="keyword">int</span> size = L - K;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; blocknumber; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        file-&gt;addr[i]-&gt;diskNum = createRandomNUmber(start, size);</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">map</span>[file-&gt;addr[i]-&gt;diskNum / m][file-&gt;addr[i]-&gt;diskNum % m] != <span class="number">0</span>)</span><br><span class="line">            file-&gt;addr[i]-&gt;diskNum = createRandomNUmber(start, size);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从buffer中写入扇区</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; blocknumber - <span class="number">1</span>; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//存入缓冲区</span></span><br><span class="line">        <span class="built_in">memcpy</span>(buffer, &amp;file-&gt;content[i * SIZE], (SIZE) * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">        <span class="comment">//缓冲区存入磁盘</span></span><br><span class="line">        write_block(file-&gt;addr[i]-&gt;diskNum, buffer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(count % SIZE &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">strcpy</span>(buffer, &amp;file-&gt;content[(blocknumber - <span class="number">1</span>) * SIZE]);</span><br><span class="line">        write_block(file-&gt;addr[blocknumber - <span class="number">1</span>]-&gt;diskNum, buffer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(count % SIZE == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memcpy</span>(buffer, &amp;file-&gt;content[(blocknumber - <span class="number">1</span>) * SIZE], SIZE * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">        write_block(file-&gt;addr[blocknumber - <span class="number">1</span>]-&gt;diskNum, buffer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; blocknumber - <span class="number">1</span>; i ++)</span><br><span class="line">        file-&gt;addr[i]-&gt;count = SIZE;</span><br><span class="line">    <span class="keyword">if</span>(file-&gt;size == SIZE)</span><br><span class="line">        file-&gt;addr[blocknumber - <span class="number">1</span>]-&gt;count = file-&gt;size;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        file-&gt;addr[blocknumber - <span class="number">1</span>]-&gt;count = file-&gt;size % SIZE;</span><br><span class="line">    <span class="comment">//写回目录</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i ++)</span><br><span class="line">        <span class="built_in">memcpy</span>(dic-&gt;index1-&gt;addr[i], file-&gt;addr[i], <span class="keyword">sizeof</span>(INDIRECT));</span><br><span class="line">    dic-&gt;index1-&gt;size = file-&gt;size;</span><br><span class="line">    file-&gt;pos = file-&gt;size;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"写入成功\n"</span>);</span><br><span class="line">    <span class="built_in">free</span>(buffer);</span><br><span class="line">    <span class="keyword">return</span> file;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="lseek"><a href="#lseek" class="headerlink" title="lseek"></a>lseek</h3><p>函数原型<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FILES *<span class="title">lseek</span><span class="params">(FILES* file, <span class="keyword">int</span> pos)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>实现的功能：把文件的读写指针移动到pos指定的位置。pos是一个整数，表示从文件开始位置的偏移量。文件打开时，读写指针自动设置为0。每次读写操作之后，它指向最后被访问的字节的下一个位置。lseek能够在不进行读写操作的情况下改变读写指针能位置。</p>
+<p>实现思想：直接对file指针对应的结构体变量pos操作即可。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">FILES *<span class="title">lseek</span><span class="params">(FILES* file, <span class="keyword">int</span> pos)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    file-&gt;pos += pos;</span><br><span class="line">    <span class="keyword">return</span> file;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>我们的文件系统中仅设置一个目录，该目录包含文件系统中的所有文件。除了不需要显示地创建和删除之外，目录在很多方面和普通文件相像。目录对应0号文件描述符。初始状态下，目录中没有文件，所有目录对应的描述符中记录的长度应为0，而且也没有分配磁盘块。每创建一个文件，目录文件的长度便增加。目录文件的内容由一系列的目录项组成，其中每个目录项由如下内容组成：<br>• 文件名<br>• 文件描述符序号</p>
+<h3 id="数据结构-1"><a href="#数据结构-1" class="headerlink" title="数据结构"></a>数据结构</h3><h4 id="地址项"><a href="#地址项" class="headerlink" title="地址项"></a>地址项</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">indirect</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> diskNum; <span class="comment">//磁盘逻辑扇区号</span></span><br><span class="line">    <span class="keyword">int</span> count; <span class="comment">//使用过的长度</span></span><br><span class="line">&#125;INDIRECT;</span><br></pre></td></tr></table></figure>
+<h4 id="文件标识符"><a href="#文件标识符" class="headerlink" title="文件标识符"></a>文件标识符</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">index</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> number; <span class="comment">//文件标识符号</span></span><br><span class="line">    <span class="keyword">int</span> size; <span class="comment">//大小</span></span><br><span class="line">    INDIRECT *addr[<span class="number">3</span>]; <span class="comment">//3个直接地址</span></span><br><span class="line">&#125;INDEX;</span><br></pre></td></tr></table></figure>
+<h4 id="目录的存储结构"><a href="#目录的存储结构" class="headerlink" title="目录的存储结构"></a>目录的存储结构</h4><p>目录结构体的存储结构如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">directory1</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> number; <span class="comment">//文件标识符号</span></span><br><span class="line">    <span class="keyword">int</span> size; <span class="comment">//大小</span></span><br><span class="line">    INDIRECT **addr; <span class="comment">//目录所占的直接地址</span></span><br><span class="line">&#125;DIC1;</span><br></pre></td></tr></table></figure></p>
+<p>这里通过链表结构来显示目录中的所有文件及其长度：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">directory</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">char</span> *filename; <span class="comment">//文件名</span></span><br><span class="line">    INDEX *index1;<span class="comment">//文件索引</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">directory</span> *<span class="title">next</span>;</span> <span class="comment">//使用循环链表储存目录信息</span></span><br><span class="line">&#125;DIC;</span><br></pre></td></tr></table></figure></p>
+<p>与目录相关的操作如下所述：</p>
+<h3 id="初始化目录"><a href="#初始化目录" class="headerlink" title="初始化目录"></a>初始化目录</h3><p>初始化即为目录的相关成员分配各自的内存空间。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">initDic</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"初始化目录-----"</span>);</span><br><span class="line">    dic1 = (DIC1 *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DIC1));</span><br><span class="line">    dic1-&gt;number = <span class="number">0</span>;</span><br><span class="line">    dic1-&gt;size = <span class="number">0</span>;</span><br><span class="line">    dicHead = (DIC *) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DIC));</span><br><span class="line">    dicTail = (DIC *) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DIC));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"ok\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">createDirectory</span><span class="params">(<span class="keyword">char</span> *filename, <span class="keyword">int</span> blockNumber)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k = K;</span><br><span class="line">    <span class="keyword">if</span>(countOfFiles * <span class="keyword">sizeof</span>(DIC) + <span class="keyword">sizeof</span>(dic1) &gt; (k - blockOfMap) * SIZE)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>; <span class="comment">//目录越界</span></span><br><span class="line">    DIC *dic = <span class="literal">NULL</span>;</span><br><span class="line">    dic = (DIC *) <span class="built_in">malloc</span>(countOfFiles * <span class="keyword">sizeof</span>(DIC));</span><br><span class="line">    dic-&gt;filename = (<span class="keyword">char</span> *) <span class="built_in">malloc</span>(<span class="built_in">strlen</span>(filename) * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    <span class="built_in">strcpy</span>(dic-&gt;filename, filename);</span><br><span class="line">    dic-&gt;index1 = (INDEX *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(INDEX));</span><br><span class="line">    dic-&gt;index1-&gt;number = countOfFiles;</span><br><span class="line">    dic-&gt;index1-&gt;size = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i ++)</span><br><span class="line">        dic-&gt;index1-&gt;addr[i] = (INDIRECT *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(INDIRECT));</span><br><span class="line">    dic-&gt;index1-&gt;addr[<span class="number">0</span>]-&gt;diskNum = blockNumber;</span><br><span class="line">    dic-&gt;index1-&gt;addr[<span class="number">0</span>]-&gt;count = <span class="number">0</span>;</span><br><span class="line">    dic-&gt;next = (DIC *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(DIC));</span><br><span class="line">    <span class="comment">//生成链表</span></span><br><span class="line">    <span class="keyword">if</span>(countOfFiles == <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memcpy</span>(dicHead, dic, <span class="keyword">sizeof</span>(DIC));</span><br><span class="line">        dicTail = dicHead;</span><br><span class="line">        dicHead-&gt;next = dicTail;</span><br><span class="line">        dicTail-&gt;next = dicHead;</span><br><span class="line">        <span class="built_in">free</span>(dic);</span><br><span class="line">    &#125; <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        dicTail-&gt;next = dic;</span><br><span class="line">        dic-&gt;next = dicHead;</span><br><span class="line">        dicTail = dic;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="删除目录"><a href="#删除目录" class="headerlink" title="删除目录"></a>删除目录</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">destoryDirectory</span><span class="params">(<span class="keyword">char</span> *filename)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    DIC *dic = dicHead;</span><br><span class="line">    DIC *dic2 = dicHead;</span><br><span class="line">    <span class="keyword">int</span> a = M;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="comment">//找到filename对应的目录</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; countOfFiles; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">strcmp</span>(dic-&gt;filename, filename) == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        dic2 = dic;</span><br><span class="line">        dic = dic-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//计算出文件占用了多少扇区</span></span><br><span class="line">    <span class="keyword">int</span> x = dic-&gt;index1-&gt;size;</span><br><span class="line">    <span class="keyword">int</span> y = x / SIZE;</span><br><span class="line">    <span class="keyword">if</span>(x % SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        y ++;</span><br><span class="line">    <span class="comment">//释放所有扇区信息</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; y; j ++)</span><br><span class="line">        <span class="comment">//修改位图</span></span><br><span class="line">        <span class="built_in">map</span>[dic-&gt;index1-&gt;addr[j]-&gt;diskNum / a][dic-&gt;index1-&gt;addr[j]-&gt;diskNum % a] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i ++)</span><br><span class="line">        <span class="built_in">free</span>(dic-&gt;index1-&gt;addr[i]);</span><br><span class="line">    <span class="built_in">free</span>(dic-&gt;index1);</span><br><span class="line">    <span class="comment">//释放文件名</span></span><br><span class="line">    <span class="built_in">free</span>(dic-&gt;filename);</span><br><span class="line">    <span class="comment">//释放目录</span></span><br><span class="line">    dic2-&gt;next = dic-&gt;next;</span><br><span class="line">    dicHead = dic2-&gt;next;</span><br><span class="line">    <span class="built_in">free</span>(dic);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>在文件系统的基础功能都完成之后，编写外壳程序来将各个功能组织到一起，下面来对各个功能进行测试。<br>首先通过终端编译生成可执行文件：<br><img src="/images/操作系统/project5/1.png" alt="Alt text" title="目录"><br><strong>创建文件</strong>：通过调用1号功能来新建三个测试文件<code>test1</code>、<code>test2</code>和<code>test3</code><br><img src="/images/操作系统/project5/2.png" alt="Alt text" title="创建文件"><br><strong>显示文件</strong>：通过调用8号功能来显示目前已有的文件，可以观察到刚刚新建的三个文件的物理信息（文件名，文件标号，大小，所占磁盘块，所占大小）<br><img src="/images/操作系统/project5/3.png" alt="Alt text" title="显示文件"><br><strong>删除文件</strong>：通过调用2号功能来删除测试文件<code>test3</code>，再通过8号功能显示文件信息如下<br><img src="/images/操作系统/project5/4.png" alt="Alt text" title="删除文件"><br><strong>写文件</strong>：通过调用3号功能首先打开测试文件<code>test1</code>，再通过6号功能向文件中写入测试数据，最后通过8号功能显示文件信息如下<br><img src="/images/操作系统/project5/5.png" alt="Alt text" title="写文件"><br><strong>读文件</strong>：通过5号功能从已打开的文件<code>test1</code>中读取10位测试数据，显示读取结果如下，可以看到成功把之前向文件中写入的测试字符串按指定长度读中并显示<br><img src="/images/操作系统/project5/6.png" alt="Alt text" title="读文件"></p>
+<p>至此，文件系统的基本功能：增删改查已全部实现！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/05/编译原理——编译器前端/" rel="next" title="编译原理——编译器前端">
+                <i class="fa fa-chevron-left"></i> 编译原理——编译器前端
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/13/g/" rel="prev" title="g">
+                g <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验简介"><span class="nav-text">实验简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#整体设计"><span class="nav-text">整体设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#I-O系统"><span class="nav-text">I/O系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计要求"><span class="nav-text">设计要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构"><span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能接口"><span class="nav-text">功能接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#read-block"><span class="nav-text">read_block</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#write-block"><span class="nav-text">write_block</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件系统"><span class="nav-text">文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计要求-1"><span class="nav-text">设计要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统的组织"><span class="nav-text">文件系统的组织</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户与文件系统之间的接口"><span class="nav-text">用户与文件系统之间的接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#create"><span class="nav-text">create</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#delete"><span class="nav-text">delete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#open"><span class="nav-text">open</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#close"><span class="nav-text">close</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#read"><span class="nav-text">read</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#write"><span class="nav-text">write</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lseek"><span class="nav-text">lseek</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-text">目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构-1"><span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#地址项"><span class="nav-text">地址项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件标识符"><span class="nav-text">文件标识符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#目录的存储结构"><span class="nav-text">目录的存储结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化目录"><span class="nav-text">初始化目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建目录"><span class="nav-text">创建目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除目录"><span class="nav-text">删除目录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
