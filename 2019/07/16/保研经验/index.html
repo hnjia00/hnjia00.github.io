@@ -81,29 +81,17 @@
 
 
 
-<meta name="description" content="趁着这几天刚开学，时间还比较宽裕，决定来整理一下自己的实验报告，先从计网开始。 实验目的 处理一个 http 请求 接收并解析 http 请求   从服务器文件系统中获得被请求的文件   创建一个包括被请求的文件的 http 响应信息   直接发送该信息到客户端    实验环境 系统：Mac OS X 10.13.1 语言：JAVA 浏览器：Google Chrome  实验步骤前期准备为了完成本">
+<meta name="description" content="从期末考完开始，到现在为止，折腾了半个多月，总算是拿到了计算所网数实验室的offer，这里来总结一下这其中碰到了种种问题。 总而言之，问题主要包括：机试、数学和项目，三个大主题，首先来谈一下最简单粗暴的数学。 与数学有关的主要包括：  微积分 线性代数 概率论  而与数学有关的东西大都是在大一所学，如果没有针对性的复习，几乎无法应对面试的提问，但短时间内复习完高等数学的三大块内容也不现实，所以这里">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机网络——JAVA实现web服务器">
-<meta property="og:url" content="http://hnjia00.github.io/2019/03/03/计算机网络——JAVA实现web服务器/index.html">
+<meta property="og:title" content="保研经验">
+<meta property="og:url" content="http://hnjia00.github.io/2019/07/16/保研经验/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
-<meta property="og:description" content="趁着这几天刚开学，时间还比较宽裕，决定来整理一下自己的实验报告，先从计网开始。 实验目的 处理一个 http 请求 接收并解析 http 请求   从服务器文件系统中获得被请求的文件   创建一个包括被请求的文件的 http 响应信息   直接发送该信息到客户端    实验环境 系统：Mac OS X 10.13.1 语言：JAVA 浏览器：Google Chrome  实验步骤前期准备为了完成本">
+<meta property="og:description" content="从期末考完开始，到现在为止，折腾了半个多月，总算是拿到了计算所网数实验室的offer，这里来总结一下这其中碰到了种种问题。 总而言之，问题主要包括：机试、数学和项目，三个大主题，首先来谈一下最简单粗暴的数学。 与数学有关的主要包括：  微积分 线性代数 概率论  而与数学有关的东西大都是在大一所学，如果没有针对性的复习，几乎无法应对面试的提问，但短时间内复习完高等数学的三大块内容也不现实，所以这里">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/文件清单.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/终端编译.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/端口.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/访问index.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/请求index.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/请求first.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/测试跳转.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/nexthtml请求.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/nextjpg请求.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/404.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/计算机网络/实验一/404输出.png">
-<meta property="og:updated_time" content="2019-03-03T02:51:27.779Z">
+<meta property="og:updated_time" content="2019-07-17T03:11:26.300Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="计算机网络——JAVA实现web服务器">
-<meta name="twitter:description" content="趁着这几天刚开学，时间还比较宽裕，决定来整理一下自己的实验报告，先从计网开始。 实验目的 处理一个 http 请求 接收并解析 http 请求   从服务器文件系统中获得被请求的文件   创建一个包括被请求的文件的 http 响应信息   直接发送该信息到客户端    实验环境 系统：Mac OS X 10.13.1 语言：JAVA 浏览器：Google Chrome  实验步骤前期准备为了完成本">
-<meta name="twitter:image" content="http://hnjia00.github.io/images/计算机网络/实验一/文件清单.png">
+<meta name="twitter:title" content="保研经验">
+<meta name="twitter:description" content="从期末考完开始，到现在为止，折腾了半个多月，总算是拿到了计算所网数实验室的offer，这里来总结一下这其中碰到了种种问题。 总而言之，问题主要包括：机试、数学和项目，三个大主题，首先来谈一下最简单粗暴的数学。 与数学有关的主要包括：  微积分 线性代数 概率论  而与数学有关的东西大都是在大一所学，如果没有针对性的复习，几乎无法应对面试的提问，但短时间内复习完高等数学的三大块内容也不现实，所以这里">
 
 
 
@@ -133,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://hnjia00.github.io/2019/03/03/计算机网络——JAVA实现web服务器/">
+  <link rel="canonical" href="http://hnjia00.github.io/2019/07/16/保研经验/">
 
 
 
 
 
-  <title>计算机网络——JAVA实现web服务器 | Haonan_Jia blogs</title>
+  <title>保研经验 | Haonan_Jia blogs</title>
   
 
 
@@ -289,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/03/03/计算机网络——JAVA实现web服务器/">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/07/16/保研经验/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Haonan Jia">
@@ -306,7 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">计算机网络——JAVA实现web服务器</h1>
+          <h1 class="post-title" itemprop="name headline">保研经验</h1>
         
 
         <div class="post-meta">
@@ -318,8 +306,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-03T10:29:54+08:00">
-                2019-03-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-16T19:11:09+08:00">
+                2019-07-16
               </time>
             
 
@@ -328,28 +316,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -377,7 +343,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1.3k 字
+                  1k 字
                 </span>
               
 
@@ -393,7 +359,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  5 min
+                  3 min
                 </span>
               
             </div>
@@ -414,36 +380,48 @@
       
 
       
-        <p>趁着这几天刚开学，时间还比较宽裕，决定来整理一下自己的实验报告，先从计网开始。</p>
-<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><ol>
-<li>处理一个 http 请求</li>
-<li>接收并解析 http 请求  </li>
-<li>从服务器文件系统中获得被请求的文件  </li>
-<li>创建一个包括被请求的文件的 http 响应信息  </li>
-<li>直接发送该信息到客户端  </li>
-</ol>
-<h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><ol>
-<li>系统：Mac OS X 10.13.1</li>
-<li>语言：JAVA</li>
-<li>浏览器：Google Chrome</li>
-</ol>
-<h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><h3 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h3><p>为了完成本次试验的要求，我编写了两个java代码文件，分别命名为：“HttpRequest.java”和“WebServer.java”。除此之外，我还编写了两个带跳转的测试网页“index.html”和“next.html”以及其各自包含的图片“first.jpg”和“next.jpg”</p>
+        <p>从期末考完开始，到现在为止，折腾了半个多月，总算是拿到了计算所网数实验室的offer，这里来总结一下这其中碰到了种种问题。</p>
+<p>总而言之，问题主要包括：机试、数学和项目，三个大主题，首先来谈一下最简单粗暴的数学。</p>
+<p>与数学有关的主要包括：</p>
 <ul>
-<li>HttpRequest.java的主要功能为：获取http请求中的套接字的输入流和输出流，即完成“对从服务器端发回的数据流”和“将要发送到服务器端的数据流”的处理和输出。</li>
-<li>WebServer.java的主要功能为：创建线程，连续创建套接字以及处理http请求。</li>
+<li>微积分</li>
+<li>线性代数</li>
+<li>概率论</li>
 </ul>
-<p>文件清单如下：<br><img src="/images/计算机网络/实验一/文件清单.png" alt="Alt text" title="文件清单"></p>
-<h3 id="测试阶段"><a href="#测试阶段" class="headerlink" title="测试阶段"></a>测试阶段</h3><p>我们使用jdk的javac指令对java代码进行编译，然后启动服务器的默认端口8080（代码中预设），然后在Google Chrome浏览器中对各种情况进行测试和检测输出，具体步骤如下。</p>
-<ol>
-<li>首先我们启动终端，进入Java代码所在的文件夹下，然后利用javac命令编译main方法所在的Java文件“WebServer.java”，启动服务器，具体如下：<br><img src="/images/计算机网络/实验一/终端编译.png" alt="Alt text" title="终端编译"></li>
-<li>由于代码中设置的启动端口为8080，如下：<br><img src="/images/计算机网络/实验一/端口.png" alt="Alt text" title="预设端口"><br>所以我们在浏览器中需要输入网址“localhost:8080/index.html”以达到访问该网页的目的，具体如下：<br><img src="/images/计算机网络/实验一/访问index.png" alt="Alt text" title="访问index.html"></li>
-<li>在成功访问该网页之后，我们来观察一下终端的输出情况，发现其请求网页index.html请求成功如下：<br><img src="/images/计算机网络/实验一/请求index.png" alt="Alt text" title="请求index.html的输出"><br>其请求网页包含的图片first.jpg请求成功如下：<br><img src="/images/计算机网络/实验一/请求first.png" alt="Alt text" title="请求first.jpg的输出"></li>
-<li>然后点击跳转链接，跳转至next.html，访问下一个网页，同样的，网页跳转成功如下：<br><img src="/images/计算机网络/实验一/测试跳转.png" alt="Alt text" title="跳转测试next.html"></li>
-<li>在成功打开网页之后，我们来观察一下终端的输出情况。同样的，请求网页“next.html”和“next.jpg”成功，输出如下结果：<br><img src="/images/计算机网络/实验一/nexthtml请求.png" alt="Alt text" title="next.html请求成功"><br><img src="/images/计算机网络/实验一/nextjpg请求.png" alt="Alt text" title="next.jpg请求成功"></li>
-<li>当然，除了能成功访问的网页外，我们还需要测试一下错误路径的文件访问结果，于是在浏览器中输入一个错误的网址如“localhost:8080/404.html”，结果如下，提示文件不存在：<br><img src="/images/计算机网络/实验一/404.png" alt="Alt text" title="404 not found"><br>终端反馈输出对404.html这个不存在的文件的访问结果：<br><img src="/images/计算机网络/实验一/404输出.png" alt="Alt text" title="终端输出"></li>
-</ol>
-<h2 id="代码附录"><a href="#代码附录" class="headerlink" title="代码附录"></a>代码附录</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***********HttpRequest***************/</span></span><br><span class="line"><span class="keyword">import</span> java.io.* ;</span><br><span class="line"><span class="keyword">import</span> java.net.* ;</span><br><span class="line"><span class="keyword">import</span> java.util.* ;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpRequest</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> String CRLF = <span class="string">"\r\n"</span>;</span><br><span class="line">    Socket socket;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//构造请求类</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HttpRequest</span><span class="params">(Socket socket)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.socket = socket;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//启动线程</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            processRequest();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.println(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">processRequest</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//获取套接字的输入流，即从服务器端发回的数据流</span></span><br><span class="line">        InputStream is = socket.getInputStream();</span><br><span class="line">        <span class="comment">//获取套接字的输出流，返回的输出流就是将要发送到服务器端的数据流</span></span><br><span class="line">        DataOutputStream os = <span class="keyword">new</span> DataOutputStream(socket.getOutputStream());</span><br><span class="line">    </span><br><span class="line">        <span class="comment">//缓冲字符输入流</span></span><br><span class="line">        BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(is));</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 获取http的request信息</span></span><br><span class="line">      String requestLine = br.readLine();</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 从请求行中提取文件信息</span></span><br><span class="line">      StringTokenizer tokens = <span class="keyword">new</span> StringTokenizer(requestLine);</span><br><span class="line">      <span class="comment">// 由于token将请求行分解为了单词，我们在这里跳过第一个单词，即“GET”</span></span><br><span class="line">      tokens.nextToken();</span><br><span class="line">      <span class="comment">// GET之后即为文件名</span></span><br><span class="line">      String fileName = tokens.nextToken();</span><br><span class="line">    </span><br><span class="line">      <span class="comment">// 为了将文件转化到当前目录下，我们在其之前加一个“.”</span></span><br><span class="line">      fileName = <span class="string">"."</span> + fileName ;</span><br><span class="line">    </span><br><span class="line">      <span class="comment">// 打开文件</span></span><br><span class="line">      FileInputStream fis = <span class="keyword">null</span> ;</span><br><span class="line">      <span class="keyword">boolean</span> fileExists = <span class="keyword">true</span> ;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">//判断文件是否查询到</span></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">            fis = <span class="keyword">new</span> FileInputStream(fileName);</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">            fileExists = <span class="keyword">false</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">      <span class="comment">//测试输出</span></span><br><span class="line">      System.out.println(<span class="string">"\n*************Request**************\n"</span>);</span><br><span class="line">      System.out.println(requestLine);</span><br><span class="line">      String headerLine = <span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">while</span> ((headerLine = br.readLine()).length() != <span class="number">0</span>) &#123;</span><br><span class="line">            System.out.println(headerLine);</span><br><span class="line">      &#125;</span><br><span class="line">    </span><br><span class="line">      <span class="comment">// 构造response信息</span></span><br><span class="line">      String statusLine = <span class="keyword">null</span>;</span><br><span class="line">      String contentTypeLine = <span class="keyword">null</span>;</span><br><span class="line">      String entityBody = <span class="keyword">null</span>;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span> (fileExists) &#123;</span><br><span class="line">          <span class="comment">//执行成功的话返回“200 OK”</span></span><br><span class="line">            statusLine = <span class="string">"HTTP/1.0 200 OK"</span> + CRLF;</span><br><span class="line">            contentTypeLine = <span class="string">"Content-Type: "</span>+contentType(fileName) + CRLF;</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">//执行失败，文件未找到的时候返回“404 File Not Found”</span></span><br><span class="line">            statusLine = <span class="string">"HTTP/1.0 404 File Not Found"</span> + CRLF;</span><br><span class="line">            contentTypeLine = <span class="string">"Content-Type: text/html"</span> + CRLF;</span><br><span class="line">            entityBody = <span class="string">"&lt;HTML&gt;"</span> + </span><br><span class="line">                    <span class="string">"&lt;HEAD&gt;&lt;TITLE&gt;Not Found&lt;/TITLE&gt;&lt;/HEAD&gt;"</span> +</span><br><span class="line">                    <span class="string">"&lt;P&gt;File name:&lt;/P&gt;"</span>+fileName+</span><br><span class="line">                    <span class="string">"&lt;BODY&gt;Not Found&lt;/BODY&gt;&lt;/HTML&gt;"</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    </span><br><span class="line">      <span class="comment">// 将上述返回值依次输出</span></span><br><span class="line">      os.writeBytes(statusLine);</span><br><span class="line">      os.writeBytes(contentTypeLine);</span><br><span class="line">      os.writeBytes(CRLF);</span><br><span class="line">      System.out.println(<span class="string">"\n*************Response**************\n"</span>);</span><br><span class="line">      System.out.println(statusLine);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="comment">//调用文件类型输出方法</span></span><br><span class="line">      <span class="keyword">if</span> (fileExists) &#123;</span><br><span class="line">            sendBytes(fis, os);</span><br><span class="line">            fis.close();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">            os.writeBytes(entityBody) ;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 结束关闭</span></span><br><span class="line">      os.close();</span><br><span class="line">      br.close();</span><br><span class="line">      socket.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendBytes</span><span class="params">(FileInputStream fis, OutputStream os)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//构造一个1K缓冲区，承接套接字的内容</span></span><br><span class="line">        <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        <span class="keyword">int</span> bytes = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">        <span class="comment">//将请求的文件复制到套接字的输出流中。</span></span><br><span class="line">        <span class="keyword">while</span> ((bytes = fis.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                os.write(buffer, <span class="number">0</span>, bytes);</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">contentType</span><span class="params">(String fileName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(fileName.endsWith(<span class="string">".htm"</span>) || fileName.endsWith(<span class="string">".html"</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"text/html"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> <span class="string">"other Content-type"</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***********WebServer***************/</span></span><br><span class="line"><span class="keyword">import</span> java.io.* ;</span><br><span class="line"><span class="keyword">import</span> java.net.* ;</span><br><span class="line"><span class="keyword">import</span> java.util.* ;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">WebServer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String argv[])</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> port=<span class="number">8080</span>;</span><br><span class="line">        <span class="comment">// 建立一个套接字</span></span><br><span class="line">        ServerSocket socket = <span class="keyword">new</span> ServerSocket(port);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        <span class="comment">// 监听一个tcp连接的request.</span></span><br><span class="line">        Socket connection = socket.accept();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 处理HTTP请求消息。</span></span><br><span class="line">        HttpRequest request = <span class="keyword">new</span> HttpRequest(connection);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 建立一个线程处理请求</span></span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(request);</span><br><span class="line">        thread.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而与数学有关的东西大都是在大一所学，如果没有针对性的复习，几乎无法应对面试的提问，但短时间内复习完高等数学的三大块内容也不现实，所以这里事后诸葛亮一下，总结自己遇到和可能遇到的一些问题。</p>
+<h1 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h1><h2 id="矩阵的秩的含义"><a href="#矩阵的秩的含义" class="headerlink" title="矩阵的秩的含义"></a>矩阵的秩的含义</h2><p>被问到这个问题的时候脑子里一片空白，其实自己只是会计算矩阵的秩，但并不明白其具体含义是什么</p>
+<blockquote>
+<p>矩阵的秩的定义：是其行向量或列向量的极大无关组中包含向量的个数。</p>
+</blockquote>
+<p>那么就可以问下一个问题！（事实上老师也的确是这么做的）</p>
+<h2 id="线性无关的意义"><a href="#线性无关的意义" class="headerlink" title="线性无关的意义"></a>线性无关的意义</h2><blockquote>
+<p>$K_n$中如果有向量组$α1,α2,…αs(s≥1)$是线性无关的,那么从式子<br>$k_1α_1+k_2α_2+…k_sα_s=0$中可以得到<br>$k_1=k_2=…=0$</p>
+</blockquote>
+<p>从这个定义也可以推导出线性相关的条件，即：$k_1、k_2…$不全为0</p>
+<p>所以从个人理解上去解释线性无关，即矩阵内的行（或列）向量无法通过线性运算的方法互相消除。</p>
+<p>其实在面试现场的线性代数有关的问题就只遇到了这两个，因为自己实在是只会算但并不理解其意义，所以回答的情况并不理想。</p>
+<p>下面再补充一些可能会遇到的问题。</p>
+<h2 id="矩阵的特征值-特征向量的意义"><a href="#矩阵的特征值-特征向量的意义" class="headerlink" title="矩阵的特征值/特征向量的意义"></a>矩阵的特征值/特征向量的意义</h2><p>从定义出发，特征值和特征向量的定义如下：</p>
+<blockquote>
+<p>$Ax=cx$：A为矩阵，c为特征值，x为特征向量</p>
+</blockquote>
+<p>其意义为：</p>
+<blockquote>
+<p>矩阵A乘以x表示:对向量x进行一次转换（旋转或拉伸）（是一种线性转换），<br>该转换的效果为常数c乘以向量x（即只进行拉伸）。 </p>
+</blockquote>
+<p>这样做的目的通常如下：</p>
+<blockquote>
+<p>我们通常求特征值和特征向量即为求出该矩阵能使哪些向量（当然是特征向量）只发生拉伸，使其发生拉伸的程度如何（特征值大小）。这样做的意义在于，看清一个矩阵在那些方面能产生最大的效果（power），并根据所产生的每个特征向量（一般研究特征值最大的那几个）进行分类讨论与研究。</p>
+</blockquote>
+<h1 id="概率论"><a href="#概率论" class="headerlink" title="概率论"></a>概率论</h1><p>概率总是和AI、数据科学贴的非常近，所以面试对于概率论的考核也是一个比较重要的内容，下面罗列一下在面试中遇到的问题。</p>
+<h2 id="大数定律是什么"><a href="#大数定律是什么" class="headerlink" title="大数定律是什么"></a>大数定律是什么</h2><p>通俗的说，大数定律就是：在试验不变的条件下，重复试验多次，随机事件的频率近似于它的概率。即用<strong>频率</strong>代替<strong>概率</strong>，用<strong>样本均值</strong>来取代<strong>理论均值</strong>。</p>
+<h2 id="什么是先验概率-后验概率"><a href="#什么是先验概率-后验概率" class="headerlink" title="什么是先验概率/后验概率"></a>什么是先验概率/后验概率</h2><blockquote>
+<p>先验概率：直观理解，所谓“先”，就是在事情之前，即在事情发生之前事情发生的概率，是根据以往经验和分析得到的概率。即通过训练集样本所得的概率。</p>
+</blockquote>
+<blockquote>
+<p>后验概率：事情已经发生了，事情发生可能有很多原因，判断事情发生时由哪个原因引起的概率。</p>
+</blockquote>
+<p>后验概率涉及到一个重要的计算公式，即贝叶斯公式。<br>$$<br>P(A|B) = P(B|A)·P(A) / P(B|A)·P(A)+P(B|C)·P(C)<br>$$<br>在B已经发生的情况下，A发生的概率即为P(B|A)，此即后验概率。</p>
 
       
     </div>
@@ -497,8 +475,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/19/记一次聚会/" rel="next" title="记一次聚会">
-                <i class="fa fa-chevron-left"></i> 记一次聚会
+              <a href="/2019/06/13/操作系统——文件系统/" rel="next" title="操作系统——文件系统">
+                <i class="fa fa-chevron-left"></i> 操作系统——文件系统
               </a>
             
           </div>
@@ -506,10 +484,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/03/计算机网络——用smtp实现Email客户端/" rel="prev" title="计算机网络——用smtp实现Email客户端">
-                计算机网络——用smtp实现Email客户端 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -670,7 +644,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验目的"><span class="nav-text">实验目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验环境"><span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验步骤"><span class="nav-text">实验步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前期准备"><span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试阶段"><span class="nav-text">测试阶段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码附录"><span class="nav-text">代码附录</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#线性代数"><span class="nav-text">线性代数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵的秩的含义"><span class="nav-text">矩阵的秩的含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性无关的意义"><span class="nav-text">线性无关的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵的特征值-特征向量的意义"><span class="nav-text">矩阵的特征值/特征向量的意义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概率论"><span class="nav-text">概率论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#大数定律是什么"><span class="nav-text">大数定律是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是先验概率-后验概率"><span class="nav-text">什么是先验概率/后验概率</span></a></li></ol></li></ol></div>
             
 
           </div>
