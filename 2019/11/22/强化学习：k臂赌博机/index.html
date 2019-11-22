@@ -81,29 +81,19 @@
 
 
 
-<meta name="description" content="题目描述本次选做题需要实现一个简单的语法分析器，其文法描述如下：  &amp;lt;程序&amp;gt;→begin &amp;lt;语句&amp;gt; end &amp;lt;语句&amp;gt;→&amp;lt;赋值语句&amp;gt;│&amp;lt;条件语句&amp;gt; &amp;lt;赋值语句&amp;gt;→&amp;lt;变量&amp;gt;:=&amp;lt;表达式&amp;gt; &amp;lt;条件语句&amp;gt;→if &amp;lt;表达式&amp;gt; then &amp;lt;语句&amp;gt; &amp;lt;表达式&amp;gt;→&amp;lt;">
+<meta name="description" content="这一节我们介绍k臂赌博机问题，首先来熟悉一下问题的背景知识 问题背景重复的在k个选项或动作（k个老虎机的杆）中进行选择，每次做出选择之后都会得到一定数额的收益，我们的目的是在一段时间内最大化总收益的期望。 bandit建模在用代码实现赌博机时，我们需要考虑多方因素，下面先列出一个bandit初始化时需要考虑到的各种参数：1234567891011121314def __init__(self, k">
 <meta property="og:type" content="article">
-<meta property="og:title" content="编译原理——语法分析G[&lt;程序&gt;]">
-<meta property="og:url" content="http://hnjia00.github.io/2019/04/20/编译原理——语法分析G-程序/index.html">
+<meta property="og:title" content="强化学习：k臂赌博机">
+<meta property="og:url" content="http://hnjia00.github.io/2019/11/22/强化学习：k臂赌博机/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
-<meta property="og:description" content="题目描述本次选做题需要实现一个简单的语法分析器，其文法描述如下：  &amp;lt;程序&amp;gt;→begin &amp;lt;语句&amp;gt; end &amp;lt;语句&amp;gt;→&amp;lt;赋值语句&amp;gt;│&amp;lt;条件语句&amp;gt; &amp;lt;赋值语句&amp;gt;→&amp;lt;变量&amp;gt;:=&amp;lt;表达式&amp;gt; &amp;lt;条件语句&amp;gt;→if &amp;lt;表达式&amp;gt; then &amp;lt;语句&amp;gt; &amp;lt;表达式&amp;gt;→&amp;lt;">
+<meta property="og:description" content="这一节我们介绍k臂赌博机问题，首先来熟悉一下问题的背景知识 问题背景重复的在k个选项或动作（k个老虎机的杆）中进行选择，每次做出选择之后都会得到一定数额的收益，我们的目的是在一段时间内最大化总收益的期望。 bandit建模在用代码实现赌博机时，我们需要考虑多方因素，下面先列出一个bandit初始化时需要考虑到的各种参数：1234567891011121314def __init__(self, k">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/program.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/statement.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/assign.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/condition.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/expression.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/expression_1.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/variable.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/测试用例/1.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/测试用例/2.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/测试用例/3.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/测试用例/4.png">
-<meta property="og:updated_time" content="2019-04-20T07:17:03.655Z">
+<meta property="og:image" content="http://hnjia00.github.io/images/强化学习/chapter2/figure_2_5.png">
+<meta property="og:updated_time" content="2019-11-22T08:55:40.779Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="编译原理——语法分析G[&lt;程序&gt;]">
-<meta name="twitter:description" content="题目描述本次选做题需要实现一个简单的语法分析器，其文法描述如下：  &amp;lt;程序&amp;gt;→begin &amp;lt;语句&amp;gt; end &amp;lt;语句&amp;gt;→&amp;lt;赋值语句&amp;gt;│&amp;lt;条件语句&amp;gt; &amp;lt;赋值语句&amp;gt;→&amp;lt;变量&amp;gt;:=&amp;lt;表达式&amp;gt; &amp;lt;条件语句&amp;gt;→if &amp;lt;表达式&amp;gt; then &amp;lt;语句&amp;gt; &amp;lt;表达式&amp;gt;→&amp;lt;">
-<meta name="twitter:image" content="http://hnjia00.github.io/images/编译原理/选做4-8/流程图/program.png">
+<meta name="twitter:title" content="强化学习：k臂赌博机">
+<meta name="twitter:description" content="这一节我们介绍k臂赌博机问题，首先来熟悉一下问题的背景知识 问题背景重复的在k个选项或动作（k个老虎机的杆）中进行选择，每次做出选择之后都会得到一定数额的收益，我们的目的是在一段时间内最大化总收益的期望。 bandit建模在用代码实现赌博机时，我们需要考虑多方因素，下面先列出一个bandit初始化时需要考虑到的各种参数：1234567891011121314def __init__(self, k">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/强化学习/chapter2/figure_2_5.png">
 
 
 
@@ -133,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://hnjia00.github.io/2019/04/20/编译原理——语法分析G-程序/">
+  <link rel="canonical" href="http://hnjia00.github.io/2019/11/22/强化学习：k臂赌博机/">
 
 
 
 
 
-  <title>编译原理——语法分析G[<程序>] | Haonan_Jia blogs</程序></title>
+  <title>强化学习：k臂赌博机 | Haonan_Jia blogs</title>
   
 
 
@@ -289,7 +279,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/04/20/编译原理——语法分析G-程序/">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/11/22/强化学习：k臂赌博机/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Haonan Jia">
@@ -306,7 +296,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">编译原理——语法分析G[<程序>]</程序></h1>
+          <h1 class="post-title" itemprop="name headline">强化学习：k臂赌博机</h1>
         
 
         <div class="post-meta">
@@ -318,8 +308,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-20T14:54:03+08:00">
-                2019-04-20
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-22T15:19:10+08:00">
+                2019-11-22
               </time>
             
 
@@ -341,8 +331,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/编译原理/" itemprop="url" rel="index">
-                    <span itemprop="name">编译原理</span>
+                  <a href="/categories/强化学习/" itemprop="url" rel="index">
+                    <span itemprop="name">强化学习</span>
                   </a>
                 </span>
 
@@ -377,7 +367,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  548 字
+                  1.4k 字
                 </span>
               
 
@@ -393,7 +383,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  2 min
+                  6 min
                 </span>
               
             </div>
@@ -414,34 +404,24 @@
       
 
       
-        <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>本次选做题需要实现一个简单的语法分析器，其文法描述如下：</p>
-<blockquote>
-<p>&lt;程序&gt;→begin &lt;语句&gt; end<br> &lt;语句&gt;→&lt;赋值语句&gt;│&lt;条件语句&gt;<br> &lt;赋值语句&gt;→&lt;变量&gt;:=&lt;表达式&gt;<br> &lt;条件语句&gt;→if &lt;表达式&gt; then &lt;语句&gt;<br> &lt;表达式&gt;→&lt;表达式&gt;+&lt;变量&gt;│&lt;变量&gt;<br> &lt;变量&gt;→i</p>
-</blockquote>
-<h1 id="消除左递归"><a href="#消除左递归" class="headerlink" title="消除左递归"></a>消除左递归</h1><p>一目了然就可以看到，产生式：<strong><code>&lt;表达式&gt;→&lt;表达式&gt;+&lt;变量&gt;│&lt;变量&gt;</code></strong>存在左递归。<br>所以第一步要做的是消除左递归，消除结果为：</p>
-<blockquote>
-<p>&lt;表达式&gt;→&lt;变量&gt;&lt;表达式1&gt;<br> &lt;表达式1&gt;→+&lt;变量&gt;&lt;表达式1&gt;|ε</p>
-</blockquote>
-<p>到此，文法中的左递归已经完全消除，且满足LL(1)文法。</p>
-<h1 id="重命名"><a href="#重命名" class="headerlink" title="重命名"></a>重命名</h1><p>为了便于编程，下面对文法中的非终结符用单词替换，如下：</p>
-<blockquote>
-<p>program     程序<br> statement    语句<br> assign       赋值语句<br> condition    条件语句<br> expression   表达式<br> expression_1 表达式1<br> variable     变量</p>
-</blockquote>
-<h1 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h1><p> 根据递归下降编程的思想，上述7个非终结符分别对应7个子函数，其实现的流程图分别如下：<br> 其中：</p>
-<blockquote>
-<p>match(token)函数的作用是用token与当前扫描到的字符(串)进行匹配，匹配成功则返回true<br> nextsym()函数的作用是使指针item滑动到下一个单词处</p>
-</blockquote>
-<h2 id="program"><a href="#program" class="headerlink" title="program"></a>program</h2><p><img src="/images/编译原理/选做4-8/流程图/program.png" alt="Alt text" title="程序"></p>
-<h2 id="statement"><a href="#statement" class="headerlink" title="statement"></a>statement</h2><p><img src="/images/编译原理/选做4-8/流程图/statement.png" alt="Alt text" title="语句"></p>
-<h2 id="assign"><a href="#assign" class="headerlink" title="assign"></a>assign</h2><p><img src="/images/编译原理/选做4-8/流程图/assign.png" alt="Alt text" title="赋值语句"></p>
-<h2 id="condition"><a href="#condition" class="headerlink" title="condition"></a>condition</h2><p><img src="/images/编译原理/选做4-8/流程图/condition.png" alt="Alt text" title="条件语句"></p>
-<h2 id="expression"><a href="#expression" class="headerlink" title="expression"></a>expression</h2><p><img src="/images/编译原理/选做4-8/流程图/expression.png" alt="Alt text" title="表达式"></p>
-<h2 id="expression-1"><a href="#expression-1" class="headerlink" title="expression_1"></a>expression_1</h2><p>这里需要说明的是，由于产生式<strong><code>&lt;表达式1&gt;→+&lt;变量&gt;&lt;表达式1&gt;|ε</code></strong>中含有<strong><code>&lt;表达式1&gt;→ε</code></strong>，故在匹配时如果没有match到其first集中的元素，则接下来需要去match其follow集中的元素，即“end”和“then”，若与follow集中的元素匹配成功，则指针item需要回滚。<br><img src="/images/编译原理/选做4-8/流程图/expression_1.png" alt="Alt text" title="表达式1"></p>
-<h2 id="variable"><a href="#variable" class="headerlink" title="variable"></a>variable</h2><p><img src="/images/编译原理/选做4-8/流程图/variable.png" alt="Alt text" title="变量"></p>
-<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>我选用了正确和错误的两组共四个测试用例对程序进行了测试，测试结果如下：</p>
-<h2 id="正确样例"><a href="#正确样例" class="headerlink" title="正确样例"></a>正确样例</h2><p><img src="/images/编译原理/选做4-8/测试用例/1.png" alt="Alt text"><br><img src="/images/编译原理/选做4-8/测试用例/2.png" alt="Alt text"></p>
-<h2 id="错误样例"><a href="#错误样例" class="headerlink" title="错误样例"></a>错误样例</h2><p><img src="/images/编译原理/选做4-8/测试用例/3.png" alt="Alt text"><br><img src="/images/编译原理/选做4-8/测试用例/4.png" alt="Alt text"></p>
-<p>可以看到，程序能够成功识别该文法的语言并给出正确的反馈信息！</p>
+        <p>这一节我们介绍k臂赌博机问题，首先来熟悉一下问题的背景知识</p>
+<h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>重复的在k个选项或动作（k个老虎机的杆）中进行选择，每次做出选择之后都会得到一定数额的收益，我们的目的是在一段时间内最大化总收益的期望。</p>
+<h1 id="bandit建模"><a href="#bandit建模" class="headerlink" title="bandit建模"></a>bandit建模</h1><p>在用代码实现赌博机时，我们需要考虑多方因素，下面先列出一个bandit初始化时需要考虑到的各种参数：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, k_arm=<span class="number">10</span>, epsilon=<span class="number">0.</span>, initial=<span class="number">0.</span>, step_size=<span class="number">0.1</span>, sample_averages=False, UCB_param=None,</span></span></span><br><span class="line"><span class="function"><span class="params">             gradient=False, gradient_baseline=False, true_reward=<span class="number">0.</span>)</span>:</span></span><br><span class="line">    self.k = k_arm</span><br><span class="line">    self.step_size = step_size</span><br><span class="line">    self.sample_averages = sample_averages</span><br><span class="line">    self.indices = np.arange(self.k)</span><br><span class="line">    self.time = <span class="number">0</span></span><br><span class="line">    self.UCB_param = UCB_param</span><br><span class="line">    self.gradient = gradient</span><br><span class="line">    self.gradient_baseline = gradient_baseline</span><br><span class="line">    self.average_reward = <span class="number">0</span></span><br><span class="line">    self.true_reward = true_reward</span><br><span class="line">    self.epsilon = epsilon</span><br><span class="line">    self.initial = initial</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>k_arm：赌博机的<strong>臂数</strong>，其决定了可选动作空间的大小，例如当k_arm=10时意味着：每个时刻有10个可选动作，其分别决定着不同的收益。</li>
+<li>epsilon：在每次进行动作选取时，一个朴素的思想就是每次都选带来最大收益的动作，即$A_t = agrmax_aQ_t(a)$，我们称之为“贪心”，贪心有利于exploit但不利于explore，为了平衡<strong>开发和试探</strong>，可采用<strong>ε-greedy</strong>方法进行动作的选择，即在每个时刻，使用<strong>1-ε</strong>的概率选取最优动作，使用<strong>ε</strong>的概率选取随机动作。</li>
+<li>initial：在对动作价值估计之前，我们通常为每个动作的价值Q(a)初始化为0。使用<strong>乐观初始值</strong>(即高于真实价值的均值)估计会去鼓励bandit进行explore，因为无论哪种动作被选取，其带来的收益均要小于乐观初始值，因此bandit会转而采取另一种动作，从而使每一个动作在收敛之前都被尝试很多次。</li>
+<li>step_size：<strong>步长参数</strong>，有固定步长和非固定步长两种类别可选。用于动作估计值的更新：$Q_{n+1} = Q_n + stepsize*(R_n - Q_n)$</li>
+<li>sample_averages：用<strong>非固定步长</strong>$1/n$作为步长参数$stepsize$，用于动作估计值的更新：$Q_{n+1} = Q_n + (R_n - Q_n)/n$</li>
+<li>UCB_param：UCB即对应<strong>置信度上界</strong>，即动作的选取从$A_t = agrmax_aQ_t(a)$改变为$A_t = agrmax_a[Q_t(a)+c\sqrt{lnt/N_t(a)}]$，其中UCB_param即动作选取公式中的c，可解释为：平方根项是对a动作值估计的不确定性或方差的度量，参数c决定了置信水平，但随着a选取次数$N_t(a)$的增多，其不确定性会逐渐减少。</li>
+<li>gradient：对应<strong>梯度赌博机</strong>算法，算法中每个动作被选取的概率为softmax分布所确定：$P(A_t=a) = e^{H_t(a)}/\sum_{b=1}^{k}e^{H_t(b)} = π_t(a)$，其中$π_t(a)$代表时刻t动作a被选择的概率，而$H_t(a)$则代表动作a的偏好函数。</li>
+<li>gradient_baseline：在梯度赌博机算法中，待学习的变量为偏好函数$H_t(a)$，可以把其理解为动作a的收益，但其本身不重要，重要的是<strong>一个动作对另一个动作的相对偏好</strong>。偏好函数的更新如下：$$<br>H_{t+1}(a) = H_t(a) + stepsize*(R_t - baseline)(1-π_t(A_t))<br>$$<br>当使用baseline时，baseline被赋值为到t为止的平均收益；不使用时则等于0。使用基准项可以实现缩减方差的作用，使算法快速收敛。</li>
+</ul>
+<h1 id="动作选取"><a href="#动作选取" class="headerlink" title="动作选取"></a>动作选取</h1><p>对于一个MDP问题而言，其过程必定可以被建模为：<br>$$<br>S_t + A_t \rightarrow S_{t+1} + R_{t+1}<br>$$<br>所以首先来考虑动作的选取。</p>
+<p>由bandit的模型基础可知，动作的选取由<strong>ε-greedy、UCB_param、gradient</strong>决定，我们可以直接给出如下的动作选取代码：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># get an action for this bandit</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">act</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> np.random.rand() &lt; self.epsilon:</span><br><span class="line">            <span class="keyword">return</span> np.random.choice(self.indices) <span class="comment"># epsilon概率随机选取一个动作下标</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 基于置信度上界的动作选取</span></span><br><span class="line">        <span class="comment"># At = agrmax_a [Qt(a)+c√(lnt/Nt(a))]</span></span><br><span class="line">        <span class="keyword">if</span> self.UCB_param <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            UCB_estimation = self.q_estimation + \</span><br><span class="line">                self.UCB_param * np.sqrt(np.log(self.time + <span class="number">1</span>) / (self.action_count + <span class="number">1e-5</span>))</span><br><span class="line">            q_best = np.max(UCB_estimation) <span class="comment"># 取UCB估值序列的最大值</span></span><br><span class="line">            <span class="keyword">return</span> np.random.choice(np.where(UCB_estimation == q_best)[<span class="number">0</span>]) <span class="comment">#在相同的最大值中随机选取</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 梯度赌博机算法</span></span><br><span class="line">        <span class="comment"># P&#123;At=a&#125; = e^Ht(a) / ∑_b e^Ht(b) = πt(a)</span></span><br><span class="line">        <span class="keyword">if</span> self.gradient:</span><br><span class="line">            exp_est = np.exp(self.q_estimation)</span><br><span class="line">            self.action_prob = exp_est / np.sum(exp_est)</span><br><span class="line">            <span class="keyword">return</span> np.random.choice(self.indices, p=self.action_prob) <span class="comment"># 以概率表action_prob的概率在下标列表indices中选取</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 否则就直接选去估计值最大的动作</span></span><br><span class="line">        q_best = np.max(self.q_estimation)</span><br><span class="line">        <span class="keyword">return</span> np.random.choice(np.where(self.q_estimation == q_best)[<span class="number">0</span>])</span><br></pre></td></tr></table></figure></p>
+<h1 id="价值更新"><a href="#价值更新" class="headerlink" title="价值更新"></a>价值更新</h1><p>由bandit建模部分可以得知，在选取完动作后，与动作价值更新有关的参数为<strong>sample_averages、gradient、gradient_baseline</strong>，给出代码如下：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># take an action, update estimation for this action</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">step</span><span class="params">(self, action)</span>:</span></span><br><span class="line">        <span class="comment"># generate the reward under N(real reward, 1)</span></span><br><span class="line">        reward = np.random.randn() + self.q_true[action]</span><br><span class="line">        self.time += <span class="number">1</span></span><br><span class="line">        self.action_count[action] += <span class="number">1</span></span><br><span class="line">        self.average_reward += (reward - self.average_reward) / self.time</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.sample_averages:</span><br><span class="line">            <span class="comment"># update estimation using sample averages</span></span><br><span class="line">            <span class="comment"># 增量式实现（非固定步长1/n）</span></span><br><span class="line">            <span class="comment"># Qn+1 = Qn + [Rn-Qn]/n</span></span><br><span class="line">            self.q_estimation[action] += (reward - self.q_estimation[action]) / self.action_count[action]</span><br><span class="line">        <span class="keyword">elif</span> self.gradient:</span><br><span class="line">            one_hot = np.zeros(self.k)</span><br><span class="line">            one_hot[action] = <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> self.gradient_baseline:</span><br><span class="line">                baseline = self.average_reward</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                baseline = <span class="number">0</span></span><br><span class="line">            <span class="comment"># 梯度式偏好函数更新：</span></span><br><span class="line">            <span class="comment"># 对action At：Ht+1(At) = Ht(At) + å(Rt-R_avg)(1-π(At))</span></span><br><span class="line">            self.q_estimation += self.step_size * (reward - baseline) * (one_hot - self.action_prob)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># update estimation with constant step size</span></span><br><span class="line">            <span class="comment"># 如过上面两种方法都没有选取，就选用常数步长更新</span></span><br><span class="line">            <span class="comment"># Qn+1 = Qn + å(Rn-Qn)</span></span><br><span class="line">            self.q_estimation[action] += self.step_size * (reward - self.q_estimation[action])</span><br><span class="line">        <span class="keyword">return</span> reward</span><br></pre></td></tr></table></figure></p>
+<h1 id="对比评估"><a href="#对比评估" class="headerlink" title="对比评估"></a>对比评估</h1><p>评估结果与<strong>an introduction</strong>书中所示类似，这里只给出一些结果：<br>测试四种方法的结果对比，可以看到，最优的结果出现在使用小步长+baseline时的情况。<br><img src="/images/强化学习/chapter2/figure_2_5.png" alt="Alt text" title=" "></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1]<a href="https://github.com/ShangtongZhang/reinforcement-learning-an-introduction" target="_blank" rel="noopener">https://github.com/ShangtongZhang/reinforcement-learning-an-introduction</a></p>
 
       
     </div>
@@ -495,8 +475,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/11/编译原理——文件名识别/" rel="next" title="编译原理——文件名识别">
-                <i class="fa fa-chevron-left"></i> 编译原理——文件名识别
+              <a href="/2019/11/21/强化学习：有限马尔科夫决策过程/" rel="next" title="强化学习：有限马尔科夫决策过程">
+                <i class="fa fa-chevron-left"></i> 强化学习：有限马尔科夫决策过程
               </a>
             
           </div>
@@ -504,10 +484,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/01/编译原理——递归下降语法分析器/" rel="prev" title="编译原理——递归下降语法分析器">
-                编译原理——递归下降语法分析器 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -668,7 +644,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目描述"><span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消除左递归"><span class="nav-text">消除左递归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重命名"><span class="nav-text">重命名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#程序实现"><span class="nav-text">程序实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#program"><span class="nav-text">program</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#statement"><span class="nav-text">statement</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assign"><span class="nav-text">assign</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#condition"><span class="nav-text">condition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#expression"><span class="nav-text">expression</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#expression-1"><span class="nav-text">expression_1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#variable"><span class="nav-text">variable</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正确样例"><span class="nav-text">正确样例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误样例"><span class="nav-text">错误样例</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题背景"><span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bandit建模"><span class="nav-text">bandit建模</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动作选取"><span class="nav-text">动作选取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#价值更新"><span class="nav-text">价值更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对比评估"><span class="nav-text">对比评估</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
