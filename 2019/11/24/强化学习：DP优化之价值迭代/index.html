@@ -83,17 +83,19 @@
 
 
 
-<meta name="description" content="最近一时兴起，想搭一个自己的blog玩一玩。 在子泰学长的引领下，我也选择了hexo这一开发框架，至于hexo在Mac上的配置的这些过程在此先省略不谈，我们来谈谈hexo上支持的文件 markdown 格式的语法总结。  一、标题Markdown的标题语法需要与 # 配合使用，在标题文字之前添加一到六个#即可生成一级标题到六级标题。  使用：123456#一级标题   ##二级标题   ###三级">
+<meta name="description" content="上一篇博客以杰克租车问题为背景建模了策略迭代算法，策略迭代算法是一类以DP优化为基础并且能够收敛到最优策略$\pi_*$的算法，但是其存在着一些缺点。比如：每一次迭代都涉及到了策略评估过程，从而导致需要多次遍历状态集合。在租车问题中，只有两个租车场的情况下，遍历状态空间需要$O(n^4)$的复杂度（租车2*还车2=4），假如再扩大停车场数，算法复杂度将以幂指数级别递增！ 价值迭代事实上，在策略迭代">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Markdown——语法篇">
-<meta property="og:url" content="http://hnjia00.github.io/2019/02/11/Markdown——语法篇/index.html">
+<meta property="og:title" content="强化学习：DP优化之价值迭代">
+<meta property="og:url" content="http://hnjia00.github.io/2019/11/24/强化学习：DP优化之价值迭代/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
-<meta property="og:description" content="最近一时兴起，想搭一个自己的blog玩一玩。 在子泰学长的引领下，我也选择了hexo这一开发框架，至于hexo在Mac上的配置的这些过程在此先省略不谈，我们来谈谈hexo上支持的文件 markdown 格式的语法总结。  一、标题Markdown的标题语法需要与 # 配合使用，在标题文字之前添加一到六个#即可生成一级标题到六级标题。  使用：123456#一级标题   ##二级标题   ###三级">
+<meta property="og:description" content="上一篇博客以杰克租车问题为背景建模了策略迭代算法，策略迭代算法是一类以DP优化为基础并且能够收敛到最优策略$\pi_*$的算法，但是其存在着一些缺点。比如：每一次迭代都涉及到了策略评估过程，从而导致需要多次遍历状态集合。在租车问题中，只有两个租车场的情况下，遍历状态空间需要$O(n^4)$的复杂度（租车2*还车2=4），假如再扩大停车场数，算法复杂度将以幂指数级别递增！ 价值迭代事实上，在策略迭代">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-12T03:05:25.824Z">
+<meta property="og:image" content="http://hnjia00.github.io/images/强化学习/chapter4/figure_4_3.png">
+<meta property="og:updated_time" content="2019-11-24T09:39:42.592Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Markdown——语法篇">
-<meta name="twitter:description" content="最近一时兴起，想搭一个自己的blog玩一玩。 在子泰学长的引领下，我也选择了hexo这一开发框架，至于hexo在Mac上的配置的这些过程在此先省略不谈，我们来谈谈hexo上支持的文件 markdown 格式的语法总结。  一、标题Markdown的标题语法需要与 # 配合使用，在标题文字之前添加一到六个#即可生成一级标题到六级标题。  使用：123456#一级标题   ##二级标题   ###三级">
+<meta name="twitter:title" content="强化学习：DP优化之价值迭代">
+<meta name="twitter:description" content="上一篇博客以杰克租车问题为背景建模了策略迭代算法，策略迭代算法是一类以DP优化为基础并且能够收敛到最优策略$\pi_*$的算法，但是其存在着一些缺点。比如：每一次迭代都涉及到了策略评估过程，从而导致需要多次遍历状态集合。在租车问题中，只有两个租车场的情况下，遍历状态空间需要$O(n^4)$的复杂度（租车2*还车2=4），假如再扩大停车场数，算法复杂度将以幂指数级别递增！ 价值迭代事实上，在策略迭代">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/强化学习/chapter4/figure_4_3.png">
 
 
 
@@ -123,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://hnjia00.github.io/2019/02/11/Markdown——语法篇/">
+  <link rel="canonical" href="http://hnjia00.github.io/2019/11/24/强化学习：DP优化之价值迭代/">
 
 
 
 
 
-  <title>Markdown——语法篇 | Haonan_Jia blogs</title>
+  <title>强化学习：DP优化之价值迭代 | Haonan_Jia blogs</title>
   
 
 
@@ -279,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/02/11/Markdown——语法篇/">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/11/24/强化学习：DP优化之价值迭代/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Haonan Jia">
@@ -296,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Markdown——语法篇</h1>
+          <h1 class="post-title" itemprop="name headline">强化学习：DP优化之价值迭代</h1>
         
 
         <div class="post-meta">
@@ -308,8 +310,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-11T17:26:18+08:00">
-                2019-02-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-24T15:54:30+08:00">
+                2019-11-24
               </time>
             
 
@@ -331,8 +333,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Markdown/" itemprop="url" rel="index">
-                    <span itemprop="name">Markdown</span>
+                  <a href="/categories/强化学习/" itemprop="url" rel="index">
+                    <span itemprop="name">强化学习</span>
                   </a>
                 </span>
 
@@ -367,7 +369,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1.1k 字
+                  1.2k 字
                 </span>
               
 
@@ -383,7 +385,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  3 min
+                  4 min
                 </span>
               
             </div>
@@ -404,101 +406,38 @@
       
 
       
-        <p>最近一时兴起，想搭一个自己的blog玩一玩。</p>
-<p>在子泰学长的引领下，我也选择了hexo这一开发框架，至于hexo在Mac上的配置<br>的这些过程在此先省略不谈，我们来谈谈hexo上支持的文件 <strong><em>markdown</em></strong> 格式的语法总结。</p>
-<hr>
-<h2 id="一、标题"><a href="#一、标题" class="headerlink" title="一、标题"></a>一、标题</h2><p>Markdown的标题语法需要与 <strong>#</strong> 配合使用，在标题文字之前添加一到六个#即可生成<br>一级标题到六级标题。 </p>
-<h4 id="使用："><a href="#使用：" class="headerlink" title="使用："></a>使用：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#一级标题   </span><br><span class="line">##二级标题   </span><br><span class="line">###三级标题  </span><br><span class="line">####四级标题  </span><br><span class="line">#####五级标题  </span><br><span class="line">######六级标题</span><br></pre></td></tr></table></figure>
-<h4 id="演示："><a href="#演示：" class="headerlink" title="演示："></a>演示：</h4><h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h2 id="二、字体"><a href="#二、字体" class="headerlink" title="二、字体"></a>二、字体</h2><p>Markdown的可以对字体设置：粗体，斜体，斜体加粗和删除线四种。  </p>
-<h4 id="使用：-1"><a href="#使用：-1" class="headerlink" title="使用："></a>使用：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">**粗体** (使用中 * 与 _ 的效果相同)   </span><br><span class="line">*斜体*      </span><br><span class="line">***斜体加粗***  </span><br><span class="line">~~删除线~~（注意这里的波浪线为半角符号）</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-1"><a href="#演示：-1" class="headerlink" title="演示："></a>演示：</h4><p><strong>粗体</strong><br><em>斜体</em><br><strong><em>斜体加粗</em></strong><br><del>删除线</del>  </p>
-<h2 id="三、引用"><a href="#三、引用" class="headerlink" title="三、引用"></a>三、引用</h2><p>Markdown在使用引用时需要与 <strong>&gt;</strong> 配合操作，在需要应用的文字之前添加 <strong>&gt;</strong> 即可。  </p>
-<h4 id="使用：-2"><a href="#使用：-2" class="headerlink" title="使用："></a>使用：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;一级引用   </span><br><span class="line">&gt;&gt;二级引用   </span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;多级引用</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-2"><a href="#演示：-2" class="headerlink" title="演示："></a>演示：</h4><blockquote>
-<p>一级引用   </p>
+        <p>上一篇博客以杰克租车问题为背景建模了策略迭代算法，策略迭代算法是一类以DP优化为基础并且能够收敛到最优策略$\pi_*$的算法，但是其存在着一些<strong>缺点</strong>。<br>比如：每一次迭代都涉及到了策略评估过程，从而导致需要多次遍历状态集合。<br>在租车问题中，只有两个租车场的情况下，遍历状态空间需要$O(n^4)$的复杂度（租车2*还车2=4），假如再扩大停车场数，算法复杂度将以幂指数级别递增！</p>
+<h1 id="价值迭代"><a href="#价值迭代" class="headerlink" title="价值迭代"></a>价值迭代</h1><p>事实上，在策略迭代算法中，我们无需等到算法完全收敛。在一般情况下，<strong>策略评估</strong>算法在执行够一定轮数之后对其DP策略将不会再产生任何影响。<br>所以核心问题变成了，如何在适当的时间节点提前<strong>阻断</strong>价值评估。</p>
+<p>价值迭代算法应运而生。<br>价值迭代算法为：在一次遍历后即刻停止策略评估（对每个状态进行一次更新）<br>更新过程为：<br>$$<br>v_{k+1}(s) = max_a E[R_{t+1}+\gamma v_k(S_{t+1})| S_t=s,A_t=a]\\<br>\;= max_a\sum_{s’,r}p(s’,r|s,a)[r+\gamma v_k(s’)]<br>$$</p>
+<p>算法流程为：</p>
 <blockquote>
-<p>二级引用   </p>
+<p>repeat：<br> ∆ ← 0<br>对每一个 s ∈ S repeat:</p>
 <blockquote>
+<p>v ← V(s)<br>$V(s) \leftarrow max_a\sum_{s’,r}p(s’,r|s,a)[r+\gamma V(s’)]$<br>∆ ← max(∆,|v-V(s)|)</p>
+</blockquote>
+</blockquote>
 <blockquote>
+<p>until ∆&lt;$\theta$<br>输出 $\pi = argmax_a\sum_{s’,r}p(s’,r|s,a)[r+\gamma V(s’)]$</p>
+</blockquote>
+<p>从算法中可以看到，其与策略评估不同之处在于：算法仅执行一遍价值评估，通过遍历行为空间，选取最大的状态价值赋值。</p>
+<p>下面我们从实际的赌徒问题中评估价值迭代算法。</p>
+<h1 id="赌徒问题"><a href="#赌徒问题" class="headerlink" title="赌徒问题"></a>赌徒问题</h1><h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>赌徒连续抛硬币，正面朝上获得赌资，反面朝上失去赌资，直到赢到100或输完。<br>该问题可以视为一个无折扣的有限MDP问题：</p>
 <blockquote>
-<blockquote>
-<blockquote>
-<p>多级引用</p>
+<p>状态空间：赌徒的赌资：{1、2、3…99}<br>行为：下注金额：{1、2、3…min{s,100-s}} (下注金额最多不会超过距离获胜的差距)<br>收益：赢到100：+1，其余：0<br>状态价值：状态s下获胜的概率。<br>策略：当前持有赌资的下注金额。</p>
 </blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<h2 id="四、分割线"><a href="#四、分割线" class="headerlink" title="四、分割线"></a>四、分割线</h2><p>Markdown中分割线可以用连续三个或三个以上的 - 或 * 来实现，一级标题和二级标题会自<br>带下划线。我在sublime text3中用livepreviewer实时预览时发现，使用超过三个时预览<br>端会出现乱码，但是在用html预览时一切正常。</p>
-<h4 id="使用：-3"><a href="#使用：-3" class="headerlink" title="使用："></a>使用：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">***    </span><br><span class="line">-------</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-3"><a href="#演示：-3" class="headerlink" title="演示："></a>演示：</h4><hr>
-<hr>
-<hr>
-<h2 id="五、图片"><a href="#五、图片" class="headerlink" title="五、图片"></a>五、图片</h2><p>图片是一个比较麻烦的东西，但是sublime text3中的MarkdownEditing提供了生成图片格式的快捷键，通过使用快捷键或代码段可以直接生成。</p>
-<h4 id="使用：-4"><a href="#使用：-4" class="headerlink" title="使用："></a>使用：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">快捷键：command+shift+k  </span><br><span class="line">代码段：mdi+tab键</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-4"><a href="#演示：-4" class="headerlink" title="演示："></a>演示：</h4><p><code>![]()</code><br><code>![Alt text](/path/to/img.jpg &quot;Optional title&quot;)</code></p>
-<h4 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">![图片alt](图片地址 &apos;&apos;图片title&apos;&apos;)   </span><br><span class="line">图片alt就是显示在图片下面的文字，相当于对图片内容的解释。  </span><br><span class="line">图片title是图片的标题，当鼠标移到图片上时显示的内容,title可加可不加。</span><br><span class="line"></span><br><span class="line">如果要修改图片位置，可以用如下写法：</span><br><span class="line">&lt;div align=center/left/right&gt;![Alt text](/path/to/img.jpg &quot;Optional title&quot;)</span><br><span class="line"></span><br><span class="line">同样的，还可以用img标签来调整图片的大小，写法如下：</span><br><span class="line">&lt;img src=&quot;http:...&quot; width = &quot;100&quot; height = &quot;100&quot; div align=right /&gt;</span><br><span class="line"></span><br><span class="line">这些写法与html的写法一致。</span><br></pre></td></tr></table></figure>
-<h2 id="六、超链接"><a href="#六、超链接" class="headerlink" title="六、超链接"></a>六、超链接</h2><p>MarkdownEditing也提供了生成超链接的快捷代码段，同样简化了实际操作。</p>
-<h4 id="使用：-5"><a href="#使用：-5" class="headerlink" title="使用："></a>使用：</h4><p><code>mdl+tab键</code></p>
-<h4 id="演示：-5"><a href="#演示：-5" class="headerlink" title="演示："></a>演示：</h4><p><code>[](link)</code></p>
-<h4 id="语法：-1"><a href="#语法：-1" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[超链接名](超链接地址 &quot;超链接title&quot;)  </span><br><span class="line">其中的title同样可加可不加</span><br></pre></td></tr></table></figure>
-<h4 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[百度](https://baidu.com)  </span><br><span class="line">[微博](https://weibo.com)</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-6"><a href="#演示：-6" class="headerlink" title="演示："></a>演示：</h4><p><a href="https://baidu.com" target="_blank" rel="noopener">百度</a><br><a href="https://weibo.com" target="_blank" rel="noopener">微博</a></p>
-<h2 id="七、列表"><a href="#七、列表" class="headerlink" title="七、列表"></a>七、列表</h2><p>Markdown中的列表分为无序列表和有序列表两种，MarkdownEditing中提供回车自动补全，列表之间可以相互嵌套。</p>
-<h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><h4 id="语法：-2"><a href="#语法：-2" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+、-或* + 空格 + 内容  </span><br><span class="line">+ 无序列表  </span><br><span class="line">- 无序列表  </span><br><span class="line">* 无序列表</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-7"><a href="#演示：-7" class="headerlink" title="演示："></a>演示：</h4><ul>
-<li>无序列表</li>
-</ul>
+<h2 id="超参数"><a href="#超参数" class="headerlink" title="超参数"></a>超参数</h2><p>根据问题背景，超参数设定如下：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 赢钱目标</span></span><br><span class="line">GOAL = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里包括了0和100，仅仅是为了方便作图</span></span><br><span class="line">STATES = np.arange(GOAL + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 硬币正面朝上的概率</span></span><br><span class="line">HEAD_PROB = <span class="number">0.4</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="价值更新"><a href="#价值更新" class="headerlink" title="价值更新"></a>价值更新</h2><p>第一部分对算法的描述中说到：价值迭代算法只对状态进行一次价值更新，随即阻断。<br>在该问题中，参考价值迭代算法，价值更新的代码如下：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># state value即状态价值：记录状态s下获胜的概率。</span></span><br><span class="line">state_value = np.zeros(GOAL + <span class="number">1</span>)</span><br><span class="line"><span class="comment"># goal状态下的获胜概率必然为1.0</span></span><br><span class="line">state_value[GOAL] = <span class="number">1.0</span></span><br><span class="line">sweeps_history = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    old_state_value = state_value.copy()</span><br><span class="line">    sweeps_history.append(old_state_value)</span><br><span class="line">    <span class="comment"># 对每一个 s ∈ S循环：</span></span><br><span class="line">    <span class="keyword">for</span> state <span class="keyword">in</span> STATES[<span class="number">1</span>:GOAL]:</span><br><span class="line">        <span class="comment"># 当前状态的行为空间上界不会超过：持有赌资/距离获胜所需金额</span></span><br><span class="line">        actions = np.arange(min(state, GOAL - state) + <span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 遍历行为空间，目的是找出max_a</span></span><br><span class="line">        action_returns = []</span><br><span class="line">        <span class="keyword">for</span> action <span class="keyword">in</span> actions:</span><br><span class="line">            <span class="comment"># p:HEAD_PROB、(1 - HEAD_PROB)</span></span><br><span class="line">            <span class="comment"># r：0</span></span><br><span class="line">            <span class="comment"># V'(s)：后继状态价值state_value[state +(赢)\-（输） action]</span></span><br><span class="line">            action_returns.append(</span><br><span class="line">                HEAD_PROB * state_value[state + action] + (<span class="number">1</span> - HEAD_PROB) * state_value[state - action])</span><br><span class="line">        <span class="comment"># 找出所有行为a下的max—value</span></span><br><span class="line">        new_value = np.max(action_returns)</span><br><span class="line">        state_value[state] = new_value</span><br><span class="line">    delta = abs(state_value - old_state_value).max()</span><br><span class="line">    <span class="comment"># 价值收敛</span></span><br><span class="line">    <span class="keyword">if</span> delta &lt; <span class="number">1e-9</span>:</span><br><span class="line">        sweeps_history.append(state_value)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure></p>
+<p>与策略迭代中的价值评估做一个对比：</p>
 <ul>
-<li>无序列表</li>
+<li>策略迭代中，价值评估仅关注在当前状态S下<strong>执行一个确定动作</strong>后产生的状态S’，进而遍历S’产生状态价值之和决定V(S)。</li>
+<li>价值迭代中，价值评估关注在当前状态S下，<strong>执行全部动作空间</strong>后产生的状态价值列表L(S’)，进而取L(S’)中的最大值来决定V(S)。</li>
 </ul>
-<ul>
-<li>无序列表</li>
-</ul>
-<h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><h4 id="语法：-3"><a href="#语法：-3" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">数字 + . + 空格 + 内容  </span><br><span class="line">1. 有序列表  </span><br><span class="line">2. 有序列表  </span><br><span class="line">3. 有序列表</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-8"><a href="#演示：-8" class="headerlink" title="演示："></a>演示：</h4><ol>
-<li>有序列表</li>
-<li>有序列表</li>
-<li>有序列表</li>
-</ol>
-<h3 id="列表嵌套"><a href="#列表嵌套" class="headerlink" title="列表嵌套"></a>列表嵌套</h3><h4 id="语法：-4"><a href="#语法：-4" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&apos;+&apos; + 一级标题</span><br><span class="line">tab + &apos;+&apos; + 二级标题</span><br><span class="line">tab +  tab + &apos;+&apos; + 三级标题</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-9"><a href="#演示：-9" class="headerlink" title="演示："></a>演示：</h4><ul>
-<li>一级列表<ul>
-<li>二级列表<ul>
-<li>三级列表</li>
-</ul>
-</li>
-<li>二级列表</li>
-</ul>
-</li>
-</ul>
-<h2 id="八、表格"><a href="#八、表格" class="headerlink" title="八、表格"></a>八、表格</h2><p>表格的语法稍微复杂一点，不过可以把他理解为一个格式匹配的过程，也有一点在画图的意思。</p>
-<h4 id="语法：-5"><a href="#语法：-5" class="headerlink" title="语法："></a>语法：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">表头1 | 表头2 | 表头3  </span><br><span class="line">  -  |  :-:  |  -: </span><br><span class="line"> 靠左 |  居中 | 靠右  </span><br><span class="line"></span><br><span class="line">第二行用来格式匹配，默认为左对齐，:-:可以实现居中效果，-:实现右对齐</span><br></pre></td></tr></table></figure>
-<h4 id="演示：-10"><a href="#演示：-10" class="headerlink" title="演示："></a>演示：</h4><table>
-<thead>
-<tr>
-<th>表头1</th>
-<th style="text-align:center">表头2</th>
-<th style="text-align:right">表头3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>靠左</td>
-<td style="text-align:center">居中</td>
-<td style="text-align:right">靠右</td>
-</tr>
-</tbody>
-</table>
-<h2 id="九、代码"><a href="#九、代码" class="headerlink" title="九、代码"></a>九、代码</h2><p>Markdown中的代码可以放置在一对反引号 <strong>``</strong> 中，注意反引号是键盘上数字 <em>1</em> 左边的键，并不是引号。</p>
-<h4 id="语法：-6"><a href="#语法：-6" class="headerlink" title="语法："></a>语法：</h4><p>`单行代码` </p>
-<p>```<br>    多行代码<br>    多行代码</p>
-<p>```</p>
-<blockquote>
-<p>参考自：<a href="https://www.jianshu.com/p/191d1e21f7ed" target="_blank" rel="noopener">https://www.jianshu.com/p/191d1e21f7ed</a>  </p>
-</blockquote>
+<p>从而使价值迭代实现了一次执行，直接阻断的效益。</p>
+<h2 id="计算策略"><a href="#计算策略" class="headerlink" title="计算策略"></a>计算策略</h2><p>赌徒背景下的策略为赌资到下注金额的映射。</p>
+<p>最优策略$\pi = argmax_a\sum_{s’,r}p(s’,r|s,a)[r+\gamma V(s’)]$<br>仔细观察，其与上面的价值迭代过程$V(s) \leftarrow max_a\sum_{s’,r}p(s’,r|s,a)[r+\gamma V(s’)]$的唯一不同在于$argmax_a$，所以代码结构相同，最后取下标即可。</p>
+<p>实现代码如下：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># compute the optimal policy</span></span><br><span class="line">policy = np.zeros(GOAL + <span class="number">1</span>)</span><br><span class="line"><span class="keyword">for</span> state <span class="keyword">in</span> STATES[<span class="number">1</span>:GOAL]:</span><br><span class="line">    actions = np.arange(min(state, GOAL - state) + <span class="number">1</span>)</span><br><span class="line">    action_returns = []</span><br><span class="line">    <span class="keyword">for</span> action <span class="keyword">in</span> actions:</span><br><span class="line">        action_returns.append(</span><br><span class="line">            HEAD_PROB * state_value[state + action] + (<span class="number">1</span> - HEAD_PROB) * state_value[state - action])</span><br><span class="line">    <span class="comment"># action_returns从1开始（0代表输光），np.round保留5位小数</span></span><br><span class="line">    <span class="comment"># 取action_returns最大值的下标</span></span><br><span class="line">    policy[state] = actions[np.argmax(np.round(action_returns[<span class="number">1</span>:], <span class="number">5</span>)) + <span class="number">1</span>]</span><br></pre></td></tr></table></figure></p>
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>结果如图所示：<br><img src="/images/强化学习/chapter4/figure_4_3.png" alt="Alt text"></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a href="https://github.com/ShangtongZhang/reinforcement-learning-an-introduction" target="_blank" rel="noopener">https://github.com/ShangtongZhang/reinforcement-learning-an-introduction</a></p>
 
       
     </div>
@@ -552,8 +491,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/09/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2019/11/23/强化学习：DP优化之策略迭代/" rel="next" title="强化学习：DP优化之策略迭代">
+                <i class="fa fa-chevron-left"></i> 强化学习：DP优化之策略迭代
               </a>
             
           </div>
@@ -561,10 +500,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/13/Markdown——配置篇/" rel="prev" title="Markdown——配置篇">
-                Markdown——配置篇 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -725,7 +660,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、标题"><span class="nav-text">一、标题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用："><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示："><span class="nav-text">演示：</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#一级标题"><span class="nav-text">一级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二级标题"><span class="nav-text">二级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三级标题"><span class="nav-text">三级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#四级标题"><span class="nav-text">四级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#五级标题"><span class="nav-text">五级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#六级标题"><span class="nav-text">六级标题</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、字体"><span class="nav-text">二、字体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用：-1"><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-1"><span class="nav-text">演示：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、引用"><span class="nav-text">三、引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用：-2"><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-2"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、分割线"><span class="nav-text">四、分割线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用：-3"><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-3"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、图片"><span class="nav-text">五、图片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用：-4"><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-4"><span class="nav-text">演示：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语法："><span class="nav-text">语法：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、超链接"><span class="nav-text">六、超链接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用：-5"><span class="nav-text">使用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-5"><span class="nav-text">演示：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-1"><span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例："><span class="nav-text">示例：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-6"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、列表"><span class="nav-text">七、列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无序列表"><span class="nav-text">无序列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-2"><span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-7"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有序列表"><span class="nav-text">有序列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-3"><span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-8"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表嵌套"><span class="nav-text">列表嵌套</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-4"><span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-9"><span class="nav-text">演示：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、表格"><span class="nav-text">八、表格</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-5"><span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示：-10"><span class="nav-text">演示：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#九、代码"><span class="nav-text">九、代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法：-6"><span class="nav-text">语法：</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#价值迭代"><span class="nav-text">价值迭代</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#赌徒问题"><span class="nav-text">赌徒问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题背景"><span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超参数"><span class="nav-text">超参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#价值更新"><span class="nav-text">价值更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算策略"><span class="nav-text">计算策略</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结果"><span class="nav-text">结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
