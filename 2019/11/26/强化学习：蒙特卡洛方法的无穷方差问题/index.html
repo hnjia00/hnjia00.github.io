@@ -83,13 +83,21 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Haonan_Jia blogs">
-<meta property="og:url" content="http://hnjia00.github.io/archives/2019/04/index.html">
+<meta name="description" content="上一节介绍MC算法时，为了克服试探性出发这一强假设，rf提出了通过On-Policy和Off-Policy两种持续采样的方法。 在Off-Policy中，为了通过行动策略b观察到的多幕采样序列的平均回报来预测状态价值$v_\pi(s)$，需要根据重要度采样比来调整回报值、并对结果进行平均，根据调整平均方式的不同，又引申出了两种方法：普通重要度采样和加权重要度采样。 从数学的角度来看：  普通重要度">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习：蒙特卡洛方法的无穷方差问题">
+<meta property="og:url" content="http://hnjia00.github.io/2019/11/26/强化学习：蒙特卡洛方法的无穷方差问题/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="上一节介绍MC算法时，为了克服试探性出发这一强假设，rf提出了通过On-Policy和Off-Policy两种持续采样的方法。 在Off-Policy中，为了通过行动策略b观察到的多幕采样序列的平均回报来预测状态价值$v_\pi(s)$，需要根据重要度采样比来调整回报值、并对结果进行平均，根据调整平均方式的不同，又引申出了两种方法：普通重要度采样和加权重要度采样。 从数学的角度来看：  普通重要度">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/强化学习/chapter5/1.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/强化学习/chapter5/figure_5_4.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/强化学习/chapter5/2.png">
+<meta property="og:updated_time" content="2019-11-26T08:03:28.185Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Haonan_Jia blogs">
+<meta name="twitter:title" content="强化学习：蒙特卡洛方法的无穷方差问题">
+<meta name="twitter:description" content="上一节介绍MC算法时，为了克服试探性出发这一强假设，rf提出了通过On-Policy和Off-Policy两种持续采样的方法。 在Off-Policy中，为了通过行动策略b观察到的多幕采样序列的平均回报来预测状态价值$v_\pi(s)$，需要根据重要度采样比来调整回报值、并对结果进行平均，根据调整平均方式的不同，又引申出了两种方法：普通重要度采样和加权重要度采样。 从数学的角度来看：  普通重要度">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/强化学习/chapter5/1.png">
 
 
 
@@ -119,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://hnjia00.github.io/archives/2019/04/">
+  <link rel="canonical" href="http://hnjia00.github.io/2019/11/26/强化学习：蒙特卡洛方法的无穷方差问题/">
 
 
 
 
 
-  <title>Archive | Haonan_Jia blogs</title>
+  <title>强化学习：蒙特卡洛方法的无穷方差问题 | Haonan_Jia blogs</title>
   
 
 
@@ -145,7 +153,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -261,211 +269,255 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      <span class="archive-page-counter">
-        
-        
-         
-        
-        OK! 40 posts in total. Keep on posting.
-      </span>
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/11/26/强化学习：蒙特卡洛方法的无穷方差问题/">
 
-      
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">强化学习：蒙特卡洛方法的无穷方差问题</h1>
         
 
-        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-26T10:44:27+08:00">
+                2019-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/20/编译原理——语法分析G-程序/" itemprop="url">
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
               
-                <span itemprop="name">编译原理——语法分析G[<程序>]</程序></span>
+                <span class="post-meta-item-text">In</span>
               
-            </a>
-        
-      </h2>
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/强化学习/" itemprop="url" rel="index">
+                    <span itemprop="name">强化学习</span>
+                  </a>
+                </span>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-20T14:54:03+08:00" content="2019-04-20">
-          04-20
-        </time>
-      </div>
+                
+                
+              
+            </span>
+          
 
-    </header>
-  </article>
+          
+            
+          
 
+          
+          
 
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  934 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  3 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/11/编译原理——文件名识别/" itemprop="url">
-              
-                <span itemprop="name">编译原理——文件名识别</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-11T16:46:02+08:00" content="2019-04-11">
-          04-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/06/git——日常使用/" itemprop="url">
-              
-                <span itemprop="name">git——日常使用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-06T17:00:50+08:00" content="2019-04-06">
-          04-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>上一节介绍MC算法时，为了克服试探性出发这一强假设，rf提出了通过<strong>On-Policy</strong>和<strong>Off-Policy</strong>两种持续采样的方法。</p>
+<p>在Off-Policy中，为了通过行动策略b观察到的多幕采样序列的平均回报来预测状态价值$v_\pi(s)$，需要根据重要度采样比来调整回报值、并对结果进行平均，根据调整平均方式的不同，又引申出了两种方法：<br><strong>普通重要度采样</strong>和<strong>加权重要度采样</strong>。</p>
+<p>从数学的角度来看：</p>
+<ul>
+<li><p>普通重要度采样：</p>
+<blockquote>
+<p>无偏估计<br>方差无界</p>
+</blockquote>
+</li>
+<li><p>加权重要度采样</p>
+<blockquote>
+<p>有偏估计（偏差逐渐收敛到0）<br>假设回报值有界，即使重要度采样比方差无界，方差仍然能收敛到0</p>
+</blockquote>
+</li>
+</ul>
+<p>下面我们从一个简单的模型入手来讨论普通重要度采样的<strong>无穷方差</strong>问题。</p>
+<h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>状态转移概率以及收益如图所示：<br><img src="/images/强化学习/chapter5/1.png" alt="Alt text"></p>
+<p>这里指定目标策略$\pi(向左|s)=1$，行动策略$b(向左|s)=1/2$.<br>在目标策略下，总是采取向左的行动（因为只有向左才有收益+1）；在行动策略下，等概率执行向左向右行动。</p>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="超参数"><a href="#超参数" class="headerlink" title="超参数"></a>超参数</h2><p>本题题量较小，涉及到的超参数也不多，超参数仅指定好想左/右的动作即可：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ACTION_BACK = <span class="number">0</span> <span class="comment"># left</span></span><br><span class="line">ACTION_END = <span class="number">1</span>  <span class="comment"># right</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h2><p>模型背景中给出了行为策略和目标策略的定义，代码实现如下：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># behavior policy：左右各为0.5</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">behavior_policy</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.random.binomial(<span class="number">1</span>, <span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># target policy：只向左走</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">target_policy</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> ACTION_BACK</span><br></pre></td></tr></table></figure></p>
+<h2 id="一幕动作"><a href="#一幕动作" class="headerlink" title="一幕动作"></a>一幕动作</h2><p>每一幕中的动作：从s开始选择向左或向右，直到到达终态结束为止。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># one turn</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">play</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># track the action for importance ratio</span></span><br><span class="line">    trajectory = []</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        action = behavior_policy()</span><br><span class="line">        trajectory.append(action)</span><br><span class="line">        <span class="comment"># 直接向右：结束</span></span><br><span class="line">        <span class="keyword">if</span> action == ACTION_END:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>, trajectory</span><br><span class="line">        <span class="comment"># 向左0.9概率回到自身失败，即向左0.1概率到达终态</span></span><br><span class="line">        <span class="keyword">if</span> np.random.binomial(<span class="number">1</span>, <span class="number">0.9</span>) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>, trajectory</span><br></pre></td></tr></table></figure></p>
+<h2 id="根据重要度采样调和回报"><a href="#根据重要度采样调和回报" class="headerlink" title="根据重要度采样调和回报"></a>根据重要度采样调和回报</h2><p>这里讨论基于普通重要度采样的回报：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">rewards = []</span><br><span class="line"><span class="keyword">for</span> episode <span class="keyword">in</span> range(<span class="number">0</span>, episodes):</span><br><span class="line">    reward, trajectory = play()</span><br><span class="line">    <span class="keyword">if</span> trajectory[<span class="number">-1</span>] == ACTION_END:</span><br><span class="line">        rho = <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        rho = <span class="number">1.0</span> / pow(<span class="number">0.5</span>, len(trajectory))</span><br><span class="line">    rewards.append(rho * reward)</span><br><span class="line">rewards = np.add.accumulate(rewards)</span><br><span class="line">estimations = np.asarray(rewards) / np.arange(<span class="number">1</span>, episodes + <span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>回到问题背景中可以看到，行动策略b是一个(n,0.5)的二项分布，在计算时仅需计算0.5的连乘即可。<br>由于目标策略π下的动作总是向左，即一旦trajectory中出现了向右的动作（向右即进入终态结束，所以只可能出现在最后一个），那意味着分子中将会出现一项$π(a|s)=0$，随机导致整个重要度采样比归0.</p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>结果如图所示，可以看到：在独立训练10轮，每轮100000幕的情况下，普通重要度采样能让难以收敛到1（在折扣率为1时，持续向左一定能获得收益+1）<br><img src="/images/强化学习/chapter5/figure_5_4.png" alt="Alt text"></p>
+<h1 id="对比实验"><a href="#对比实验" class="headerlink" title="对比实验"></a>对比实验</h1><p>为了与加权重要度采样对比，我对代码做了一点修改：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> run <span class="keyword">in</span> range(runs):</span><br><span class="line">    rewards = []</span><br><span class="line">    <span class="comment"># 记录采样比序列</span></span><br><span class="line">    rho1 = []</span><br><span class="line">    <span class="keyword">for</span> episode <span class="keyword">in</span> range(<span class="number">0</span>, episodes):</span><br><span class="line">        reward, trajectory = play()</span><br><span class="line">        <span class="keyword">if</span> trajectory[<span class="number">-1</span>] == ACTION_END:</span><br><span class="line">            rho = <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            rho = <span class="number">1.0</span> / pow(<span class="number">0.5</span>, len(trajectory))</span><br><span class="line">        rho1.append(rho)</span><br><span class="line">        rewards.append(rho * reward)</span><br><span class="line">    rewards = np.add.accumulate(rewards)</span><br><span class="line">    <span class="comment"># 计算加权重要度采样</span></span><br><span class="line">    rho1 = np.add.accumulate(rho1)</span><br><span class="line">    <span class="keyword">with</span> np.errstate(invalid=<span class="string">'ignore'</span>):</span><br><span class="line">        e1 = np.where(rho1!=<span class="number">0</span>, np.asarray(rewards)/rho1, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    plt.plot(e1)</span><br></pre></td></tr></table></figure></p>
+<p>结果如图：<br><img src="/images/强化学习/chapter5/2.png" alt="Alt text"></p>
+<p>可以看到：<strong>加权重要度采样方法仅仅在不到100轮的情况下就稳定的收敛到了正确回报+1！</strong></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a href="https://github.com/ShangtongZhang/reinforcement-learning-an-introduction" target="_blank" rel="noopener">https://github.com/ShangtongZhang/reinforcement-learning-an-introduction</a></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/04/操作系统——进程同步/" itemprop="url">
-              
-                <span itemprop="name">操作系统——进程同步</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-04T10:49:40+08:00" content="2019-04-04">
-          04-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/04/03/编译原理——无符号数识别/" itemprop="url">
-              
-                <span itemprop="name">编译原理——无符号数识别</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-03T16:06:58+08:00" content="2019-04-03">
-          04-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/25/强化学习：蒙特卡罗方法/" rel="next" title="强化学习：蒙特卡罗方法">
+                <i class="fa fa-chevron-left"></i> 强化学习：蒙特卡罗方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -473,6 +525,16 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -493,8 +555,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -577,6 +648,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题背景"><span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码实现"><span class="nav-text">代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#超参数"><span class="nav-text">超参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略"><span class="nav-text">策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一幕动作"><span class="nav-text">一幕动作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据重要度采样调和回报"><span class="nav-text">根据重要度采样调和回报</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验结果"><span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对比实验"><span class="nav-text">对比实验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -738,6 +825,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -766,6 +857,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
