@@ -83,26 +83,13 @@
 
 
 
-<meta name="description" content="SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。 本次实验环境如下：   操作系统：Mac OS X 10.13   DBMS：MySQL 8.0   图形化管理界面：MySQL Workbench  表结构本次实验选用了一个待测试表，名为‘pv_train_part1’，其结">
-<meta property="og:type" content="article">
-<meta property="og:title" content="数据库——SQL调优">
-<meta property="og:url" content="http://hnjia00.github.io/2019/03/08/数据库——SQL调优/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Haonan_Jia blogs">
+<meta property="og:url" content="http://hnjia00.github.io/archives/2019/page/5/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
-<meta property="og:description" content="SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。 本次实验环境如下：   操作系统：Mac OS X 10.13   DBMS：MySQL 8.0   图形化管理界面：MySQL Workbench  表结构本次实验选用了一个待测试表，名为‘pv_train_part1’，其结">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/导入csv.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/数据记录.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引前表结构.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引前执行结果.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/添加索引后的表结构.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引后执行时间.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/未limit.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/limit效果.png">
-<meta property="og:updated_time" content="2019-03-08T14:51:58.776Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库——SQL调优">
-<meta name="twitter:description" content="SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。 本次实验环境如下：   操作系统：Mac OS X 10.13   DBMS：MySQL 8.0   图形化管理界面：MySQL Workbench  表结构本次实验选用了一个待测试表，名为‘pv_train_part1’，其结">
-<meta name="twitter:image" content="http://hnjia00.github.io/images/数据库/SQL调优/导入csv.png">
+<meta name="twitter:title" content="Haonan_Jia blogs">
 
 
 
@@ -132,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://hnjia00.github.io/2019/03/08/数据库——SQL调优/">
+  <link rel="canonical" href="http://hnjia00.github.io/archives/2019/page/5/">
 
 
 
 
 
-  <title>数据库——SQL调优 | Haonan_Jia blogs</title>
+  <title>Archive | Haonan_Jia blogs</title>
   
 
 
@@ -158,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-archive">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -274,316 +261,75 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
 
-  
+      <span class="archive-page-counter">
+        
+        
+         
+        
+        OK! 41 posts in total. Keep on posting.
+      </span>
 
-  
-  
-  
+      
+
+        
+        
+        
+
+        
+          
+          <div class="collection-title">
+            <h1 class="archive-year" id="archive-year-2019">2019</h1>
+          </div>
+        
+        
+
+        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/03/08/数据库——SQL调优/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Haonan Jia">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Haonan_Jia blogs">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
+            <a class="post-title-link" href="/2019/02/09/hello-world/" itemprop="url">
+              
+                <span itemprop="name">Hello World</span>
+              
+            </a>
         
-          <h1 class="post-title" itemprop="name headline">数据库——SQL调优</h1>
-        
+      </h2>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-08T22:40:24+08:00">
-                2019-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据库/" itemprop="url" rel="index">
-                    <span itemprop="name">数据库</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <span class="post-meta-divider">|</span>
-            <span id="busuanzi_value_page_pv"></span>次阅读
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  805 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  3 min
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。</p>
-<p>本次实验环境如下：</p>
-<blockquote>
-<p> 操作系统：Mac OS X 10.13<br>   DBMS：MySQL 8.0<br>   图形化管理界面：MySQL Workbench</p>
-</blockquote>
-<h2 id="表结构"><a href="#表结构" class="headerlink" title="表结构"></a>表结构</h2><p>本次实验选用了一个待测试表，名为‘pv_train_part1’，其结构如下：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:center">类型</th>
-<th style="text-align:center">实例</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Key</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">5</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature1</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.294408418</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature2</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.331507473</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature3</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.279030084</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature4</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">0.545543622</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature5</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">64125</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature6</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.738819447</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature7</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">0.88708635</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature8</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">28622.91442</td>
-</tr>
-<tr>
-<td style="text-align:center">label</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">0</td>
-</tr>
-</tbody>
-</table>
-<h2 id="数据仿真方法"><a href="#数据仿真方法" class="headerlink" title="数据仿真方法"></a>数据仿真方法</h2><p>此数据集来源于我跟随老师做的项目，从数据实例和分布来看其明显是一个机器学习模型的训练数据样本，大体是一个八参数的分类问题（实则是一个多参数的特征选取和异常数据监测项目）。</p>
-<p>本数据取自github上的开源数据集，其链接为：<br><a href="https://github.com/niklasstoehr/neuralNetwork" target="_blank" rel="noopener">数据集</a></p>
-<h2 id="数据记录数"><a href="#数据记录数" class="headerlink" title="数据记录数"></a>数据记录数</h2><p>通过MySQL Workbench的‘Table Data Import Wizard’功能，可以实现将外部csv文件导入的功能：<br><img src="/images/数据库/SQL调优/导入csv.png" alt="Alt text" title="导入csv"></p>
-<p>通过执行结果可以观测到数据记录数如下：<br><img src="/images/数据库/SQL调优/数据记录.png" alt="Alt text" title="数据记录"></p>
-<h2 id="优化规则及执行时间"><a href="#优化规则及执行时间" class="headerlink" title="优化规则及执行时间"></a>优化规则及执行时间</h2><h3 id="优化规则一-建立索引"><a href="#优化规则一-建立索引" class="headerlink" title="优化规则一:建立索引"></a>优化规则一:建立索引</h3><p>首先我使用的第一条优化规则便是建立索引，这在几乎所有的DBMS上是通用的优化策略。为了便于展示，这里的优化执行结果以执行查询操作来作为反馈。</p>
-<p>在没建立索引前，表的设计层面如下：<br><img src="/images/数据库/SQL调优/建立索引前表结构.png" alt="Alt text" title="建立索引前表结构"><br>执行查询语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.key=<span class="number">59081</span>;</span><br></pre></td></tr></table></figure></p>
-<p>结果如下：<br><img src="/images/数据库/SQL调优/建立索引前执行结果.png" alt="Alt text" title="建立索引前执行结果"></p>
-<p>可以看到该查询的执行时间为： <strong>0.056 second</strong> 。</p>
-<p>然后我们给key属性添加主键索引，添加完之后设计层面如下：<br><img src="/images/数据库/SQL调优/添加索引后的表结构.png" alt="Alt text" title="建立索引后表结构"></p>
-<p>添加完成之后重新执行相同的查询语句，执行时间如下：<br><img src="/images/数据库/SQL调优/建立索引后执行时间.png" alt="Alt text" title="建立索引后执行时间"></p>
-<p>可以看到，在添加完主键索引之后，查询时间变成了 <strong>0.00034 second</strong>，较未添加索引之间查询效率提高了 <strong>163</strong> 倍。</p>
-<h3 id="优化规则二-查询限制"><a href="#优化规则二-查询限制" class="headerlink" title="优化规则二:查询限制"></a>优化规则二:查询限制</h3><p>在MySQL中，假如只需要一条查询条件的结果，或者在事先已经知道查询语句仅仅会返回一条结果的情况下，我们可以在查询语句的结尾后添加 <strong>“limit 1”</strong> 字段以便在查询到结果后中断对剩余表单的检索，对比如下：</p>
-<p>首先我们对表执行查询语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.label=<span class="number">3</span> ;</span><br></pre></td></tr></table></figure></p>
-<p>查询时间如下：<br><img src="/images/数据库/SQL调优/未limit.png" alt="Alt text" title="未limit"></p>
-<p>可以看到，通过普通查询语句查询，其执行时间在 <strong>0.039 second</strong>。</p>
-<p>然后对上述sql语句后添加 <strong>“limit 1”</strong> ，修改为：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.label=<span class="number">3</span> <span class="keyword">limit</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
-<p>查询时间如下：<br><img src="/images/数据库/SQL调优/limit效果.png" alt="Alt text" title="limit效果"><br>可以看到，在添加limit 1后，其执行时间缩短为了 <strong>0.00049 second</strong>，相较于优化前的查询，效率提高了 <strong>203</strong> 倍。</p>
-<p>通过这几个案例可以看出，SQL调优可以为数据库的查询操作提高近百倍的效率，是我们在开发大型工程中的必备知识。</p>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>小手一抖⬇️</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>Donate</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
-        <p>WeChat Pay</p>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2019-02-09T16:07:26+08:00" content="2019-02-09">
+          02-09
+        </time>
       </div>
-    
 
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
-        <p>Alipay</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/03/04/数据库——完整性/" rel="next" title="数据库——完整性">
-                <i class="fa fa-chevron-left"></i> 数据库——完整性
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/09/数据库——存储过程和函数/" rel="prev" title="数据库——存储过程和函数">
-                数据库——存储过程和函数 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
 
-    <div class="post-spread">
       
+
     </div>
   </div>
+  
+  
+  
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/archives/2019/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/2019/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2019/page/4/">4</a><span class="page-number current">5</span>
+  </nav>
+
+
 
 
           </div>
@@ -591,16 +337,6 @@
 
 
           
-
-  
-    <div class="comments" id="comments">
-      
-      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
-    </div>
-
-  
-
-
 
         </div>
         
@@ -621,17 +357,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -714,22 +441,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#表结构"><span class="nav-text">表结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据仿真方法"><span class="nav-text">数据仿真方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据记录数"><span class="nav-text">数据记录数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化规则及执行时间"><span class="nav-text">优化规则及执行时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优化规则一-建立索引"><span class="nav-text">优化规则一:建立索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化规则二-查询限制"><span class="nav-text">优化规则二:查询限制</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -891,10 +602,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
@@ -923,17 +630,6 @@
 
 
 
-  
-    <script type="text/javascript">
-      (function(d, s) {
-        var j, e = d.getElementsByTagName(s)[0];
-        if (typeof LivereTower === 'function') { return; }
-        j = d.createElement(s);
-        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-        j.async = true;
-        e.parentNode.insertBefore(j, e);
-      })(document, 'script');
-    </script>
   
 
 

@@ -83,26 +83,20 @@
 
 
 
-<meta name="description" content="SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。 本次实验环境如下：   操作系统：Mac OS X 10.13   DBMS：MySQL 8.0   图形化管理界面：MySQL Workbench  表结构本次实验选用了一个待测试表，名为‘pv_train_part1’，其结">
+<meta name="description" content="这一部分讲一下TD，也就是时序差分学习。 TD(0)算法在使用蒙特卡罗方法时，对价值函数的更新采用如下方法：$$V(S_t) = V(S_t) + \alpha[G_t - V(S_t)]$$也就是说，要实现状态价值/动作价值的更新必须要等到一幕结束，因为只有一幕结束后，回报Gt才可知。 时序差分学习加速了价值的更新，其直接使用下一个时刻的价值估计值以及此刻观察到的收益来对价值函数进行更新：$$V">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库——SQL调优">
-<meta property="og:url" content="http://hnjia00.github.io/2019/03/08/数据库——SQL调优/index.html">
+<meta property="og:title" content="强化学习：on-policy下的TD：Sarsa">
+<meta property="og:url" content="http://hnjia00.github.io/2019/11/28/强化学习：on-policy下的TD：Sarsa/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
-<meta property="og:description" content="SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。 本次实验环境如下：   操作系统：Mac OS X 10.13   DBMS：MySQL 8.0   图形化管理界面：MySQL Workbench  表结构本次实验选用了一个待测试表，名为‘pv_train_part1’，其结">
+<meta property="og:description" content="这一部分讲一下TD，也就是时序差分学习。 TD(0)算法在使用蒙特卡罗方法时，对价值函数的更新采用如下方法：$$V(S_t) = V(S_t) + \alpha[G_t - V(S_t)]$$也就是说，要实现状态价值/动作价值的更新必须要等到一幕结束，因为只有一幕结束后，回报Gt才可知。 时序差分学习加速了价值的更新，其直接使用下一个时刻的价值估计值以及此刻观察到的收益来对价值函数进行更新：$$V">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/导入csv.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/数据记录.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引前表结构.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引前执行结果.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/添加索引后的表结构.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/建立索引后执行时间.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/未limit.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/数据库/SQL调优/limit效果.png">
-<meta property="og:updated_time" content="2019-03-08T14:51:58.776Z">
+<meta property="og:image" content="http://hnjia00.github.io/images/强化学习/chapter6/figure_6_3.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/强化学习/chapter6/1.png">
+<meta property="og:updated_time" content="2019-11-28T10:16:52.863Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库——SQL调优">
-<meta name="twitter:description" content="SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。 本次实验环境如下：   操作系统：Mac OS X 10.13   DBMS：MySQL 8.0   图形化管理界面：MySQL Workbench  表结构本次实验选用了一个待测试表，名为‘pv_train_part1’，其结">
-<meta name="twitter:image" content="http://hnjia00.github.io/images/数据库/SQL调优/导入csv.png">
+<meta name="twitter:title" content="强化学习：on-policy下的TD：Sarsa">
+<meta name="twitter:description" content="这一部分讲一下TD，也就是时序差分学习。 TD(0)算法在使用蒙特卡罗方法时，对价值函数的更新采用如下方法：$$V(S_t) = V(S_t) + \alpha[G_t - V(S_t)]$$也就是说，要实现状态价值/动作价值的更新必须要等到一幕结束，因为只有一幕结束后，回报Gt才可知。 时序差分学习加速了价值的更新，其直接使用下一个时刻的价值估计值以及此刻观察到的收益来对价值函数进行更新：$$V">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/强化学习/chapter6/figure_6_3.png">
 
 
 
@@ -132,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://hnjia00.github.io/2019/03/08/数据库——SQL调优/">
+  <link rel="canonical" href="http://hnjia00.github.io/2019/11/28/强化学习：on-policy下的TD：Sarsa/">
 
 
 
 
 
-  <title>数据库——SQL调优 | Haonan_Jia blogs</title>
+  <title>强化学习：on-policy下的TD：Sarsa | Haonan_Jia blogs</title>
   
 
 
@@ -288,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/03/08/数据库——SQL调优/">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2019/11/28/强化学习：on-policy下的TD：Sarsa/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Haonan Jia">
@@ -305,7 +299,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据库——SQL调优</h1>
+          <h1 class="post-title" itemprop="name headline">强化学习：on-policy下的TD：Sarsa</h1>
         
 
         <div class="post-meta">
@@ -317,8 +311,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-08T22:40:24+08:00">
-                2019-03-08
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-28T17:08:39+08:00">
+                2019-11-28
               </time>
             
 
@@ -340,8 +334,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据库/" itemprop="url" rel="index">
-                    <span itemprop="name">数据库</span>
+                  <a href="/categories/强化学习/" itemprop="url" rel="index">
+                    <span itemprop="name">强化学习</span>
                   </a>
                 </span>
 
@@ -376,7 +370,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  805 字
+                  1.4k 字
                 </span>
               
 
@@ -392,7 +386,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  3 min
+                  5 min
                 </span>
               
             </div>
@@ -413,91 +407,49 @@
       
 
       
-        <p>SQL调优是一项很重要的技术，实际在使用小数据集时DBMS自身的搜索优化是能满足我们的时间需求的，只有在数据集规模到10w+以后才能在秒级的层面看到SQL代码优化的效果。</p>
-<p>本次实验环境如下：</p>
+        <p>这一部分讲一下TD，也就是时序差分学习。</p>
+<h1 id="TD-0-算法"><a href="#TD-0-算法" class="headerlink" title="TD(0)算法"></a>TD(0)算法</h1><p>在使用蒙特卡罗方法时，对价值函数的更新采用如下方法：<br>$$<br>V(S_t) = V(S_t) + \alpha[G_t - V(S_t)]<br>$$<br>也就是说，要实现状态价值/动作价值的更新必须要等到一幕结束，因为只有一幕结束后，回报Gt才可知。</p>
+<p>时序差分学习加速了价值的更新，其直接使用<strong>下一个时刻</strong>的价值估计值以及此刻观察到的收益来对价值函数进行更新：<br>$$<br>V(S_t) = V(S_t) + \alpha[R_t + \gamma V(S_{t+1}) - V(S_t)]<br>$$<br>这种方法被称为TD(0)。</p>
+<p>TD算法结合了MC采样方法和DP的自举法，对算法描述如下：</p>
 <blockquote>
-<p> 操作系统：Mac OS X 10.13<br>   DBMS：MySQL 8.0<br>   图形化管理界面：MySQL Workbench</p>
+<p>对每一幕循环：</p>
+<blockquote>
+<p>初始化S<br>对幕中的每一步循环：</p>
+<blockquote>
+<p>A = 在状态S下根据策略π作出的决策动作<br>    执行动作A，观察到R与S’<br>    V(S) = V(S) + α[R + γV(S’) - V(S)]<br>    S = S’</p>
 </blockquote>
-<h2 id="表结构"><a href="#表结构" class="headerlink" title="表结构"></a>表结构</h2><p>本次实验选用了一个待测试表，名为‘pv_train_part1’，其结构如下：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:center">类型</th>
-<th style="text-align:center">实例</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Key</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">5</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature1</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.294408418</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature2</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.331507473</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature3</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.279030084</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature4</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">0.545543622</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature5</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">64125</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature6</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">1.738819447</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature7</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">0.88708635</td>
-</tr>
-<tr>
-<td style="text-align:center">Feature8</td>
-<td style="text-align:center">double</td>
-<td style="text-align:center">28622.91442</td>
-</tr>
-<tr>
-<td style="text-align:center">label</td>
-<td style="text-align:center">int</td>
-<td style="text-align:center">0</td>
-</tr>
-</tbody>
-</table>
-<h2 id="数据仿真方法"><a href="#数据仿真方法" class="headerlink" title="数据仿真方法"></a>数据仿真方法</h2><p>此数据集来源于我跟随老师做的项目，从数据实例和分布来看其明显是一个机器学习模型的训练数据样本，大体是一个八参数的分类问题（实则是一个多参数的特征选取和异常数据监测项目）。</p>
-<p>本数据取自github上的开源数据集，其链接为：<br><a href="https://github.com/niklasstoehr/neuralNetwork" target="_blank" rel="noopener">数据集</a></p>
-<h2 id="数据记录数"><a href="#数据记录数" class="headerlink" title="数据记录数"></a>数据记录数</h2><p>通过MySQL Workbench的‘Table Data Import Wizard’功能，可以实现将外部csv文件导入的功能：<br><img src="/images/数据库/SQL调优/导入csv.png" alt="Alt text" title="导入csv"></p>
-<p>通过执行结果可以观测到数据记录数如下：<br><img src="/images/数据库/SQL调优/数据记录.png" alt="Alt text" title="数据记录"></p>
-<h2 id="优化规则及执行时间"><a href="#优化规则及执行时间" class="headerlink" title="优化规则及执行时间"></a>优化规则及执行时间</h2><h3 id="优化规则一-建立索引"><a href="#优化规则一-建立索引" class="headerlink" title="优化规则一:建立索引"></a>优化规则一:建立索引</h3><p>首先我使用的第一条优化规则便是建立索引，这在几乎所有的DBMS上是通用的优化策略。为了便于展示，这里的优化执行结果以执行查询操作来作为反馈。</p>
-<p>在没建立索引前，表的设计层面如下：<br><img src="/images/数据库/SQL调优/建立索引前表结构.png" alt="Alt text" title="建立索引前表结构"><br>执行查询语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.key=<span class="number">59081</span>;</span><br></pre></td></tr></table></figure></p>
-<p>结果如下：<br><img src="/images/数据库/SQL调优/建立索引前执行结果.png" alt="Alt text" title="建立索引前执行结果"></p>
-<p>可以看到该查询的执行时间为： <strong>0.056 second</strong> 。</p>
-<p>然后我们给key属性添加主键索引，添加完之后设计层面如下：<br><img src="/images/数据库/SQL调优/添加索引后的表结构.png" alt="Alt text" title="建立索引后表结构"></p>
-<p>添加完成之后重新执行相同的查询语句，执行时间如下：<br><img src="/images/数据库/SQL调优/建立索引后执行时间.png" alt="Alt text" title="建立索引后执行时间"></p>
-<p>可以看到，在添加完主键索引之后，查询时间变成了 <strong>0.00034 second</strong>，较未添加索引之间查询效率提高了 <strong>163</strong> 倍。</p>
-<h3 id="优化规则二-查询限制"><a href="#优化规则二-查询限制" class="headerlink" title="优化规则二:查询限制"></a>优化规则二:查询限制</h3><p>在MySQL中，假如只需要一条查询条件的结果，或者在事先已经知道查询语句仅仅会返回一条结果的情况下，我们可以在查询语句的结尾后添加 <strong>“limit 1”</strong> 字段以便在查询到结果后中断对剩余表单的检索，对比如下：</p>
-<p>首先我们对表执行查询语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.label=<span class="number">3</span> ;</span><br></pre></td></tr></table></figure></p>
-<p>查询时间如下：<br><img src="/images/数据库/SQL调优/未limit.png" alt="Alt text" title="未limit"></p>
-<p>可以看到，通过普通查询语句查询，其执行时间在 <strong>0.039 second</strong>。</p>
-<p>然后对上述sql语句后添加 <strong>“limit 1”</strong> ，修改为：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> feature3 <span class="keyword">from</span> pv_train_part1 <span class="keyword">where</span> pv_train_part1.label=<span class="number">3</span> <span class="keyword">limit</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
-<p>查询时间如下：<br><img src="/images/数据库/SQL调优/limit效果.png" alt="Alt text" title="limit效果"><br>可以看到，在添加limit 1后，其执行时间缩短为了 <strong>0.00049 second</strong>，相较于优化前的查询，效率提高了 <strong>203</strong> 倍。</p>
-<p>通过这几个案例可以看出，SQL调优可以为数据库的查询操作提高近百倍的效率，是我们在开发大型工程中的必备知识。</p>
+</blockquote>
+</blockquote>
+<p>在多数情况下，TD算法的表现均优于DP和MC算法：</p>
+<ul>
+<li>相比DP：不需要环境模型，即描述收益和下一状态联合概率分布的模型。</li>
+<li>相比MC：自然的运用了一种在线、完全地震的方法来实现。价值更新只需要等到下一个时刻即可。</li>
+</ul>
+<p>接下来我们使用TD方法来解决实际的控制问题。<br>在评估和预测的部分使用TD方法，按照惯例，需要在explore和exploit之间做出权衡，方法被划分为on-policy与off-policy两种。</p>
+<h1 id="Sarsa"><a href="#Sarsa" class="headerlink" title="Sarsa"></a>Sarsa</h1><h2 id="算法由来"><a href="#算法由来" class="headerlink" title="算法由来"></a>算法由来</h2><p>Sarsa是<strong>on-plocy</strong>下的TD。<br>其需要学习的是动作价值函数<strong>q(s,a)</strong>而不是状态价值函数<strong>V(s)</strong>。</p>
+<p>Sarsa对动作价值的更新方法如下：<br>$$<br>Q(S_t,A_t) = Q(S_t,A_t) + \alpha[R_{t+1} + \gamma Q(S_{t+1},A_{t+1}) - Q(S_t,A_t)]<br>$$<br>可以看到，对于一次状态更新，可以用一个五元组来表示：$(S_t,A_t,R_{t+a},S_{t+1},A_{t+1})$，这也是Sarsa算法名字的由来。</p>
+<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>Sarsa的算法流程描述如下：</p>
+<blockquote>
+<p>对每一幕循环：</p>
+<blockquote>
+<p>初始化S<br>使用从Q中得到的策略（如ε-greedy），在S处选取A<br>对幕中的每一步循环：</p>
+<blockquote>
+<p>执行动作A，观察到R与S’<br>    使用从Q中得到的策略（如ε-greedy），在S’处选取A’<br>    Q(S,A) = Q(S,A) + α[R + γQ(S’,A’) - Q(S,A)]<br>    S = S’<br>    A = A’</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>下面通过一个实际的问题来深入理解Sarsa的实现：</p>
+<h1 id="有风的网格世界"><a href="#有风的网格世界" class="headerlink" title="有风的网格世界"></a>有风的网格世界</h1><h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>背景为书中的例6.5，以之前介绍过的网格世界为背景，加入了环境干扰，即风。<br>在有风的区域内，动作的执行会收到风的干扰。</p>
+<h2 id="超参数"><a href="#超参数" class="headerlink" title="超参数"></a>超参数</h2><p>超参数如下：<br>规定了网格边界、风带来的影响、动作空间、ε-greedy的ε参数、Sarsa的固定步长、每时刻收益、起点终点坐标：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># world height</span></span><br><span class="line">WORLD_HEIGHT = <span class="number">7</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># world width</span></span><br><span class="line">WORLD_WIDTH = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># wind strength for each column</span></span><br><span class="line">WIND = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># possible actions</span></span><br><span class="line">ACTION_UP = <span class="number">0</span></span><br><span class="line">ACTION_DOWN = <span class="number">1</span></span><br><span class="line">ACTION_LEFT = <span class="number">2</span></span><br><span class="line">ACTION_RIGHT = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># probability for exploration</span></span><br><span class="line">EPSILON = <span class="number">0.1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Sarsa step size</span></span><br><span class="line">ALPHA = <span class="number">0.5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># reward for each step</span></span><br><span class="line">REWARD = <span class="number">-1.0</span></span><br><span class="line"></span><br><span class="line">START = [<span class="number">3</span>, <span class="number">0</span>]</span><br><span class="line">GOAL = [<span class="number">3</span>, <span class="number">7</span>]</span><br><span class="line">ACTIONS = [ACTION_UP, ACTION_DOWN, ACTION_LEFT, ACTION_RIGHT]</span><br></pre></td></tr></table></figure></p>
+<h2 id="S-gt-S’"><a href="#S-gt-S’" class="headerlink" title="S-&gt;S’"></a>S-&gt;S’</h2><p>状态变化的实现如下，主要由动作和风力影响共同实现<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">step</span><span class="params">(state, action)</span>:</span></span><br><span class="line">    i, j = state</span><br><span class="line">    <span class="keyword">if</span> action == ACTION_UP:</span><br><span class="line">        <span class="keyword">return</span> [max(i - <span class="number">1</span> - WIND[j], <span class="number">0</span>), j]</span><br><span class="line">    <span class="keyword">elif</span> action == ACTION_DOWN:</span><br><span class="line">        <span class="keyword">return</span> [max(min(i + <span class="number">1</span> - WIND[j], WORLD_HEIGHT - <span class="number">1</span>), <span class="number">0</span>), j]</span><br><span class="line">    <span class="keyword">elif</span> action == ACTION_LEFT:</span><br><span class="line">        <span class="keyword">return</span> [max(i - WIND[j], <span class="number">0</span>), max(j - <span class="number">1</span>, <span class="number">0</span>)]</span><br><span class="line">    <span class="keyword">elif</span> action == ACTION_RIGHT:</span><br><span class="line">        <span class="keyword">return</span> [max(i - WIND[j], <span class="number">0</span>), min(j + <span class="number">1</span>, WORLD_WIDTH - <span class="number">1</span>)]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="动作价值估计"><a href="#动作价值估计" class="headerlink" title="动作价值估计"></a>动作价值估计</h2><p>根据上面给出的Sarsa算法描述，对每一幕中的动作价值估计，通过代码实现如下：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">episode</span><span class="params">(q_value)</span>:</span></span><br><span class="line">    <span class="comment"># track the total time steps in this episode</span></span><br><span class="line">    time = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># initialize state</span></span><br><span class="line">    state = START</span><br><span class="line"></span><br><span class="line">    <span class="comment"># choose an action based on epsilon-greedy algorithm</span></span><br><span class="line">    <span class="keyword">if</span> np.random.binomial(<span class="number">1</span>, EPSILON) == <span class="number">1</span>:</span><br><span class="line">        <span class="comment"># ε的概率去随机选取（explore）</span></span><br><span class="line">        action = np.random.choice(ACTIONS)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 1-ε的概率根据动作价值选取（exploit）：</span></span><br><span class="line">        <span class="comment"># 返回四个动作对应的价值</span></span><br><span class="line">        values_ = q_value[state[<span class="number">0</span>], state[<span class="number">1</span>], :]</span><br><span class="line">        <span class="comment"># 从最大值的</span></span><br><span class="line">        <span class="comment"># action_为枚举values_时对应的下标：0～3</span></span><br><span class="line">        action = np.random.choice([action_ <span class="keyword">for</span> action_, value_ <span class="keyword">in</span> enumerate(values_) <span class="keyword">if</span> value_ == np.max(values_)])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># keep going until get to the goal state</span></span><br><span class="line">    <span class="keyword">while</span> state != GOAL:</span><br><span class="line">        <span class="comment"># 执行动作A，观察到新状态S'</span></span><br><span class="line">        <span class="comment"># reward固定，不到终止状态都为-1</span></span><br><span class="line">        next_state = step(state, action)</span><br><span class="line">        <span class="comment"># 根据ε-greedy选取动作A'</span></span><br><span class="line">        <span class="keyword">if</span> np.random.binomial(<span class="number">1</span>, EPSILON) == <span class="number">1</span>:</span><br><span class="line">            next_action = np.random.choice(ACTIONS)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            values_ = q_value[next_state[<span class="number">0</span>], next_state[<span class="number">1</span>], :]</span><br><span class="line">            next_action = np.random.choice([action_ <span class="keyword">for</span> action_, value_ <span class="keyword">in</span> enumerate(values_) <span class="keyword">if</span> value_ == np.max(values_)])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Sarsa update</span></span><br><span class="line">        <span class="comment"># Q(S,A) = Q(S,A) + α[R + γQ(S',A') - Q(S,A)]</span></span><br><span class="line">        q_value[state[<span class="number">0</span>], state[<span class="number">1</span>], action] += \</span><br><span class="line">            ALPHA * (REWARD + q_value[next_state[<span class="number">0</span>], next_state[<span class="number">1</span>], next_action] -</span><br><span class="line">                     q_value[state[<span class="number">0</span>], state[<span class="number">1</span>], action])</span><br><span class="line">        <span class="comment"># S=S'</span></span><br><span class="line">        state = next_state</span><br><span class="line">        <span class="comment"># A=A'</span></span><br><span class="line">        action = next_action</span><br><span class="line">        time += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> time</span><br></pre></td></tr></table></figure></p>
+<p>这里的on-policy可以理解为：<strong>在S处选取A的策略 与 在更新动作价值Q(S,A)时在S’处选取A’的策略相同（均为ε-greedy）</strong></p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>实验结果如下，可以看到随着时间的推移，目标达成的越来越快：<br><img src="/images/强化学习/chapter6/figure_6_3.png" alt="Alt text"><br>Sarsa给出的最优策略为：<br><img src="/images/强化学习/chapter6/1.png" alt="Alt text"></p>
+<p>该实验显示出了Sarsa优于MC方法的另一面：</p>
+<blockquote>
+<p>在MC方法中，如果发现某个策略使agent停留在同一个状态内，那么下一幕任务就永远不会开始；<br>但Sarsa这样一步一步的学习方法则没有这个问题，因为其在当前幕运行过程中就能很快的学到当前的策略，如果不够好，然后就会切换到其他的策略。</p>
+</blockquote>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a href="https://github.com/ShangtongZhang/reinforcement-learning-an-introduction" target="_blank" rel="noopener">https://github.com/ShangtongZhang/reinforcement-learning-an-introduction</a></p>
 
       
     </div>
@@ -551,8 +503,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/04/数据库——完整性/" rel="next" title="数据库——完整性">
-                <i class="fa fa-chevron-left"></i> 数据库——完整性
+              <a href="/2019/11/26/强化学习：蒙特卡洛方法的无穷方差问题/" rel="next" title="强化学习：蒙特卡洛方法的无穷方差问题">
+                <i class="fa fa-chevron-left"></i> 强化学习：蒙特卡洛方法的无穷方差问题
               </a>
             
           </div>
@@ -560,10 +512,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/09/数据库——存储过程和函数/" rel="prev" title="数据库——存储过程和函数">
-                数据库——存储过程和函数 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -724,7 +672,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#表结构"><span class="nav-text">表结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据仿真方法"><span class="nav-text">数据仿真方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据记录数"><span class="nav-text">数据记录数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化规则及执行时间"><span class="nav-text">优化规则及执行时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优化规则一-建立索引"><span class="nav-text">优化规则一:建立索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化规则二-查询限制"><span class="nav-text">优化规则二:查询限制</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TD-0-算法"><span class="nav-text">TD(0)算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sarsa"><span class="nav-text">Sarsa</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法由来"><span class="nav-text">算法由来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法描述"><span class="nav-text">算法描述</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#有风的网格世界"><span class="nav-text">有风的网格世界</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题背景"><span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超参数"><span class="nav-text">超参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#S-gt-S’"><span class="nav-text">S-&gt;S’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动作价值估计"><span class="nav-text">动作价值估计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验结果"><span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
