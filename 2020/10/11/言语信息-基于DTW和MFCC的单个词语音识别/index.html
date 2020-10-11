@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="google-site-verification" content="gyP_GhbxJEQwivpPOCib3krvLhc7P22o_gHoYzzRR6E">
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实验内容基于DTW算法实现单个词的语音识别 实验思路MFCC根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、即梅尔频率倒谱系数(Mel Frequency Cepstrum Coefficient, MFCC)，而MFCC的生成流程如下图所示：为了识别待识别语音，我们首先应该得到一些模版特征(template MFCC)，得到template mfcc后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="言语信息:基于DTW和MFCC的单个词语音识别">
+<meta property="og:url" content="http://hnjia00.github.io/2020/10/11/言语信息-基于DTW和MFCC的单个词语音识别/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="实验内容基于DTW算法实现单个词的语音识别 实验思路MFCC根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、即梅尔频率倒谱系数(Mel Frequency Cepstrum Coefficient, MFCC)，而MFCC的生成流程如下图所示：为了识别待识别语音，我们首先应该得到一些模版特征(template MFCC)，得到template mfcc后">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work1/mfcc.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work1/DTW.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work1/wraped.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work1/flow.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work1/data.png">
+<meta property="og:updated_time" content="2020-10-11T04:27:44.637Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="言语信息:基于DTW和MFCC的单个词语音识别">
+<meta name="twitter:description" content="实验内容基于DTW算法实现单个词的语音识别 实验思路MFCC根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、即梅尔频率倒谱系数(Mel Frequency Cepstrum Coefficient, MFCC)，而MFCC的生成流程如下图所示：为了识别待识别语音，我们首先应该得到一些模版特征(template MFCC)，得到template mfcc后">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/SLP/work1/mfcc.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2020/10/11/言语信息-基于DTW和MFCC的单个词语音识别/">
+
+
+
+
+
+  <title>言语信息:基于DTW和MFCC的单个词语音识别 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">八面玲珑</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2020/10/11/言语信息-基于DTW和MFCC的单个词语音识别/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">言语信息:基于DTW和MFCC的单个词语音识别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-10-11T10:40:36+08:00">
+                2020-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/SLP/" itemprop="url" rel="index">
+                    <span itemprop="name">SLP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  10 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="实验内容"><a href="#实验内容" class="headerlink" title="实验内容"></a>实验内容</h1><p>基于DTW算法实现单个词的语音识别</p>
+<h1 id="实验思路"><a href="#实验思路" class="headerlink" title="实验思路"></a>实验思路</h1><h2 id="MFCC"><a href="#MFCC" class="headerlink" title="MFCC"></a>MFCC</h2><p>根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、即梅尔频率倒谱系数(Mel Frequency Cepstrum Coefficient, MFCC)，而MFCC的生成流程如下图所示：<br><img src="/images/SLP/work1/mfcc.png" alt="Alt text" title="MFCC生成"><br>为了识别待识别语音，我们首先应该得到一些模版特征(template MFCC)，得到template mfcc后，对于每一条输入进来的待测试音频，将其与模版挨个匹配即可，其最终的分属类别即属于最相似的模版类属。</p>
+<h2 id="DTW"><a href="#DTW" class="headerlink" title="DTW"></a>DTW</h2><p>DTW，即Dynamic Time Warping、动态时间规整算法，为MFCC的匹配提供了一个最基础的方法，其应用思路是：对于表述同样内容的两端音频，由于说话人音色、语速的不同，从而造成了相同的音素在发音时占用着不同的时常，而这些音素在比较时又被务必分在同一类别之下，所以就有了将DTW应用至此的思路。<br>DTW的过程可表示如下：<br><img src="/images/SLP/work1/DTW.png" alt="Alt text" title="模版匹配"><br>所以现在我们需要定义上图中的<strong>wraped path</strong><br>对<strong>wraped path</strong>的定义有以下两种<br><img src="/images/SLP/work1/wraped.png" alt="Alt text" title="LEVENSHTEIN vs DTW"><br>两者的主要区别在于：Vertical match是否被允许，即是否允许跳过当前的symbol或必须匹配当前的symbol</p>
+<p>显然，DTW的求解过程是一个动态规划的思路，所以对于以上两种思路，DP过程可被分别表示如下：</p>
+<ul>
+<li><strong>LEVENSHTEIN</strong>:<br>$$<br>cost_{i,j} = dist_{i,j} + min(cost_{i,j-1}, cost_{i-1,j}, cost_{i-1,j-1})<br>\\ where \qquad cost_{0,0} = dist_{0,0}, i &gt; 1, j &gt; 1<br>$$</li>
+<li><strong>DTW</strong>:<br>$$<br>cost_{i,j} = dist_{i,j} + min(cost_{i,j-1}, cost_{i-1,j-1}, cost_{i-2,j-1})<br>\\ where \qquad cost_{0,0} = dist_{0,0}, i &gt; 2, j &gt; 1<br>$$</li>
+</ul>
+<h1 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h1><p>有了以上思路后，接下来编写程序实现上述思路：</p>
+<h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><ul>
+<li>系统：Mac OS X </li>
+<li>语言：python3.6.5</li>
+<li>requirements: <ul>
+<li>numpy</li>
+<li>scipy.io.wavfile: 用于wav数据读取</li>
+<li>python_speech_features.base: 用于生成MFCC特征</li>
+<li>matplotlib</li>
+</ul>
+</li>
+</ul>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>为了保证泛用性，这里使用面向对象的思想来实现单个词语音识别，定义为<strong>Digit_Voice_Rec</strong>类：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">__init__</td>
+<td style="text-align:center">实现类的初始化以及公共变量的赋值</td>
+</tr>
+<tr>
+<td style="text-align:center">get_input</td>
+<td style="text-align:center">读取wav文件，返回rate及Amplitude</td>
+</tr>
+<tr>
+<td style="text-align:center">get_mfcc</td>
+<td style="text-align:center">接收get_input的读入数据，返回对应的MFCC特征</td>
+</tr>
+<tr>
+<td style="text-align:center">gather_mfcc</td>
+<td style="text-align:center">整合将所有的数据集，返回总的MFCC列表</td>
+</tr>
+<tr>
+<td style="text-align:center">get_template</td>
+<td style="text-align:center">取出当前代表当前类别的模版MFCC</td>
+</tr>
+<tr>
+<td style="text-align:center">DTW</td>
+<td style="text-align:center">基于DTW的DP实现</td>
+</tr>
+<tr>
+<td style="text-align:center">LEVENSHTEIN</td>
+<td style="text-align:center">基于LEVENSHTEIN的DP实现</td>
+</tr>
+<tr>
+<td style="text-align:center">run_Voice_rec</td>
+<td style="text-align:center">测试算法的acc及表现</td>
+</tr>
+</tbody>
+</table>
+<h2 id="运行步骤"><a href="#运行步骤" class="headerlink" title="运行步骤"></a>运行步骤</h2><p>项目的运行逻辑及数据流如下图所示：<br><img src="/images/SLP/work1/flow.png" alt="Alt text" title="运行流程"></p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h2 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h2><p>本次试验的数据集来源于github上的公开资源，每个数字5条语音数据，有0～9共50条数据<br><a href="https://github.com/zhengyima/DTW_Digital_Voice_Recognition/tree/master/data_en" target="_blank" rel="noopener">英文数字语音</a><br>语谱图如图所示：<br><img src="/images/SLP/work1/data.png" alt="Alt text" title="语谱图"></p>
+<h2 id="实验结果-1"><a href="#实验结果-1" class="headerlink" title="实验结果"></a>实验结果</h2><h3 id="DTW-1"><a href="#DTW-1" class="headerlink" title="DTW"></a>DTW</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">/Library/Frameworks/Python.framework/Versions/3.6/bin/python3.6</span><br><span class="line">predict digit: 0, true label: 0</span><br><span class="line">predict digit: 0, true label: 0</span><br><span class="line">predict digit: 0, true label: 0</span><br><span class="line">predict digit: 0, true label: 0</span><br><span class="line">predict digit: 9, true label: 1</span><br><span class="line">predict digit: 1, true label: 1</span><br><span class="line">predict digit: 1, true label: 1</span><br><span class="line">predict digit: 1, true label: 1</span><br><span class="line">predict digit: 2, true label: 2</span><br><span class="line">predict digit: 2, true label: 2</span><br><span class="line">predict digit: 2, true label: 2</span><br><span class="line">predict digit: 2, true label: 2</span><br><span class="line">predict digit: 3, true label: 3</span><br><span class="line">predict digit: 3, true label: 3</span><br><span class="line">predict digit: 3, true label: 3</span><br><span class="line">predict digit: 3, true label: 3</span><br><span class="line">predict digit: 4, true label: 4</span><br><span class="line">predict digit: 4, true label: 4</span><br><span class="line">predict digit: 4, true label: 4</span><br><span class="line">predict digit: 4, true label: 4</span><br><span class="line">predict digit: 5, true label: 5</span><br><span class="line">predict digit: 5, true label: 5</span><br><span class="line">predict digit: 5, true label: 5</span><br><span class="line">predict digit: 9, true label: 5</span><br><span class="line">predict digit: 6, true label: 6</span><br><span class="line">predict digit: 6, true label: 6</span><br><span class="line">predict digit: 6, true label: 6</span><br><span class="line">predict digit: 6, true label: 6</span><br><span class="line">predict digit: 7, true label: 7</span><br><span class="line">predict digit: 7, true label: 7</span><br><span class="line">predict digit: 7, true label: 7</span><br><span class="line">predict digit: 7, true label: 7</span><br><span class="line">predict digit: 8, true label: 8</span><br><span class="line">predict digit: 8, true label: 8</span><br><span class="line">predict digit: 8, true label: 8</span><br><span class="line">predict digit: 8, true label: 8</span><br><span class="line">predict digit: 9, true label: 9</span><br><span class="line">predict digit: 9, true label: 9</span><br><span class="line">predict digit: 9, true label: 9</span><br><span class="line">predict digit: 9, true label: 9</span><br><span class="line">Acc: 0.95</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+<h2 id="LEVENSHTEIN"><a href="#LEVENSHTEIN" class="headerlink" title="LEVENSHTEIN"></a>LEVENSHTEIN</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">/Library/Frameworks/Python.framework/Versions/3.6/bin/python3.6</span><br><span class="line">predict digit: 0, true label: 0</span><br><span class="line">predict digit: 0, true label: 0</span><br><span class="line">predict digit: 0, true label: 0</span><br><span class="line">predict digit: 0, true label: 0</span><br><span class="line">predict digit: 9, true label: 1</span><br><span class="line">predict digit: 1, true label: 1</span><br><span class="line">predict digit: 1, true label: 1</span><br><span class="line">predict digit: 1, true label: 1</span><br><span class="line">predict digit: 2, true label: 2</span><br><span class="line">predict digit: 2, true label: 2</span><br><span class="line">predict digit: 2, true label: 2</span><br><span class="line">predict digit: 2, true label: 2</span><br><span class="line">predict digit: 3, true label: 3</span><br><span class="line">predict digit: 3, true label: 3</span><br><span class="line">predict digit: 3, true label: 3</span><br><span class="line">predict digit: 3, true label: 3</span><br><span class="line">predict digit: 4, true label: 4</span><br><span class="line">predict digit: 4, true label: 4</span><br><span class="line">predict digit: 4, true label: 4</span><br><span class="line">predict digit: 4, true label: 4</span><br><span class="line">predict digit: 5, true label: 5</span><br><span class="line">predict digit: 5, true label: 5</span><br><span class="line">predict digit: 5, true label: 5</span><br><span class="line">predict digit: 9, true label: 5</span><br><span class="line">predict digit: 6, true label: 6</span><br><span class="line">predict digit: 6, true label: 6</span><br><span class="line">predict digit: 6, true label: 6</span><br><span class="line">predict digit: 6, true label: 6</span><br><span class="line">predict digit: 7, true label: 7</span><br><span class="line">predict digit: 7, true label: 7</span><br><span class="line">predict digit: 7, true label: 7</span><br><span class="line">predict digit: 7, true label: 7</span><br><span class="line">predict digit: 8, true label: 8</span><br><span class="line">predict digit: 8, true label: 8</span><br><span class="line">predict digit: 8, true label: 8</span><br><span class="line">predict digit: 8, true label: 8</span><br><span class="line">predict digit: 9, true label: 9</span><br><span class="line">predict digit: 9, true label: 9</span><br><span class="line">predict digit: 9, true label: 9</span><br><span class="line">predict digit: 9, true label: 9</span><br><span class="line">Acc: 0.95</span><br></pre></td></tr></table></figure>
+<p>可以看到，在此数据集下，使用<strong>LEVENSHTEIN</strong>和<strong>DTW</strong>的区别并不大。</p>
+<h1 id="代码附录"><a href="#代码附录" class="headerlink" title="代码附录"></a>代码附录</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> scipy.io.wavfile <span class="keyword">as</span> wav</span><br><span class="line"><span class="keyword">import</span> python_speech_features.base <span class="keyword">as</span> psf</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Digit_Voice_Rec</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, digit_size=<span class="number">9</span>, example_size=<span class="number">5</span>, framerate=<span class="number">16000</span>, channels=<span class="number">1</span>, sampwidth=<span class="number">2</span>, datapath=<span class="string">'./data_en/'</span>, CHUNK= <span class="number">1024</span>, RATE=<span class="number">16000</span>, RECORD_SECONDS=<span class="number">2.5</span>)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        :param digit_size: 0～9</span></span><br><span class="line"><span class="string">        :param example_size: 每个数字的训练用例数</span></span><br><span class="line"><span class="string">        :param framerate: 采样频率 16kHz</span></span><br><span class="line"><span class="string">        :param channels: 声道数 单声道</span></span><br><span class="line"><span class="string">        :param sampwidth: 采样字节 2Bytes</span></span><br><span class="line"><span class="string">        :param datapath: 数据路径</span></span><br><span class="line"><span class="string">        :param CHUNK: 录音的块大小</span></span><br><span class="line"><span class="string">        :param RATE: 采样速率8000 or 16000</span></span><br><span class="line"><span class="string">        :param RECORD_SECONDS: 录音时长(s)</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line"></span><br><span class="line">        self.digit_size = digit_size</span><br><span class="line">        self.example_size = example_size</span><br><span class="line">        self.framerate = framerate</span><br><span class="line">        self.channels = channels</span><br><span class="line">        self.sampwidth = sampwidth</span><br><span class="line">        self.datapath = datapath</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 计数器</span></span><br><span class="line">        self.correct_cnt = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_input</span><span class="params">(self, filename, show=False)</span>:</span></span><br><span class="line">        rate, data = wav.read(filename)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> show:</span><br><span class="line">            print(filename, <span class="string">"\tfs, signal:"</span>, rate, data)</span><br><span class="line">            plt.title(filename)</span><br><span class="line">            plt.xlabel(<span class="string">"Time [s]"</span>)</span><br><span class="line">            plt.ylabel(<span class="string">"Amplitude"</span>)</span><br><span class="line">            plt.plot(np.linspace(<span class="number">0.</span>,data.shape[<span class="number">0</span>]/rate, data.shape[<span class="number">0</span>]), data, label=filename)</span><br><span class="line">            plt.show()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> rate, data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_mfcc</span><span class="params">(self, rate, data)</span>:</span></span><br><span class="line">        feature = psf.mfcc(signal=data, samplerate=rate, nfft=<span class="number">1200</span>)</span><br><span class="line">        delta_feature = psf.delta(feature, <span class="number">1</span>)</span><br><span class="line">        d_delta_feature = psf.delta(feature, <span class="number">2</span>)</span><br><span class="line">        mfcc = np.hstack((feature, delta_feature, d_delta_feature))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> mfcc</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">gather_mfcc</span><span class="params">(self)</span>:</span></span><br><span class="line">        gather = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.digit_size + <span class="number">1</span>):</span><br><span class="line">            _ = []</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(self.example_size):</span><br><span class="line">                file_name = self.datapath + str(i) + <span class="string">"-"</span> + str(j + <span class="number">1</span>) + <span class="string">".wav"</span></span><br><span class="line">                r, d = self.get_input(file_name)</span><br><span class="line">                feature = self.get_mfcc(r, d)</span><br><span class="line">                _.append(feature)</span><br><span class="line">            gather.append(_)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> gather</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_template</span><span class="params">(self, gather)</span>:</span></span><br><span class="line">        template_mfcc = []</span><br><span class="line">        <span class="comment"># 第0个充当模版</span></span><br><span class="line">        <span class="keyword">for</span> mfcc <span class="keyword">in</span> gather:</span><br><span class="line">            template_mfcc.append(mfcc[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> template_mfcc</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">DTW</span><span class="params">(self, mfcc1, mfcc2)</span>:</span></span><br><span class="line"></span><br><span class="line">        mfcc1 = np.array(mfcc1)</span><br><span class="line">        mfcc2 = np.array(mfcc2)</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">get_distance</span><span class="params">(x1, x2)</span>:</span></span><br><span class="line">            dis = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(x1.shape[<span class="number">0</span>]):</span><br><span class="line">                dis += abs(x1[i] - x2[i])</span><br><span class="line">            <span class="keyword">return</span> dis</span><br><span class="line"></span><br><span class="line">        cost = np.full((mfcc1.shape[<span class="number">0</span>], mfcc2.shape[<span class="number">0</span>]), np.inf)</span><br><span class="line">        dist = np.zeros((mfcc1.shape[<span class="number">0</span>], mfcc2.shape[<span class="number">0</span>]))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 填充(mfcc1, mfcc2)的distance数组</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(mfcc1.shape[<span class="number">0</span>]):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(mfcc2.shape[<span class="number">0</span>]):</span><br><span class="line">                dist[i][j] = get_distance(mfcc1[i], mfcc2[j])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 初始化cost</span></span><br><span class="line">        cost[<span class="number">0</span>][<span class="number">0</span>] = dist[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">        <span class="comment"># 初始化i=0行</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, mfcc2.shape[<span class="number">0</span>]):</span><br><span class="line">            cost[<span class="number">0</span>][j] = cost[<span class="number">0</span>][j<span class="number">-1</span>] + dist[<span class="number">0</span>][j]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># DWT: cost[i][j] = dist[i][j] + min(</span></span><br><span class="line">        <span class="comment">#                   cost[i][j-1],   -&gt;</span></span><br><span class="line">        <span class="comment">#                   cost[i-1][j-1], /&gt;</span></span><br><span class="line">        <span class="comment">#                   cost[i-2][j-1]  //&gt;</span></span><br><span class="line">        <span class="comment">#                   )</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, mfcc1.shape[<span class="number">0</span>]):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, mfcc2.shape[<span class="number">0</span>]):</span><br><span class="line">                cost[i][j] = dist[i][j] + min(cost[i][j<span class="number">-1</span>], cost[i<span class="number">-1</span>][j<span class="number">-1</span>], cost[i<span class="number">-2</span>][j<span class="number">-1</span>])</span><br><span class="line"></span><br><span class="line">        final_cost = cost[<span class="number">-1</span>][<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">return</span> final_cost</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">LEVENSHTEIN</span><span class="params">(self, mfcc1, mfcc2)</span>:</span></span><br><span class="line"></span><br><span class="line">        mfcc1 = np.array(mfcc1)</span><br><span class="line">        mfcc2 = np.array(mfcc2)</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">get_distance</span><span class="params">(x1, x2)</span>:</span></span><br><span class="line">            dis = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(x1.shape[<span class="number">0</span>]):</span><br><span class="line">                dis += abs(x1[i] - x2[i])</span><br><span class="line">            <span class="keyword">return</span> dis</span><br><span class="line"></span><br><span class="line">        cost = np.zeros((mfcc1.shape[<span class="number">0</span>], mfcc2.shape[<span class="number">0</span>]))</span><br><span class="line">        dist = np.zeros((mfcc1.shape[<span class="number">0</span>], mfcc2.shape[<span class="number">0</span>]))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 填充(mfcc1, mfcc2)的distance数组</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(mfcc1.shape[<span class="number">0</span>]):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(mfcc2.shape[<span class="number">0</span>]):</span><br><span class="line">                dist[i][j] = get_distance(mfcc1[i], mfcc2[j])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 初始化cost</span></span><br><span class="line">        cost[<span class="number">0</span>][<span class="number">0</span>] = dist[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">        <span class="comment"># 初始化i=0行</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, mfcc1.shape[<span class="number">0</span>]):</span><br><span class="line">            cost[i][<span class="number">0</span>] = cost[i - <span class="number">1</span>][<span class="number">0</span>] + dist[i][<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, mfcc2.shape[<span class="number">0</span>]):</span><br><span class="line">            cost[<span class="number">0</span>][j] = cost[<span class="number">0</span>][j - <span class="number">1</span>] + dist[<span class="number">0</span>][j]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># DWT: cost[i][j] = dist[i][j] + min(</span></span><br><span class="line">        <span class="comment">#                   cost[i][j-1],   -&gt;</span></span><br><span class="line">        <span class="comment">#                   cost[i-1][j], |&gt;</span></span><br><span class="line">        <span class="comment">#                   cost[i-1][j-1]  /&gt;</span></span><br><span class="line">        <span class="comment">#                   )</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, mfcc1.shape[<span class="number">0</span>]):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, mfcc2.shape[<span class="number">0</span>]):</span><br><span class="line">                cost[i][j] = dist[i][j] + min(cost[i][j<span class="number">-1</span>], cost[i<span class="number">-1</span>][j], cost[i<span class="number">-1</span>][j<span class="number">-1</span>])</span><br><span class="line"></span><br><span class="line">        final_cost = cost[<span class="number">-1</span>][<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">return</span> final_cost</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run_Voice_rec</span><span class="params">(self)</span>:</span></span><br><span class="line">        gather_mfcc = self.gather_mfcc()</span><br><span class="line">        template_mfcc = self.get_template(gather_mfcc)</span><br><span class="line">        test_mfcc = [mfcc <span class="keyword">for</span> mfcc_i <span class="keyword">in</span> gather_mfcc <span class="keyword">for</span> mfcc <span class="keyword">in</span> mfcc_i[<span class="number">1</span>:]]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(test_mfcc)):</span><br><span class="line">            <span class="comment"># 与所有模版匹配，寻找最小的cost</span></span><br><span class="line">            cost = [self.LEVENSHTEIN(template, test_mfcc[i]) <span class="keyword">for</span> template <span class="keyword">in</span> template_mfcc]</span><br><span class="line">            <span class="comment"># print(cost)</span></span><br><span class="line">            pred_digit = np.argmin(np.array(cost))</span><br><span class="line">            true_digit = int(i/(self.example_size<span class="number">-1</span>))</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> pred_digit == true_digit:</span><br><span class="line">                self.correct_cnt += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">            print(<span class="string">"predict digit: %d, true label: %d"</span>%(pred_digit, true_digit))</span><br><span class="line"></span><br><span class="line">        print(<span class="string">"Acc: %.2f"</span>%(self.correct_cnt/len(test_mfcc)))</span><br><span class="line"></span><br><span class="line">DVR = Digit_Voice_Rec()</span><br><span class="line">DVR.run_Voice_rec()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/03/Hadoop-倒排索引/" rel="next" title="Hadoop:倒排索引">
+                <i class="fa fa-chevron-left"></i> Hadoop:倒排索引
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验内容"><span class="nav-text">实验内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验思路"><span class="nav-text">实验思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MFCC"><span class="nav-text">MFCC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DTW"><span class="nav-text">DTW</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验过程"><span class="nav-text">实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验环境"><span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目结构"><span class="nav-text">项目结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行步骤"><span class="nav-text">运行步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验结果"><span class="nav-text">实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集"><span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验结果-1"><span class="nav-text">实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DTW-1"><span class="nav-text">DTW</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LEVENSHTEIN"><span class="nav-text">LEVENSHTEIN</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码附录"><span class="nav-text">代码附录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

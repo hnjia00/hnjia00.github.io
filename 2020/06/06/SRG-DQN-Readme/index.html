@@ -83,17 +83,17 @@
 
 
 
-<meta name="description" content="SRG-DQN: Stochastic Recursive Gradient for Deep Q-LearningResultsWe did the average step reward experiment in the MountainCar and Pendulum tasks, and the average episode reward experiment in the CartP">
+<meta name="description" content="Variance Reduction for Deep Q-Learning using Stochastic Recursive GradientDependenciesThe following dependencies are required：1234gym==0.17.1matplotlib==3.0.3numpy==1.18.3tensorflow==1.15.0 These depe">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SRG-DQN:Readme">
 <meta property="og:url" content="http://hnjia00.github.io/2020/06/06/SRG-DQN-Readme/index.html">
 <meta property="og:site_name" content="Haonan_Jia blogs">
-<meta property="og:description" content="SRG-DQN: Stochastic Recursive Gradient for Deep Q-LearningResultsWe did the average step reward experiment in the MountainCar and Pendulum tasks, and the average episode reward experiment in the CartP">
+<meta property="og:description" content="Variance Reduction for Deep Q-Learning using Stochastic Recursive GradientDependenciesThe following dependencies are required：1234gym==0.17.1matplotlib==3.0.3numpy==1.18.3tensorflow==1.15.0 These depe">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-06-06T10:43:52.837Z">
+<meta property="og:updated_time" content="2020-06-07T10:36:47.288Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SRG-DQN:Readme">
-<meta name="twitter:description" content="SRG-DQN: Stochastic Recursive Gradient for Deep Q-LearningResultsWe did the average step reward experiment in the MountainCar and Pendulum tasks, and the average episode reward experiment in the CartP">
+<meta name="twitter:description" content="Variance Reduction for Deep Q-Learning using Stochastic Recursive GradientDependenciesThe following dependencies are required：1234gym==0.17.1matplotlib==3.0.3numpy==1.18.3tensorflow==1.15.0 These depe">
 
 
 
@@ -345,7 +345,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  313 字
+                  361 字
                 </span>
               
 
@@ -361,7 +361,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1 min
+                  2 min
                 </span>
               
             </div>
@@ -382,7 +382,20 @@
       
 
       
-        <h1 id="SRG-DQN-Stochastic-Recursive-Gradient-for-Deep-Q-Learning"><a href="#SRG-DQN-Stochastic-Recursive-Gradient-for-Deep-Q-Learning" class="headerlink" title="SRG-DQN: Stochastic Recursive Gradient for Deep Q-Learning"></a>SRG-DQN: Stochastic Recursive Gradient for Deep Q-Learning</h1><h2 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h2><p>We did the average step reward experiment in the MountainCar and Pendulum tasks, and the average episode reward experiment in the CartPole task. And in order to ensure the reliability of the experiment, we conducted multiple rounds of repeated experiments under the same experimental parameters. Due to the ε-greedy strategy, the results of some experiments may not be accurately reproduced. The following table lists some experimental results based on SRG-DQN:</p>
+        <h1 id="Variance-Reduction-for-Deep-Q-Learning-using-Stochastic-Recursive-Gradient"><a href="#Variance-Reduction-for-Deep-Q-Learning-using-Stochastic-Recursive-Gradient" class="headerlink" title="Variance Reduction for Deep Q-Learning using Stochastic Recursive Gradient"></a>Variance Reduction for Deep Q-Learning using Stochastic Recursive Gradient</h1><h2 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h2><p>The following dependencies are required：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gym==0.17.1</span><br><span class="line">matplotlib==3.0.3</span><br><span class="line">numpy==1.18.3</span><br><span class="line">tensorflow==1.15.0</span><br></pre></td></tr></table></figure></p>
+<p>These dependencies can be installed via <code>pip</code> or <code>virtualenv</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure></p>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><p>Our three tasks are in three folders, for example, the <code>MountainCar</code> task corresponds to the <code>SRG-DQN-mountaincar</code> folder. In the MountainCar task, the main body of DQN is integrated into the main code <code>dqn_main.py</code>. In the remaining two tasks, the main body of DQN is separated into <code>RL_brain.py</code>.</p>
+<h3 id="MountainCar"><a href="#MountainCar" class="headerlink" title="MountainCar"></a>MountainCar</h3><p>In the mountaincar task, you can run the model with the following command:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dqn_main.py</span><br></pre></td></tr></table></figure></p>
+<p>In the ‘<strong>main</strong>’ part of <code>dqn_main.py</code>, you can choose to run the model in step or episode mode, or you can choose to implement the SVRG (SVR-DQN) or SARAH (SRG-DQN) variance optimizer.</p>
+<p>In addition, you can use these command to run fixed anchor point and anchor distance experiments:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dqn_svrg_fixedData.py</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 distance_anchor_point</span><br></pre></td></tr></table></figure>
+<h3 id="Pendulum"><a href="#Pendulum" class="headerlink" title="Pendulum"></a>Pendulum</h3><p>In the pendulum task, you can run the model with the following command:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 run_Pendulum.py</span><br></pre></td></tr></table></figure></p>
+<p>You can choose to use SVRG (SVR-DQN) or SARAH (SRG-DQN) as the variance optimizer in the optimizer property of the DQN object in <code>run_Pendulum.py</code>.</p>
+<h3 id="CartPole"><a href="#CartPole" class="headerlink" title="CartPole"></a>CartPole</h3><p>In the cartpole task, you can run the model with the following command:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 run_CartPole.py</span><br></pre></td></tr></table></figure></p>
+<p>You can choose to use SVRG (SVR-DQN) or SARAH (SRG-DQN) as the variance optimizer in the optimizer property of the DQN object in <code>run_CartPole.py</code>.</p>
+<h2 id="Hyperparameters"><a href="#Hyperparameters" class="headerlink" title="Hyperparameters"></a>Hyperparameters</h2><p>You can find the details of the experimental settings in <code>Sup-SRG-DQN-NIPS.pdf</code>.</p>
+<h2 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h2><p>We did the average step reward experiment in the MountainCar and Pendulum tasks, and the average episode reward experiment in the CartPole task. And in order to ensure the reliability of the experiment, we conducted multiple rounds of repeated experiments under the same experimental parameters. Due to the ε-greedy strategy, the results of some experiments may not be accurately reproduced. The following table lists some experimental results based on SRG-DQN:</p>
 <table>
 <thead>
 <tr>
@@ -394,31 +407,21 @@
 <tbody>
 <tr>
 <td style="text-align:center">MountainCar</td>
-<td style="text-align:center">100,000 step</td>
+<td style="text-align:center">100,000 steps</td>
 <td style="text-align:center">0.280</td>
 </tr>
 <tr>
 <td style="text-align:center">Pendulum</td>
-<td style="text-align:center">20,000 step</td>
+<td style="text-align:center">20,000 steps</td>
 <td style="text-align:center">-0.328</td>
 </tr>
 <tr>
 <td style="text-align:center">CartPole</td>
-<td style="text-align:center">800 episode</td>
+<td style="text-align:center">800 episodes</td>
 <td style="text-align:center">61.707</td>
 </tr>
 </tbody>
 </table>
-<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><p>Our three tasks are in three folders, for example, the <code>MountainCar</code> task corresponds to the <code>SRG-DQN-mountaincar</code> folder. In the MountainCar task, the main body of DQN is integrated into the main code <code>dqn_main.py</code>. In the remaining two tasks, the main body of DQN is separated into <code>RL_brain.py</code>.</p>
-<h3 id="MountainCar"><a href="#MountainCar" class="headerlink" title="MountainCar"></a>MountainCar</h3><p>In the mountaincar task, you can run the model with the following command:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dqn_main.py</span><br></pre></td></tr></table></figure></p>
-<p>In the ‘<strong>main</strong>’ part of <code>dqn_main.py</code>, you can choose to run the model in step or episode mode, or you can choose to implement the SVRG (SVR-DQN) or SARAH (SRG-DQN) variance optimizer.</p>
-<p>In addition, you can use these command to run fixed anchor point and anchor distance experiments:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dqn_svrg_fixedData.py</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 distance_anchor_point</span><br></pre></td></tr></table></figure>
-<h3 id="Pendulum"><a href="#Pendulum" class="headerlink" title="Pendulum"></a>Pendulum</h3><p>In the pendulum task, you can run the model with the following command:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 run_Pendulum.py</span><br></pre></td></tr></table></figure></p>
-<p>You can choose to use SVRG (SVR-DQN) or SARAH (SRG-DQN) as the variance optimizer in the optimizer property of the DQN object in <code>run_Pendulum.py</code>.</p>
-<h3 id="CartPole"><a href="#CartPole" class="headerlink" title="CartPole"></a>CartPole</h3><p>In the cartpole task, you can run the model with the following command:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 run_CartPole.py</span><br></pre></td></tr></table></figure></p>
-<p>You can choose to use SVRG (SVR-DQN) or SARAH (SRG-DQN) as the variance optimizer in the optimizer property of the DQN object in <code>run_CartPole.py</code>.</p>
 
       
     </div>
@@ -481,6 +484,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/10/03/Hadoop-倒排索引/" rel="prev" title="Hadoop:倒排索引">
+                Hadoop:倒排索引 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -565,7 +572,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -576,7 +583,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -641,7 +648,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SRG-DQN-Stochastic-Recursive-Gradient-for-Deep-Q-Learning"><span class="nav-text">SRG-DQN: Stochastic Recursive Gradient for Deep Q-Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Results"><span class="nav-text">Results</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Usage"><span class="nav-text">Usage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MountainCar"><span class="nav-text">MountainCar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pendulum"><span class="nav-text">Pendulum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CartPole"><span class="nav-text">CartPole</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Variance-Reduction-for-Deep-Q-Learning-using-Stochastic-Recursive-Gradient"><span class="nav-text">Variance Reduction for Deep Q-Learning using Stochastic Recursive Gradient</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dependencies"><span class="nav-text">Dependencies</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Usage"><span class="nav-text">Usage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MountainCar"><span class="nav-text">MountainCar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pendulum"><span class="nav-text">Pendulum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CartPole"><span class="nav-text">CartPole</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hyperparameters"><span class="nav-text">Hyperparameters</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Results"><span class="nav-text">Results</span></a></li></ol></li></ol></div>
             
 
           </div>
