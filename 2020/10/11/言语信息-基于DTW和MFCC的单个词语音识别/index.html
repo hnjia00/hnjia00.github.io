@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://hnjia00.github.io/images/SLP/work1/wraped.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/SLP/work1/flow.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/SLP/work1/data.png">
-<meta property="og:updated_time" content="2020-10-11T04:27:44.637Z">
+<meta property="og:updated_time" content="2020-10-11T04:32:17.432Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="言语信息:基于DTW和MFCC的单个词语音识别">
 <meta name="twitter:description" content="实验内容基于DTW算法实现单个词的语音识别 实验思路MFCC根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、即梅尔频率倒谱系数(Mel Frequency Cepstrum Coefficient, MFCC)，而MFCC的生成流程如下图所示：为了识别待识别语音，我们首先应该得到一些模版特征(template MFCC)，得到template mfcc后">
@@ -415,8 +415,8 @@
 <h2 id="DTW"><a href="#DTW" class="headerlink" title="DTW"></a>DTW</h2><p>DTW，即Dynamic Time Warping、动态时间规整算法，为MFCC的匹配提供了一个最基础的方法，其应用思路是：对于表述同样内容的两端音频，由于说话人音色、语速的不同，从而造成了相同的音素在发音时占用着不同的时常，而这些音素在比较时又被务必分在同一类别之下，所以就有了将DTW应用至此的思路。<br>DTW的过程可表示如下：<br><img src="/images/SLP/work1/DTW.png" alt="Alt text" title="模版匹配"><br>所以现在我们需要定义上图中的<strong>wraped path</strong><br>对<strong>wraped path</strong>的定义有以下两种<br><img src="/images/SLP/work1/wraped.png" alt="Alt text" title="LEVENSHTEIN vs DTW"><br>两者的主要区别在于：Vertical match是否被允许，即是否允许跳过当前的symbol或必须匹配当前的symbol</p>
 <p>显然，DTW的求解过程是一个动态规划的思路，所以对于以上两种思路，DP过程可被分别表示如下：</p>
 <ul>
-<li><strong>LEVENSHTEIN</strong>:<br>$$<br>cost_{i,j} = dist_{i,j} + min(cost_{i,j-1}, cost_{i-1,j}, cost_{i-1,j-1})<br>\\ where \qquad cost_{0,0} = dist_{0,0}, i &gt; 1, j &gt; 1<br>$$</li>
-<li><strong>DTW</strong>:<br>$$<br>cost_{i,j} = dist_{i,j} + min(cost_{i,j-1}, cost_{i-1,j-1}, cost_{i-2,j-1})<br>\\ where \qquad cost_{0,0} = dist_{0,0}, i &gt; 2, j &gt; 1<br>$$</li>
+<li><strong>LEVENSHTEIN</strong>:<br>$$<br>cost_{i,j} = dist_{i,j} + min(cost_{i,j-1}, cost_{i-1,j}, cost_{i-1,j-1})<br>\\ where \qquad cost_{0,0} = dist_{0,0}, i &gt; 0, j &gt; 0<br>$$</li>
+<li><strong>DTW</strong>:<br>$$<br>cost_{i,j} = dist_{i,j} + min(cost_{i,j-1}, cost_{i-1,j-1}, cost_{i-2,j-1})<br>\\ where \qquad cost_{0,0} = dist_{0,0}, i &gt; 1, j &gt; 0<br>$$</li>
 </ul>
 <h1 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h1><p>有了以上思路后，接下来编写程序实现上述思路：</p>
 <h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><ul>
