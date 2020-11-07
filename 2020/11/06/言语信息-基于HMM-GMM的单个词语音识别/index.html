@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="google-site-verification" content="gyP_GhbxJEQwivpPOCib3krvLhc7P22o_gHoYzzRR6E">
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实验内容基于有标签的数字语音数据集，通过GMM+HMM模型完成单个词语音识别的分类任务。 实验思路基于GMM+HMM的语音识别框架可以简述为下图的过程：其可以被大致分割为特征提取、GMM和HMM三部分，下面就这三部分一一展开叙述。 特征提取对单个词进行语音识别，仍然需要首先提取待分类语音段的MFCC特征。 根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="言语信息:基于HMM+GMM的单个词语音识别">
+<meta property="og:url" content="http://hnjia00.github.io/2020/11/06/言语信息-基于HMM-GMM的单个词语音识别/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="实验内容基于有标签的数字语音数据集，通过GMM+HMM模型完成单个词语音识别的分类任务。 实验思路基于GMM+HMM的语音识别框架可以简述为下图的过程：其可以被大致分割为特征提取、GMM和HMM三部分，下面就这三部分一一展开叙述。 特征提取对单个词进行语音识别，仍然需要首先提取待分类语音段的MFCC特征。 根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/model.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work1/mfcc.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/forward.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/viterbi.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/em.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/flow.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/re.png">
+<meta property="og:updated_time" content="2020-11-07T08:15:03.650Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="言语信息:基于HMM+GMM的单个词语音识别">
+<meta name="twitter:description" content="实验内容基于有标签的数字语音数据集，通过GMM+HMM模型完成单个词语音识别的分类任务。 实验思路基于GMM+HMM的语音识别框架可以简述为下图的过程：其可以被大致分割为特征提取、GMM和HMM三部分，下面就这三部分一一展开叙述。 特征提取对单个词进行语音识别，仍然需要首先提取待分类语音段的MFCC特征。 根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、">
+<meta name="twitter:image" content="http://hnjia00.github.io/images/SLP/work2/model.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2020/11/06/言语信息-基于HMM-GMM的单个词语音识别/">
+
+
+
+
+
+  <title>言语信息:基于HMM+GMM的单个词语音识别 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">八面玲珑</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2020/11/06/言语信息-基于HMM-GMM的单个词语音识别/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">言语信息:基于HMM+GMM的单个词语音识别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-11-06T20:44:51+08:00">
+                2020-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/SLP/" itemprop="url" rel="index">
+                    <span itemprop="name">SLP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  7 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="实验内容"><a href="#实验内容" class="headerlink" title="实验内容"></a>实验内容</h1><p>基于有标签的数字语音数据集，通过GMM+HMM模型完成单个词语音识别的分类任务。</p>
+<h1 id="实验思路"><a href="#实验思路" class="headerlink" title="实验思路"></a>实验思路</h1><p>基于GMM+HMM的语音识别框架可以简述为下图的过程：<br><img src="/images/SLP/work2/model.png" alt="Alt text" title="GMM+HMM[1]"><br>其可以被大致分割为<strong>特征提取</strong>、<strong>GMM</strong>和<strong>HMM</strong>三部分，下面就这三部分一一展开叙述。</p>
+<h2 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h2><p>对单个词进行语音识别，仍然需要首先提取待分类语音段的MFCC特征。</p>
+<p>根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、即梅尔频率倒谱系数(Mel Frequency Cepstrum Coefficient, MFCC)，而MFCC的生成流程如下图所示：<br><img src="/images/SLP/work1/mfcc.png" alt="Alt text" title="MFCC生成"></p>
+<p>简而言之，要获得一段语音信号的MFCC：</p>
+<ul>
+<li>首先需要对输入的信号进行欲加重(Pre-Emphasis)以凸显高频段的共振峰；</li>
+<li>其次对语音信号进行分帧和加hamming或hanning窗(Window)，从而使每帧信号两端衰减至接近0；</li>
+<li>再通过快速傅立叶变换(FFT)将时域信号转换到频域，得到语音信号的能量分布；</li>
+<li>之后将能量谱通过梅尔尺度的三角形滤波器组对频谱进行了平滑化(Mel-Filter Bank)，以得到符合人耳听觉习惯的声谱，通常取对数(log)将单位转化为db；</li>
+<li>经离散余弦变换(DCT)后最终得到梅尔倒谱系数，即MFCC，通常为13维信号，一般会加上其一阶微分(delta)和二阶微分(delta-delta)信号共同组成39微特征作为最终的MFCC组成</li>
+</ul>
+<h2 id="GMM-HMM"><a href="#GMM-HMM" class="headerlink" title="GMM + HMM"></a>GMM + HMM</h2><p>在获得语音信号的MFCC特征后，接下来需要完成：将帧识别为状态、把状态组合成音素、把音素组合成单词三步骤。</p>
+<p>关于基于音素的声学模型，这里引用一段说明[2]：</p>
+<blockquote>
+<p>“HMM是对语音信号的时间序列结构建立统计模型，将其看作一个数学上的双重随机过程:一个是用具有有限状态数的Markov链来模拟语音信号统计特性变化的隐含（马尔可夫模型的内部状态外界不可见）的随机过程，另一个是与Markov链的每一个状态相关联的外界可见的观测序列（通常就是从各个帧计算而得的声学特征）的随机过程。”在单词词典（lexicon）中，根据每个单词的发音过程，以音素作为隐藏节点，音素的变化过程构成了HMM状态序列。每一个音素以一定的概率密度函数生成观测向量（即MFCC特征向量）。在GMM-HMM中，用高斯混合函数去拟合这样的概率密度函数。</p>
+</blockquote>
+<p>简而言之，GMM即为多个高斯分布的叠加，而HMM则是具有隐藏节点和可见节点的马尔可夫过程，音素在马尔可夫状态转移过程中涉及到的从属概率和转移概率问题可以通过GMM来解决，如此二者便结合为了GMM+HMM模型。</p>
+<p>在GMM+HMM模型中，HMM需要解决的有三个问题：</p>
+<ul>
+<li>Likelihood：一个HMM生成一串observation序列x的概率（the Forward algorithm）<br><img src="/images/SLP/work2/forward.png" alt="Alt text" title="Forward"></li>
+<li>Decoding：给定一串observation序列x，找出最可能从属的HMM状态序列（the Viterbi algorithm）<br><img src="/images/SLP/work2/viterbi.png" alt="Alt text" title="Viterbi"></li>
+<li>Training：给定一个observation序列x，训练出HMM参数（the EM algorithm）<br><img src="/images/SLP/work2/em.png" alt="Alt text" title="EM"></li>
+</ul>
+<p>GMM需要完成如下的功能：</p>
+<ul>
+<li>对于每个帧，得到其属于每个状态的概率</li>
+<li>在给定input sequence的情况下，计算出一系列状态转移的概率</li>
+</ul>
+<h1 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h1><h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><ul>
+<li>系统：Mac OS X </li>
+<li>语言：python3.6.5</li>
+<li>requirements: <ul>
+<li>numpy</li>
+<li>scipy.io.wavfile: 用于wav数据读取</li>
+<li>python_speech_features: 用于生成MFCC特征</li>
+<li>hmmlearn: 调用GMMHMM模型</li>
+<li>sklearn.externals: 存储、加载模型</li>
+</ul>
+</li>
+</ul>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>本工程主要有三大主体部分：</p>
+<ul>
+<li>数据集的加载及分割<ul>
+<li>通过<code>generate_wav_label(wavpath)</code>函数来实现数据集的加载，主要通过<code>os.walk(wavpath)</code>遍历<code>wavpath</code>的下层文件并依次收集。</li>
+<li>通过<code>split_dataset(wavdict, labeldict)</code>函数将数据集分割为训练集<code>wavdict_train, labeldict_train</code>和测试集<code>wavdict_test, labeldict_test</code></li>
+</ul>
+</li>
+<li>MFCC特征获取<ul>
+<li>通过<code>python_speech_features</code>的<code>mfcc</code>函数实现特征的获取，这里选取<code>mfcc,d_mfcc,d2_mfcc</code>组合为39维的MFCC特征</li>
+</ul>
+</li>
+<li>GMMHMM模型构建<ul>
+<li>考虑到效率问题，这里使用<code>hmmlearn.hmm.GMMHMM</code>来构建我们需要的模型，其中解码算法选择<code>viterbi</code>，初始化参数使用默认的<code>kmeans</code>产生</li>
+<li>对于0～9的十分类问题，需要分别为每个数字构建起对应的<code>GMMHMM</code>模型，即需要分别构造10个模型来实现十分类需求</li>
+</ul>
+</li>
+</ul>
+<h2 id="运行步骤"><a href="#运行步骤" class="headerlink" title="运行步骤"></a>运行步骤</h2><p>项目的整体数据流图如下所示：<br><img src="/images/SLP/work2/flow.png" alt="Alt text" title="Data flow"></p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h2 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h2><p>本次实验的数据集来源于助教提供的中英文0～9语音，其中英文数据包括0～9的各20条实例，共计200条数据。</p>
+<h2 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h2><p>可以看到，对于随机选中的10条英文测试数据，模型可以成功识别出5条，acc为50%：<br><img src="/images/SLP/work2/re.png" alt="Alt text" title="运行结果"></p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a href="https://www.jianshu.com/p/16fc3712fdf6" target="_blank" rel="noopener">传统语音识别（GMM+HMM）</a><br>[2] <a href="https://www.cnblogs.com/thefirstfeeling/p/5614420.html" target="_blank" rel="noopener">GMM+HMM学习笔记</a></p>
+<h1 id="代码附录"><a href="#代码附录" class="headerlink" title="代码附录"></a>代码附录</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> python_speech_features <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> scipy.io <span class="keyword">import</span> wavfile</span><br><span class="line"><span class="keyword">from</span> hmmlearn <span class="keyword">import</span> hmm</span><br><span class="line"><span class="keyword">from</span> sklearn.externals <span class="keyword">import</span> joblib</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">"ignore"</span>)</span><br><span class="line"></span><br><span class="line">np.random.seed(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_wav_label</span><span class="params">(wavpath)</span>:</span></span><br><span class="line">    wavdict = &#123;&#125;</span><br><span class="line">    labeldict = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> (dirpath, dirnames, filenames) <span class="keyword">in</span> os.walk(wavpath):</span><br><span class="line">        <span class="comment"># print(dirpath,dirnames,filenames)</span></span><br><span class="line">        <span class="keyword">for</span> filename <span class="keyword">in</span> filenames:</span><br><span class="line">            <span class="keyword">if</span> filename.endswith(<span class="string">'.wav'</span>):</span><br><span class="line">                filepath = os.sep.join([dirpath, filename])</span><br><span class="line">                fileid = filepath</span><br><span class="line">                wavdict[fileid] = filepath</span><br><span class="line"></span><br><span class="line">                label = <span class="string">''</span></span><br><span class="line">                language = wavpath.split(<span class="string">'_'</span>)[<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">if</span> language == <span class="string">'en'</span>:</span><br><span class="line">                    label = filepath.split(<span class="string">'_'</span>)[<span class="number">-1</span>].split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">                <span class="keyword">if</span> language == <span class="string">'ch'</span>:</span><br><span class="line">                    label = filepath.split(<span class="string">'/'</span>)[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">                labeldict[fileid] = label</span><br><span class="line">    <span class="keyword">return</span> wavdict, labeldict</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute_mfcc</span><span class="params">(file)</span>:</span></span><br><span class="line">    fs, audio = wavfile.read(file)</span><br><span class="line">    mfcc_feat = mfcc(audio, samplerate=fs, numcep=<span class="number">13</span>, winlen=<span class="number">0.025</span>, winstep=<span class="number">0.01</span>, nfilt=<span class="number">26</span>, nfft=<span class="number">2048</span>, lowfreq=<span class="number">0</span>,</span><br><span class="line">                     highfreq=<span class="keyword">None</span>, preemph=<span class="number">0.97</span>)</span><br><span class="line">    d_mfcc_feat = delta(mfcc_feat, <span class="number">1</span>)</span><br><span class="line">    d_mfcc_feat2 = delta(mfcc_feat, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    feature_mfcc = np.hstack((mfcc_feat, d_mfcc_feat, d_mfcc_feat2))</span><br><span class="line">    <span class="keyword">return</span> feature_mfcc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Model</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, CATEGORY=[<span class="string">'0'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>, <span class="string">'7'</span>, <span class="string">'8'</span>, <span class="string">'9'</span>], n_comp=<span class="number">1</span>, n_mix=<span class="number">1</span>, cov_type=<span class="string">'full'</span>)</span>:</span></span><br><span class="line">        super(Model, self).__init__()</span><br><span class="line">        <span class="comment"># print(CATEGORY)</span></span><br><span class="line">        self.CATEGORY = CATEGORY</span><br><span class="line">        self.category = len(CATEGORY)</span><br><span class="line">        self.n_comp = n_comp</span><br><span class="line">        self.n_mix = n_mix</span><br><span class="line">        self.cov_type = cov_type</span><br><span class="line"></span><br><span class="line">        self.models = []</span><br><span class="line">        <span class="comment"># self.n_mix = [4, 3, 2, 3, 2, 3, 4, 4, 2, 3]</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(self.category):</span><br><span class="line">            <span class="comment"># print(k)</span></span><br><span class="line">            model = hmm.GMMHMM(n_components=self.n_comp, n_mix=self.n_mix, covariance_type=self.cov_type)</span><br><span class="line">            self.models.append(model)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 模型训练</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(self, wavdict=None, labeldict=None)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(self.category):</span><br><span class="line">            model = self.models[k]</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> wavdict:</span><br><span class="line">                <span class="keyword">if</span> labeldict[x] == self.CATEGORY[k]:</span><br><span class="line">                    print(<span class="string">'k='</span>, k, wavdict[x])</span><br><span class="line">                    mfcc_feat = compute_mfcc(wavdict[x])</span><br><span class="line">                    model.fit(mfcc_feat)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 测试模型</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(self, filepath)</span>:</span></span><br><span class="line">        result = []</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(self.category):</span><br><span class="line">            model = self.models[k]</span><br><span class="line">            mfcc_feat = compute_mfcc(filepath)</span><br><span class="line">            re = model.score(mfcc_feat)</span><br><span class="line">            result.append(re)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 选取得分最高的标签</span></span><br><span class="line">        result = np.argmax(np.array(result))</span><br><span class="line">        result = self.CATEGORY[result]</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save</span><span class="params">(self, path=<span class="string">"models.pkl"</span>)</span>:</span></span><br><span class="line">        joblib.dump(self.models, path)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(self, path=<span class="string">"models.pkl"</span>)</span>:</span></span><br><span class="line">        self.models = joblib.load(path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成test_size个测试用例</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">split_dataset</span><span class="params">(wavdict, labeldict, test_size=<span class="number">10</span>)</span>:</span></span><br><span class="line">    nums = len(labeldict)</span><br><span class="line">    shuf_arr = np.arange(nums)</span><br><span class="line">    <span class="comment"># print(shuf_arr)</span></span><br><span class="line">    np.random.shuffle(shuf_arr)</span><br><span class="line">    <span class="comment"># print(shuf_arr)</span></span><br><span class="line">    labelarr = []</span><br><span class="line">    <span class="keyword">for</span> l <span class="keyword">in</span> labeldict:</span><br><span class="line">        labelarr.append(l)</span><br><span class="line">    wavdict_test = &#123;&#125;</span><br><span class="line">    labeldict_test = &#123;&#125;</span><br><span class="line">    wavdict_train = &#123;&#125;</span><br><span class="line">    labeldict_train = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(test_size):</span><br><span class="line">        wavdict_test[labelarr[shuf_arr[i]]] = wavdict[labelarr[shuf_arr[i]]]</span><br><span class="line">        labeldict_test[labelarr[shuf_arr[i]]] = labeldict[labelarr[shuf_arr[i]]]</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> labeldict:</span><br><span class="line">        <span class="keyword">if</span> k <span class="keyword">not</span> <span class="keyword">in</span> labeldict_test:</span><br><span class="line">            wavdict_train[k] = wavdict[k]</span><br><span class="line">            labeldict_train[k] = labeldict[k]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wavdict_train, labeldict_train, wavdict_test, labeldict_test</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    dataset = <span class="string">"data_en_train"</span></span><br><span class="line">    wavdict, labeldict = generate_wav_label(dataset)</span><br><span class="line">    wavdict_train, labeldict_train, wavdict_test, labeldict_test = split_dataset(wavdict, labeldict)</span><br><span class="line"></span><br><span class="line">    models = Model()</span><br><span class="line">    <span class="comment"># print("GMMHMM train:", dataset)</span></span><br><span class="line">    <span class="comment"># models.train(wavdict=wavdict_train, labeldict=labeldict_train)</span></span><br><span class="line">    <span class="comment"># models.save()</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"GMMHMM test:"</span>, dataset)</span><br><span class="line">    models.load()</span><br><span class="line"></span><br><span class="line">    TP = <span class="number">0</span></span><br><span class="line">    FP = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> wavdict_test:</span><br><span class="line">        wav_path = wavdict_test[k]</span><br><span class="line">        res = models.test(wav_path)[<span class="number">0</span>]</span><br><span class="line">        print(wavdict_test[k], res, labeldict_test[k])</span><br><span class="line">        <span class="keyword">if</span> res == labeldict_test[k]:</span><br><span class="line">            TP += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            FP += <span class="number">1</span></span><br><span class="line">    print(<span class="string">'TP:'</span>, TP)</span><br><span class="line">    print(<span class="string">'FP:'</span>, FP)</span><br><span class="line">    print(<span class="string">'Acc:'</span>, TP / (TP + FP))</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/11/言语信息-基于DTW和MFCC的单个词语音识别/" rel="next" title="言语信息:基于DTW和MFCC的单个词语音识别">
+                <i class="fa fa-chevron-left"></i> 言语信息:基于DTW和MFCC的单个词语音识别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验内容"><span class="nav-text">实验内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验思路"><span class="nav-text">实验思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特征提取"><span class="nav-text">特征提取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GMM-HMM"><span class="nav-text">GMM + HMM</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验过程"><span class="nav-text">实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验环境"><span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目结构"><span class="nav-text">项目结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行步骤"><span class="nav-text">运行步骤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验结果"><span class="nav-text">实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集"><span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行结果"><span class="nav-text">运行结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码附录"><span class="nav-text">代码附录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
