@@ -91,13 +91,13 @@
 <meta property="og:description" content="实验内容基于有标签的数字语音数据集，通过GMM+HMM模型完成单个词语音识别的分类任务。 实验思路基于GMM+HMM的语音识别框架可以简述为下图的过程：其可以被大致分割为特征提取、GMM和HMM三部分，下面就这三部分一一展开叙述。 特征提取对单个词进行语音识别，仍然需要首先提取待分类语音段的MFCC特征。 根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/model.png">
-<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work1/mfcc.png">
+<meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/mfcc.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/forward.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/viterbi.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/em.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/flow.png">
 <meta property="og:image" content="http://hnjia00.github.io/images/SLP/work2/re.png">
-<meta property="og:updated_time" content="2020-11-07T08:15:03.650Z">
+<meta property="og:updated_time" content="2020-11-07T08:31:57.432Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="言语信息:基于HMM+GMM的单个词语音识别">
 <meta name="twitter:description" content="实验内容基于有标签的数字语音数据集，通过GMM+HMM模型完成单个词语音识别的分类任务。 实验思路基于GMM+HMM的语音识别框架可以简述为下图的过程：其可以被大致分割为特征提取、GMM和HMM三部分，下面就这三部分一一展开叙述。 特征提取对单个词进行语音识别，仍然需要首先提取待分类语音段的MFCC特征。 根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、">
@@ -415,7 +415,7 @@
         <h1 id="实验内容"><a href="#实验内容" class="headerlink" title="实验内容"></a>实验内容</h1><p>基于有标签的数字语音数据集，通过GMM+HMM模型完成单个词语音识别的分类任务。</p>
 <h1 id="实验思路"><a href="#实验思路" class="headerlink" title="实验思路"></a>实验思路</h1><p>基于GMM+HMM的语音识别框架可以简述为下图的过程：<br><img src="/images/SLP/work2/model.png" alt="Alt text" title="GMM+HMM[1]"><br>其可以被大致分割为<strong>特征提取</strong>、<strong>GMM</strong>和<strong>HMM</strong>三部分，下面就这三部分一一展开叙述。</p>
 <h2 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h2><p>对单个词进行语音识别，仍然需要首先提取待分类语音段的MFCC特征。</p>
-<p>根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、即梅尔频率倒谱系数(Mel Frequency Cepstrum Coefficient, MFCC)，而MFCC的生成流程如下图所示：<br><img src="/images/SLP/work1/mfcc.png" alt="Alt text" title="MFCC生成"></p>
+<p>根据上课所学知识，对于单个词的语音进行识别，首先需要将输入的音频信号转化为语音特征MFCC、即梅尔频率倒谱系数(Mel Frequency Cepstrum Coefficient, MFCC)，而MFCC的生成流程如下图所示：<br><img src="/images/SLP/work2/mfcc.png" alt="Alt text" title="MFCC生成"></p>
 <p>简而言之，要获得一段语音信号的MFCC：</p>
 <ul>
 <li>首先需要对输入的信号进行欲加重(Pre-Emphasis)以凸显高频段的共振峰；</li>
