@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="google-site-verification" content="gyP_GhbxJEQwivpPOCib3krvLhc7P22o_gHoYzzRR6E">
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="面试中的各项能力 Q.  两个链表第一个公共节点 A.  思路：通过倒序遍历两个链表，即使用两个stack来装载两个链表的节点，分别比较两个stack.top()，直到不相等时说明出现了分叉  Q.  排序二叉树中两个节点的最低公共祖先 A.  思路：从根节点出发，如果root.value比两个节点的值都大，则遍历root.left; 如果root.value比两个节点的值都小，则遍历root.r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="箭指offer笔记5">
+<meta property="og:url" content="http://hnjia00.github.io/2021/12/14/箭指offer笔记5/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="面试中的各项能力 Q.  两个链表第一个公共节点 A.  思路：通过倒序遍历两个链表，即使用两个stack来装载两个链表的节点，分别比较两个stack.top()，直到不相等时说明出现了分叉  Q.  排序二叉树中两个节点的最低公共祖先 A.  思路：从根节点出发，如果root.value比两个节点的值都大，则遍历root.left; 如果root.value比两个节点的值都小，则遍历root.r">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2021-12-14T10:09:04.255Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="箭指offer笔记5">
+<meta name="twitter:description" content="面试中的各项能力 Q.  两个链表第一个公共节点 A.  思路：通过倒序遍历两个链表，即使用两个stack来装载两个链表的节点，分别比较两个stack.top()，直到不相等时说明出现了分叉  Q.  排序二叉树中两个节点的最低公共祖先 A.  思路：从根节点出发，如果root.value比两个节点的值都大，则遍历root.left; 如果root.value比两个节点的值都小，则遍历root.r">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2021/12/14/箭指offer笔记5/">
+
+
+
+
+
+  <title>箭指offer笔记5 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">八面玲珑</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2021/12/14/箭指offer笔记5/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">箭指offer笔记5</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-14T10:16:32+08:00">
+                2021-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/offer/" itemprop="url" rel="index">
+                    <span itemprop="name">offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2.2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  9 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="面试中的各项能力"><a href="#面试中的各项能力" class="headerlink" title="面试中的各项能力"></a>面试中的各项能力</h1><p><strong> Q. </strong> 两个链表第一个公共节点<br><strong> A. </strong> 思路：通过倒序遍历两个链表，即使用两个stack来装载两个链表的节点，分别比较两个stack.top()，直到不相等时说明出现了分叉</p>
+<p><strong> Q. </strong> 排序二叉树中两个节点的最低公共祖先<br><strong> A. </strong> 思路：从根节点出发，如果root.value比两个节点的值都大，则遍历root.left; 如果root.value比两个节点的值都小，则遍历root.right; 否则root就是最低公共祖先</p>
+<p><strong> Q. </strong> 任意树(有指针指向父节点)中两个节点的最低公共祖先<br><strong> A. </strong> 思路：从给定的两个节点出发，遍历到根节点，生成两个链表，从而转化为求两个链表的第一个公共节点问题</p>
+<hr>
+<p><strong> Q. </strong> 在排序数组中查找数字: 数字在排序数组中出现的个数 {1,1,2,2,3,3,3,3} -&gt; {3: 4}<br><strong> A. </strong> 思路：</p>
+<ul>
+<li>可以微调k调用两次二分查找，分别找到起止位置；</li>
+<li>可以加入判断，当number[mid] == k and number[mid-1] != k时，此时startIndex = mid; 否则继续查找左区间 right = mid-1；</li>
+<li>当number[mid] == k and number[mid+1] != k时，此时endIndex = mid; 否则继续查找右区间 left = mid+1<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">binarySearch</span><span class="params">(numbers: list, k)</span>:</span></span><br><span class="line">    left, right = <span class="number">0</span>, len(numbers) - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> left &lt; right:</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> numbers[mid] == k:</span><br><span class="line">            <span class="keyword">return</span> mid</span><br><span class="line">        <span class="keyword">elif</span> numbers[mid] &gt; k:</span><br><span class="line">            right = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> left</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getNumberOfK</span><span class="params">(numbers: list, k)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> numbers == <span class="keyword">None</span> <span class="keyword">or</span> len(numbers) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    k1 = k - <span class="number">0.1</span></span><br><span class="line">    k2 = k + <span class="number">0.1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> binarySearch(numbers, k2) - binarySearch(numbers, k1)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<p><strong> Q. </strong> 二叉搜索树的第k大节点：给定一棵二叉搜索树，找出其中第k大的节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k=3 -&gt; 4</span><br><span class="line">    5</span><br><span class="line">  3   7</span><br><span class="line"> 2 4 6 8</span><br></pre></td></tr></table></figure></p>
+<p><strong> A. </strong> 思路：中序遍历二叉搜索树，会得到递增序列，转化为求第k大的数</p>
+<hr>
+<p><strong> Q. </strong> 二叉树的深度：根节点到页节点的最长路径<br><strong> A. </strong> 思路：递归遍历左右子树，返回1+max(left, right)即可</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">treeNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.value = <span class="keyword">None</span></span><br><span class="line">        self.left = <span class="keyword">None</span></span><br><span class="line">        self.right = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getMaxDepth</span><span class="params">(root: treeNode)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> root == <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    leftDepth = getMaxDepth(root.left)</span><br><span class="line">    rightDepth = getMaxDepth(root.right)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> + max(leftDepth, rightDepth)</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 平衡二叉树：判断是否为平衡二叉树，即各节点左右子树深度不超过1<br><strong> A. </strong> 思路：</p>
+<ul>
+<li>调用getMaxDepth函数，在每次计算两边深度时都进行一次判断，但会造成多次重复访问</li>
+<li>改造getMaxDepth函数，在访问某个节点时要记录其之前的深度，模拟后序遍历，先遍历左右子树，再判断当前节点深度差</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isBalanced</span><span class="params">(root: treeNode, depth: int)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> root == <span class="keyword">None</span>:</span><br><span class="line">        depth = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span>, depth</span><br><span class="line"></span><br><span class="line">    leftFlag, leftDepth = isBalanced(root.left, depth)</span><br><span class="line">    rightFlag, rightDepth = isBalanced(root.right, depth)</span><br><span class="line">    <span class="keyword">if</span> leftFlag <span class="keyword">and</span> rightFlag:</span><br><span class="line">        diff = abs(leftDepth - rightDepth)</span><br><span class="line">        <span class="keyword">if</span> diff &lt;= <span class="number">1</span>:</span><br><span class="line">            depth = <span class="number">1</span> + max(leftDepth, rightDepth)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">False</span>, depth</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong>  数组中数字出现的个数：一个数组中只有两个数字出现了一次，其余数字均出现了两次，请找出这两个数字，要求时间、空间复杂度O(n)、O(1)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;2,4,3,6,3,2,5,5&#125; -&gt; &#123;4,6&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> A. </strong> 思路：异或</p>
+<ul>
+<li>首先对数组中的元素逐个异或，由于相同的元素异或会抵消，所以最终结果的二进制位一定有一位是1（因为有两个元素不同）</li>
+<li>假设第n位为1，接下来通过第n位是否为1将原数组划分为两个数组，这样保证了相同的数字一定在同一个数组中，而且两个不同的数字一定位于不同的数组</li>
+<li>对两个数组逐个异或即可</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findNumsApperOnce</span><span class="params">(numbers:list)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> numbers == <span class="keyword">None</span> <span class="keyword">or</span> len(numbers) &lt; <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    xorResult = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> numbers:</span><br><span class="line">        xorResult = xorResult ^ num</span><br><span class="line"></span><br><span class="line">    bit1Index = findFirstBitOf1(xorResult)</span><br><span class="line">    numbers1, numbers2 = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> numbers:</span><br><span class="line">        <span class="keyword">if</span> isBit1InIndex(num, bit1Index):</span><br><span class="line">            numbers1 = numbers1 ^ num</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            numbers2 = numbers2 ^ num</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> numbers1, numbers2</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findFirstBitOf1</span><span class="params">(xor: int)</span>:</span></span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> xor &amp; <span class="number">1</span> != <span class="number">1</span>:</span><br><span class="line">        xor = xor &gt;&gt; <span class="number">1</span></span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> index</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isBit1InIndex</span><span class="params">(num: int, bitIndex: int)</span>:</span></span><br><span class="line">    num = num &gt;&gt; bitIndex</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> num &amp; <span class="number">1</span> == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong>  数组中唯一只出现一次的数字：一个数组中除一个数字只出现一次外，其他数字都出现了三次，求只出现一次的数字<br><strong> A. </strong>  思路：从位运算角度考虑，如果一个数字出现了三次，那么其对应的二进制位的1也出现了三次，对每个二进制位进行加和，只出现一次的数字对应的二进制位之和一定不能被3整除。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findNumsAppearOnceIn3</span><span class="params">(numbers: list)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> numbers == <span class="keyword">None</span> <span class="keyword">or</span> len(numbers) &lt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    bitSum = [<span class="number">0</span>] * <span class="number">32</span> <span class="comment"># 32位二进制数</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> numbers:</span><br><span class="line">        bitMask = <span class="number">1</span> <span class="comment"># 左移遍历到每一位</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">            <span class="keyword">if</span> num &amp; bitMask != <span class="number">0</span>: <span class="comment"># 左移遍历时判断 与 的结果是否为0</span></span><br><span class="line">                bitSum[i] += <span class="number">1</span></span><br><span class="line">            bitMask = bitMask &lt;&lt; <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">        <span class="keyword">if</span> bitSum[i] % <span class="number">3</span> != <span class="number">0</span>:</span><br><span class="line">            result += <span class="number">2</span> ** i</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 和为s的两个数字：输入一个<code>递增排序数组</code>和一个数字s，在数组中查找两个数使得输入之和为s。<br><strong> A. </strong> 思路：双指针法，分别指向头尾，如果当前加和结果小于s，则前指针后移，否则后指针前移。</p>
+<hr>
+<p><strong> Q. </strong> 和为s的连续正数序列：输入一个正数s，打印出所有和为s的连续的正数数列。15-&gt;{1,2,3,4,5},{4,5,6},{7,8}<br><strong> A. </strong> 思路：双指针法，small,big分别从1,2开始，如果两个指针之间序列和小于s，则加大big，否则加大small</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">FindContinuousSequence</span><span class="params">(sum: int)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> sum &lt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    small, big = <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> small &lt;= sum / <span class="number">2</span>:</span><br><span class="line">        sequenceSum = (small + big) * (big - small + <span class="number">1</span>) / <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> sequenceSum == sum:</span><br><span class="line">            print([num <span class="keyword">for</span> num <span class="keyword">in</span> range(small, big+<span class="number">1</span>)])</span><br><span class="line">            small += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> sequenceSum &lt; sum:</span><br><span class="line">            big += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            small += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 队列的最大值：给定一个数组和滑动窗口的大小，找出所有滑动窗口里的最大值。{2,3,4,2,6,2,5,1}, 3 -&gt; {4,4,6,6,6,5}<br><strong> A. </strong> 思路：</p>
+<hr>
+<p><strong> Q. </strong> n个骰子的点数：把n个骰子扔在地上，所有骰子朝上一面点数之和为s，打印出s的所有可能出现的值的概率<br><strong> A. </strong> 思路：f(n) = f(n-1)+f(n-2)+f(n-3)+f(n-4)+f(n-5)+f(n-6)</p>
+<ul>
+<li>n个骰子点数和的最小值为n，最大值为6n，共有6^n种排列情况。</li>
+<li>递归法：定义一个<code>6n-n+1</code>长度的数组，将和为s的次数保存在第<code>s-n</code>的位置处。把骰子分成两拨，第一堆只有一个，第二堆有n-1个，时间效率不够好</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">PrintProbablity</span><span class="params">(num: int)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># n个骰子的和位于 n~6n</span></span><br><span class="line">    sumList = [<span class="number">0</span>] * (<span class="number">5</span>*num + <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">7</span>):</span><br><span class="line">        PrintProbablityCore(num, num, i, sumList)</span><br><span class="line"></span><br><span class="line">    print(sumList)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">PrintProbablityCore</span><span class="params">(original, current, sum, sumList)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    :param original: 起始位置，用于在sumList定位下标，固定为num</span></span><br><span class="line"><span class="string">    :param current: 递归遍历n-1,n-2...n-6</span></span><br><span class="line"><span class="string">    :param sum: 当前加和到了哪个值</span></span><br><span class="line"><span class="string">    :param sumList: 记录频率出现情况</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="comment"># 递归到最后一个骰子时</span></span><br><span class="line">    <span class="keyword">if</span> current == <span class="number">1</span>:</span><br><span class="line">        sumList[sum-original] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 将骰子分成两拨，一堆递归剩余n-1个(current)，另一个枚举1～6的情况(i+sum)</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">7</span>):</span><br><span class="line">            PrintProbablityCore(original, current<span class="number">-1</span>, i+sum, sumList)</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 扑克牌中的顺子：从扑克牌中随机抽五张牌，判断是否是顺子，joker代替任意牌。<br><strong> A. </strong> 思路：</p>
+<ul>
+<li>把joker看作0，JQK看作11、12、13；</li>
+<li>对数组排序，如果有对子则不可能是顺子；</li>
+<li>统计连续数组中有多少间隔，判断能否用joker补上。</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isContinuous</span><span class="params">(numbers: list)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> numbers == <span class="keyword">None</span> <span class="keyword">or</span> len(numbers) &lt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    numbers = sorted(numbers)</span><br><span class="line">    jokerCnt = <span class="number">0</span></span><br><span class="line">    gapCnt = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(numbers)):</span><br><span class="line">        <span class="comment"># joker</span></span><br><span class="line">        <span class="keyword">if</span> numbers[i] == <span class="number">0</span>:</span><br><span class="line">            jokerCnt += <span class="number">1</span></span><br><span class="line">        <span class="comment"># 对子</span></span><br><span class="line">        <span class="keyword">elif</span> i &gt; <span class="number">0</span> <span class="keyword">and</span> numbers[i] == numbers[i<span class="number">-1</span>]:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="comment"># 不连续</span></span><br><span class="line">        <span class="keyword">elif</span> i &gt; <span class="number">0</span> <span class="keyword">and</span> numbers[i<span class="number">-1</span>] != <span class="number">0</span> <span class="keyword">and</span> numbers[i] - numbers[i - <span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">            gapCnt += numbers[i] - numbers[i - <span class="number">1</span>] - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> gapCnt == <span class="number">0</span> <span class="keyword">or</span> gapCnt &lt;= jokerCnt:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 圆圈中最后剩下的数字：0,1…n-1排成一个圆圈，从0开始，每次从这个圆圈中删除第m个数字，求这个圆圈中剩下的最后一个数字。<br><strong> A. </strong> 思路：</p>
+<ul>
+<li>用环形链表模拟圆圈，时间复杂度O(mn)</li>
+<li>递推：f(n, m) = (f(n-1, m) + m)%n | n&gt;1; f(n, m) = 0 | n=1</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">LastRemaining</span><span class="params">(n: int, m: int)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n &lt; <span class="number">1</span> <span class="keyword">or</span> m &lt; <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    last = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, n+<span class="number">1</span>):</span><br><span class="line">        last = (last + m) % n</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> last</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 股票的最大利润：把股票价格按时间顺序输入，如何买入一次卖出一次才能获得最大利润。{9,11,8,5,7,12,16,14}-&gt;{5入16出}<br><strong> A. </strong> 思路：设diff[i]代表到i时能获得的最大利润，则diff[i] = price[i] - min[0:i-1]</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">MaxDiff</span><span class="params">(price: list)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> price == <span class="keyword">None</span> <span class="keyword">or</span> len(price) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    minPrice = price[<span class="number">0</span>]</span><br><span class="line">    diff = [<span class="number">0</span>] * len(price)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, len(price)):</span><br><span class="line">        <span class="keyword">if</span> price[i] &lt; minPrice:</span><br><span class="line">            minPrice = price[i]</span><br><span class="line">        diff[i] = price[i] - minPrice</span><br><span class="line"></span><br><span class="line">    print(max(diff))</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/12/09/箭指offer笔记4/" rel="next" title="箭指offer笔记4">
+                <i class="fa fa-chevron-left"></i> 箭指offer笔记4
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面试中的各项能力"><span class="nav-text">面试中的各项能力</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

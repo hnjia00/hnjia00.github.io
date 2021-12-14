@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+  <meta name="google-site-verification" content="gyP_GhbxJEQwivpPOCib3krvLhc7P22o_gHoYzzRR6E">
+
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="2xheERdGVQ">
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="优化时间和空间效率 Q.  数组中出现次数超过一半的数字：数组中有一个数字出现次数超过了数组长度的一半，请找出这个数字 A.  思路  思路1: 用map记录出现次数, O(n) 思路2: 快排思路，出现频次超过一半即要寻找中位数，利用partition k将小于k的全部排在k左边，大于的排在右边。如果k的下标正好是中位数，则返回k，否则去数更多的半边寻找。 思路3: （因为结果数超过一半，所以和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="箭指offer笔记4">
+<meta property="og:url" content="http://hnjia00.github.io/2021/12/09/箭指offer笔记4/index.html">
+<meta property="og:site_name" content="Haonan_Jia blogs">
+<meta property="og:description" content="优化时间和空间效率 Q.  数组中出现次数超过一半的数字：数组中有一个数字出现次数超过了数组长度的一半，请找出这个数字 A.  思路  思路1: 用map记录出现次数, O(n) 思路2: 快排思路，出现频次超过一半即要寻找中位数，利用partition k将小于k的全部排在k左边，大于的排在右边。如果k的下标正好是中位数，则返回k，否则去数更多的半边寻找。 思路3: （因为结果数超过一半，所以和">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2021-12-14T02:16:17.616Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="箭指offer笔记4">
+<meta name="twitter:description" content="优化时间和空间效率 Q.  数组中出现次数超过一半的数字：数组中有一个数字出现次数超过了数组长度的一半，请找出这个数字 A.  思路  思路1: 用map记录出现次数, O(n) 思路2: 快排思路，出现频次超过一半即要寻找中位数，利用partition k将小于k的全部排在k左边，大于的排在右边。如果k的下标正好是中位数，则返回k，否则去数更多的半边寻找。 思路3: （因为结果数超过一半，所以和">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hnjia00.github.io/2021/12/09/箭指offer笔记4/">
+
+
+
+
+
+  <title>箭指offer笔记4 | Haonan_Jia blogs</title>
+  
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Haonan_Jia blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">八面玲珑</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://hnjia00.github.io/2021/12/09/箭指offer笔记4/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Haonan Jia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Haonan_Jia blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">箭指offer笔记4</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-12-09T11:34:07+08:00">
+                2021-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/offer/" itemprop="url" rel="index">
+                    <span itemprop="name">offer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2.4k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  11 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="优化时间和空间效率"><a href="#优化时间和空间效率" class="headerlink" title="优化时间和空间效率"></a>优化时间和空间效率</h1><p><strong> Q. </strong> 数组中出现次数超过一半的数字：数组中有一个数字出现次数超过了数组长度的一半，请找出这个数字<br><strong> A. </strong> 思路</p>
+<ul>
+<li>思路1: 用map记录出现次数, O(n)</li>
+<li>思路2: 快排思路，出现频次超过一半即要寻找中位数，利用partition k将小于k的全部排在k左边，大于的排在右边。如果k的下标正好是中位数，则返回k，否则去数更多的半边寻找。</li>
+<li>思路3: （因为结果数超过一半，所以和不一样的数抵消后肯定只剩结果数）使用两个变量num和numCnt，分别记录一个数字和出现次数，如果新遍历到的数字和所记录数字不符，则减1，否则加1；直到为0时将所记录数字置为新数字。O(n)</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">MoreThanHalfNum</span><span class="params">(number: list)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> number == <span class="keyword">None</span> <span class="keyword">or</span> len(number) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    num = number[<span class="number">0</span>]</span><br><span class="line">    numCnt = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(number)):</span><br><span class="line">        <span class="keyword">if</span> numCnt == <span class="number">0</span>:</span><br><span class="line">            num = number[i]</span><br><span class="line">            numCnt = <span class="number">1</span></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> num == number[i]:</span><br><span class="line">            numCnt += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            numCnt -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> num</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 最小的k个数：输入你个整数，找出最小的k个数。{4,5,1,6,2,7,3,8}-&gt;{1,2,3,4}<br><strong> A. </strong> 思路：</p>
+<ul>
+<li>思路1: 快排并输出，O(nlogn)</li>
+<li>思路2: 快排思路，将中位数退化为k分位数的问题。O(n)</li>
+<li>思路3: 创建一个额外的容器来存储最小的k个数，总体复杂度O(nlogk)，适合海量数据:<ul>
+<li>如果容器未满，则直接插入容器；</li>
+<li>如果容器已满，先找出这k个中最大的数字，与待插入值进行比较：如果比最大值大，则不进入容器，否则替换最大值。</li>
+<li>由于每次都要选出最大值，可以使用大顶堆（如heapq）、红黑树（如STL的set）来实现容器。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 快排思路，找到partitionIndex</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Partition</span><span class="params">(numbers, left, right)</span>:</span></span><br><span class="line">    partition = numbers[left]</span><br><span class="line">    partitionIndex = left</span><br><span class="line">    <span class="keyword">while</span> left &lt; right:</span><br><span class="line">        <span class="keyword">while</span> right &gt; left <span class="keyword">and</span> numbers[right] &gt;= partition:</span><br><span class="line">            right -= <span class="number">1</span></span><br><span class="line">        numbers[left], numbers[right] = numbers[right], numbers[left]</span><br><span class="line">        partitionIndex = right</span><br><span class="line">        <span class="keyword">while</span> right &gt; left <span class="keyword">and</span> numbers[left] &lt;= partition:</span><br><span class="line">            left += <span class="number">1</span></span><br><span class="line">        numbers[left], numbers[right] = numbers[right], numbers[left]</span><br><span class="line">        partitionIndex = left</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> partitionIndex, numbers</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">MinKNumbers</span><span class="params">(numbers: list, k: int)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> numbers == <span class="keyword">None</span> <span class="keyword">or</span> len(numbers) &lt;= <span class="number">0</span> <span class="keyword">or</span> k &lt;= <span class="number">0</span> <span class="keyword">or</span> k &gt;= len(numbers):</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    left = <span class="number">0</span></span><br><span class="line">    right = len(numbers) - <span class="number">1</span></span><br><span class="line">    index, numbers = Partition(numbers, left, right)</span><br><span class="line">    <span class="keyword">while</span> index != k - <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">if</span> index &lt; k - <span class="number">1</span>:</span><br><span class="line">            left = index + <span class="number">1</span></span><br><span class="line">            index, numbers = Partition(numbers, left, right)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right = index - <span class="number">1</span></span><br><span class="line">            index, numbers = Partition(numbers, left, right)</span><br><span class="line"></span><br><span class="line">    print(numbers[:index+<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 连续子数组的最大和：输入一个整数数组，数组里有正数也有负数，数组中的一个或多个连续整数组成一个子数组，求所有子数组和的最大值，要求时间复杂度为O(n)<br><strong> A. </strong> 思路：</p>
+<ul>
+<li>枚举数列{1,-2,3,10,-4,7,2,-5}-&gt;{3,10,-4,7,2}=18，可以总结出规律，如果当连续数列之和小于当前数字时，则抛弃之前的连续计数，重新开始累积子数列。</li>
+<li>动态规划：f(i) = pData[i] if i == 0 or f(i-1)≤0; f(i) = f(i-1) + pData[i] if i ≠ 0 or f(i-1)&gt;0</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">FindGreatestSumOfSubArray</span><span class="params">(numbers: list)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> numbers == <span class="keyword">None</span> <span class="keyword">or</span> len(numbers) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    maxSum = numbers[<span class="number">0</span>]</span><br><span class="line">    currentSum = numbers[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(numbers)):</span><br><span class="line">    	<span class="comment"># 等效于 if currentSum &lt;= 0:</span></span><br><span class="line">        <span class="keyword">if</span> currentSum + numbers[i] &lt; numbers[i]:</span><br><span class="line">            maxSum = currentSum</span><br><span class="line">            currentSum = numbers[i]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            currentSum += numbers[i]</span><br><span class="line">            maxSum = max(maxSum, currentSum)</span><br><span class="line"></span><br><span class="line">    print(maxSum)</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 输入一个整数n，输出1～n十进制表示中1的出现次数。{12} -&gt; {1,10,11,12}=5<br><strong> A. </strong> 思路：以21345为例</p>
+<ul>
+<li>将21345 分为 {1, 1345} {1346, 21345}</li>
+<li>其中{1346, 21345}中，<ul>
+<li>1出现在第一位的区间为{10000, 19999}，即numFirstDigit = 10^4</li>
+<li>1在区间{1346, 21345} = {1346,11345} + {11346, 21345}，在每一个区间出现在除了第一位的个数可计算为：在剩下的四个位置中，选择其中一位是1，剩下三位在[0,9]中任选，即numOtherDigit = 2·4·10^3</li>
+</ul>
+</li>
+<li>其中{1, 1345}可以由递归n[1:]取得</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">NumberOf1</span><span class="params">(nstr: str)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> nstr == <span class="string">'0'</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> len(nstr) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 在第一位出现的次数</span></span><br><span class="line">    numFirstDigit = <span class="number">0</span></span><br><span class="line">    firstDigit = eval(nstr[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">if</span> firstDigit &gt; <span class="number">1</span>:</span><br><span class="line">        numFirstDigit += <span class="number">10</span> ** (len(nstr) - <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">elif</span> firstDigit == <span class="number">1</span>:</span><br><span class="line">        numFirstDigit += eval(nstr[<span class="number">1</span>:]) + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 除了在第一位之外出现的次数 = 区间个数 * 能放1的位置数 * 排列组合</span></span><br><span class="line">    numOtherDigit = firstDigit * (len(nstr) - <span class="number">1</span>) * <span class="number">10</span> ** (len(nstr) - <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 递归求nstr[1: ]</span></span><br><span class="line">    numRecursive = NumberOf1(nstr[<span class="number">1</span>:])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> numFirstDigit + numOtherDigit + numRecursive</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 数字序中某一位的数字：在01234567891011···的序列中，第0位是0(从0开始计数)，第5位是5，第13位是1，求任意第n位对应的数字<br><strong> A. </strong> 思路：以811位为例</p>
+<ul>
+<li>先确定其位于几位数的区间：一位数区间[0,9]有10个数字，二位数区间[10,99]有2·90=180个数字，三位数区间[100,999]有3·900=2700个数字…；</li>
+<li>811属于[190，2890]区间，对应一个三位数</li>
+<li>再确定其对应哪个三位数；</li>
+<li>811/3=270，811%3=1，其对应270的第1位，即7</li>
+</ul>
+<hr>
+<p><strong> Q. </strong> 把数组排成最小的数：输入一个正整数数组，把数组里所有的数字拼成一个数，打印最小的那一个。{3,32,321}-&gt;321323<br><strong> A. </strong> 思路：</p>
+<ul>
+<li>全排列比较O(n!)</li>
+<li>定义字符串strcmp比较规则直接qsort排序O(nlogn)</li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">PrintMinNumbers</span><span class="params">(numbers: list)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> numbers == <span class="keyword">None</span> <span class="keyword">or</span> len(numbers) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">strcmp</span><span class="params">(n1: str, n2: str)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> n1 == n2:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        len1 = len(n1)</span><br><span class="line">        len2 = len(n2)</span><br><span class="line">        i = <span class="number">0</span></span><br><span class="line">        j = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> i &lt; len1 <span class="keyword">and</span> j &lt; len2:</span><br><span class="line">            <span class="keyword">if</span> n1[i] == n2[j]:</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">                j += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> i == len1:</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> j == len2:</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">            <span class="keyword">elif</span> n1[i] &gt; n2[j]:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">            <span class="keyword">elif</span> n1[i] &lt; n2[j]:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    strNumbers = [str(num) <span class="keyword">for</span> num <span class="keyword">in</span> numbers]</span><br><span class="line">    strNumbers = sorted(strNumbers, key=functools.cmp_to_key(strcmp))</span><br><span class="line"></span><br><span class="line">    print(strNumbers)</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 把数字翻译成字符串：给定一个数字，按规则翻译：0翻译为a，1翻译为b…，11翻译为l…，25翻译为z。一个数字可能有多种翻译，例如12258分别可以对应’bccfi’,’bwfi’,’bczi’,’mcfi’,’mzi’，计算一个数字有多少种不同的翻译方法。<br><strong> A. </strong> 思路：定义f(i)表示从第i位数字开始的不同翻译的数目，f(i) = f(i+1)+g(i,i+1)·f(i+2)，其中g(i,i+1)代表[i, i+1]是否在[10,25]的区间内。 从右向左翻译。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GetTranslateCount</span><span class="params">(digit: int)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> digit == <span class="keyword">None</span> <span class="keyword">or</span> digit &lt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    digit = str(digit)</span><br><span class="line">    length = len(digit)</span><br><span class="line">    <span class="keyword">if</span> length == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    dp = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(length)]</span><br><span class="line">    dp[<span class="number">-1</span>] = <span class="number">1</span></span><br><span class="line">    dp[<span class="number">-2</span>] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> eval(digit[<span class="number">-2</span>:]) &lt; <span class="number">26</span>:</span><br><span class="line">        dp[length<span class="number">-2</span>] = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(length<span class="number">-3</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">        flag = <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> eval(digit[i:i+<span class="number">2</span>]) &lt; <span class="number">26</span>:</span><br><span class="line">            flag = <span class="number">1</span></span><br><span class="line">        dp[i] = dp[i+<span class="number">1</span>] + flag*dp[i+<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">    print(dp[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 在一个m·n的棋盘上每一个都放有一个礼物，每个礼物都有一定价值(&gt;0)，从左上角开始（每次只能向右或向下移动一格）到右下角，最多能拿到多少价值的礼物。<br><strong> A. </strong> 思路：动态规划 dp[i][j] = max(dp[i-1][j], dp[i][j-1]) + gift[i][j]</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> gift == <span class="keyword">None</span> <span class="keyword">or</span> len(gift) == <span class="number">0</span>:</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">rows = len(gift)</span><br><span class="line">cols = len(gift[<span class="number">0</span>])</span><br><span class="line">dp = [[<span class="number">0</span> <span class="keyword">for</span> j <span class="keyword">in</span> range(cols)] <span class="keyword">for</span> i <span class="keyword">in</span> range(rows)]</span><br><span class="line">dp[<span class="number">0</span>][<span class="number">0</span>] = gift[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">dp[<span class="number">0</span>][<span class="number">1</span>] = dp[<span class="number">0</span>][<span class="number">0</span>] + gift[<span class="number">0</span>][<span class="number">1</span>]</span><br><span class="line">dp[<span class="number">1</span>][<span class="number">0</span>] = dp[<span class="number">0</span>][<span class="number">0</span>] + gift[<span class="number">1</span>][<span class="number">0</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(rows):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(cols):</span><br><span class="line">        dp[i][j] = max(dp[i<span class="number">-1</span>][j], dp[i][j<span class="number">-1</span>]) + gift[i][j]</span><br><span class="line"></span><br><span class="line">print(dp[rows<span class="number">-1</span>][cols<span class="number">-1</span>])</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 在一个字符串中找出：最长不含重复字符的子字符串。{arabcacfr}-&gt;{acfr}<br><strong> A. </strong> 思路：动态规划: f(i)记录不包含重复字符串的最大子串长度</p>
+<ul>
+<li>如果str[i]没出现过，则f(i)=f(i-1)+1</li>
+<li>如果str[i]出现过，记录str[i]和上一次出现在字符串中的距离d<ul>
+<li>如果d≤f(i-1)，即str[i]出现在f(i-1)对应的最长子串中，则f(i)=d，即[i-d,i]之间无重复字符串，更新最长子串为str[i-d-1, i-1]-&gt;str[i-d, i]</li>
+<li>如果d&gt;f(i-1)，即str[i]出现在f(i-1)对应的最长子串之前，则f(i)=f(i-1)+1</li>
+</ul>
+</li>
+<li>可以再单独使用一个position数组记录str[i]上次出现的位置，以替换substr.find函数。<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">longestSubstringWithoutDuplication</span><span class="params">(string: str)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> string == <span class="keyword">None</span> <span class="keyword">or</span> len(string) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    lens = len(string)</span><br><span class="line">    dp = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(lens)]</span><br><span class="line">    dp[<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">    substr = string[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, lens):</span><br><span class="line">        <span class="keyword">if</span> substr.find(string[i]) == <span class="number">-1</span>:</span><br><span class="line">            substr += string[i]</span><br><span class="line">            dp[i] = dp[i<span class="number">-1</span>] + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            index = substr.find(string[i])</span><br><span class="line">            substr = substr[index+<span class="number">1</span>:] + string[i]</span><br><span class="line">            <span class="comment"># str[i]出现在f(i-1)对应的最长子串中, 则f(i)=d</span></span><br><span class="line">            dp[i] = len(substr)</span><br><span class="line"></span><br><span class="line">    print(max(dp))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<p><strong> Q. </strong> 丑数：只包含因子2,3,5的数字叫做丑数。求第1500个丑数（1是第一个丑数）。{6, 8}是丑数，14不是，因为包含14%7=0<br><strong> A. </strong> 思路：从第一个丑数1开始，分别乘2、3、5，每次插入乘235后最小的数，然后更新235对应下标。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GetUglyNumber</span><span class="params">(index: int)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> index &lt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    uglyNumber = [<span class="number">1</span>]</span><br><span class="line">    nextIndex = <span class="number">1</span></span><br><span class="line">    index2 = index3 = index5 = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> nextIndex &lt; index:</span><br><span class="line">        minNum = min(uglyNumber[index2]*<span class="number">2</span>, min(uglyNumber[index3]*<span class="number">3</span>, uglyNumber[index5]*<span class="number">5</span>))</span><br><span class="line">        uglyNumber.append(minNum)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> uglyNumber[index2]*<span class="number">2</span> &lt;= minNum:</span><br><span class="line">            index2 += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> uglyNumber[index3]*<span class="number">3</span> &lt;= minNum:</span><br><span class="line">            index3 += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> uglyNumber[index5]*<span class="number">5</span> &lt;= minNum:</span><br><span class="line">            index5 += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        nextIndex += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> uglyNumber</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong> Q. </strong> 寻找字符串中第一个只出现一次的字符。<br><strong> A. </strong> 思路：hashmap遍历&lt;key=ch&gt; -&gt; &lt;count, index&gt;，最后筛选出count==1的最小index对应的key。</p>
+<hr>
+<p><strong> Q. </strong> 逆序对：求一个数组逆序对的总数，{7,5,6,4}-&gt;{(7,6),(7,5),(7,4),(5,4),(6,4)}<br><strong> A. </strong> 思路：实质是归并排序</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mergeSort</span><span class="params">(numbers: list, left: int, right: int)</span>:</span></span><br><span class="line">    <span class="comment"># 逆序对在merge步骤变为倒序比较</span></span><br><span class="line">    <span class="keyword">if</span> left &lt; right:</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">        mergeSort(numbers, left, mid)</span><br><span class="line">        mergeSort(numbers, mid + <span class="number">1</span>, right)</span><br><span class="line">        merge(numbers, left, mid, right)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> numbers</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge</span><span class="params">(numbers: list, left: int, mid: int, right: int)</span>:</span></span><br><span class="line">    nLeft = mid - left + <span class="number">1</span></span><br><span class="line">    nRight = right - mid</span><br><span class="line"></span><br><span class="line">    numLeft = numbers[left: mid+<span class="number">1</span>]</span><br><span class="line">    numRight = numbers[mid+<span class="number">1</span>: right+<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    i, j, k = <span class="number">0</span>, <span class="number">0</span>, left</span><br><span class="line">    <span class="keyword">while</span> i &lt; nLeft <span class="keyword">and</span> j &lt; nRight:</span><br><span class="line">        <span class="keyword">if</span> numLeft[i] &lt; numRight[j]:</span><br><span class="line">            numbers[k] = numLeft[i]</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            numbers[k] = numRight[j]</span><br><span class="line">            j += <span class="number">1</span></span><br><span class="line">        k += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> i &lt; nLeft:</span><br><span class="line">        numbers[k] = numLeft[i]</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        k += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> j &lt; nRight:</span><br><span class="line">        numbers[k] = numRight[j]</span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">        k += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>小手一抖⬇️</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Haonan Jia WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="Haonan Jia Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/12/05/箭指offer笔记3/" rel="next" title="箭指offer笔记3">
+                <i class="fa fa-chevron-left"></i> 箭指offer笔记3
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/12/14/箭指offer笔记5/" rel="prev" title="箭指offer笔记5">
+                箭指offer笔记5 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MjY2OC8xOTIxNQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Haonan Jia">
+            
+              <p class="site-author-name" itemprop="name">Haonan Jia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hnjia00" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16281007@bjtu.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://moyangsensei.github.io" title="贾飞阳" target="_blank">贾飞阳</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#优化时间和空间效率"><span class="nav-text">优化时间和空间效率</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Haonan Jia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+<span id="busuanzi_container_site_uv">
+  <br>本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
